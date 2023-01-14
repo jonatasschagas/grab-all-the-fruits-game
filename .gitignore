@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+build
+sample-game/osx/out
+.vscode
