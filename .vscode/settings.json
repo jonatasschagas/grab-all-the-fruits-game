@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "typeinfo": "cpp",
+        "iosfwd": "cpp",
+        "any": "cpp",
+        "filesystem": "cpp",
+        "map": "cpp",
+        "__tree": "cpp",
+        "vector": "cpp"
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/sample-game/osx"
+}

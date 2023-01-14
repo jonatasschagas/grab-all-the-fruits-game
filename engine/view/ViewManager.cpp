@@ -93,3 +93,8 @@ void ViewManager::addView(const string& viewName, View* pView)
 {
     m_views[viewName] = pView;
 }
+
+DataCacheManager* ViewManager::getDataCacheManager()
+{
+    return &m_dataCacheManager;
+}

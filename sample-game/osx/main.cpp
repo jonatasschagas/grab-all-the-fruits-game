@@ -1,4 +1,5 @@
-#include "../../sdl/SDLGame.hpp"
+#include "SDLGame.hpp"
+#include "views/GameView.hpp"
 
 int main(int argc, char **argv)
 {
@@ -15,10 +16,12 @@ int main(int argc, char **argv)
     sdlGameConfigs.backgroundColor.b = 0;
     sdlGameConfigs.backgroundColor.a = 1;
     
+    GameView* pMainView = new GameView();
+
     printf("\n\n Starting the game\n\n");
     SDLGame* pSDLGame = new SDLGame(sdlGameConfigs);
     
-    exitCode = pSDLGame->run("main");
+    exitCode = pSDLGame->run("main", pMainView);
     
     delete pSDLGame;
     

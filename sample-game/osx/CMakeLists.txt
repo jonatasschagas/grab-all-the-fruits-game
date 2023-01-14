@@ -31,6 +31,7 @@ set(IMGUI ${PROJECT_SOURCE_DIR}/third-party/imgui)
 set(SDL_GAME_IMPL ${PROJECT_SOURCE_DIR}/sdl)
 set(ENGINE_IMPL ${PROJECT_SOURCE_DIR}/engine)
 set(GAME_IMPL ${PROJECT_SOURCE_DIR}/sample-game/src)
+set(GAME_ASSETS ${PROJECT_SOURCE_DIR}/sample-game/assets)
 
 Message("")
 Message( STATUS "GAME_IMPL : " ${GAME_IMPL} )
@@ -136,6 +137,8 @@ ENDIF()
 
 Message("")
 
+# copy assets to build directory
+FILE(COPY ${GAME_ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
 
 # ------- End Finds ------ #
 

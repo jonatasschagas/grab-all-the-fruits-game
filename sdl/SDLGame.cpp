@@ -49,7 +49,7 @@ SDLGame::~SDLGame()
     initializeMembers();
 }
 
-bool SDLGame::init(const std::string& mainViewName)
+bool SDLGame::init(const std::string& mainViewName, View* pView)
 {
     //Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 )
@@ -155,17 +155,18 @@ bool SDLGame::init(const std::string& mainViewName)
         
         // initializing the game
         m_pViewManager = ViewManager::getInstance();
+        m_pViewManager->addView(mainViewName, pView);
         m_pViewManager->switchView(mainViewName);
     }
     
     return true;
 }
 
-int SDLGame::run(const std::string& mainViewName)
+int SDLGame::run(const std::string& mainViewName, View* pView)
 {
 
     //Start up SDL and create window
-    if(!init(mainViewName))
+    if(!init(mainViewName, pView))
     {
         printf( "Failed to initialize!\n" );
         return 1;

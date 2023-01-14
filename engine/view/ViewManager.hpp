@@ -30,6 +30,8 @@ public:
     void addView(const string& viewName, View* pView);
     void switchView(const string& viewName);
     
+    DataCacheManager* getDataCacheManager();
+    
     static void setPlatformManager(PlatformManager* pPlatformManager);
     static PlatformManager* getPlatformManager();
     static void publishEvent(Event* pEvent);

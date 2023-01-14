@@ -1,0 +1,98 @@
+{
+    "spriteSheetConfig": "assets/characters/masked/masked.json",
+    "spriteSheetImage": "assets/characters/masked/masked.png",
+    "states": [
+        {
+            "name": "dbl_jump",
+            "playOnce": true,
+            "sprites": [
+                "masked_dbl_jmp_0.png",
+                "masked_dbl_jmp_1.png",
+                "masked_dbl_jmp_2.png",
+                "masked_dbl_jmp_3.png",
+                "masked_dbl_jmp_4.png",
+                "masked_dbl_jmp_5.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "fall",
+            "playOnce": false,
+            "sprites": [
+                "masked_fall_0.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "hit",
+            "playOnce": true,
+            "sprites": [
+                "masked_hit_0.png",
+                "masked_hit_1.png",
+                "masked_hit_2.png",
+                "masked_hit_3.png",
+                "masked_hit_4.png",
+                "masked_hit_5.png",
+                "masked_hit_6.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "masked_idle_0.png",
+                "masked_idle_1.png",
+                "masked_idle_2.png",
+                "masked_idle_3.png",
+                "masked_idle_4.png",
+                "masked_idle_5.png",
+                "masked_idle_6.png",
+                "masked_idle_7.png",
+                "masked_idle_8.png",
+                "masked_idle_9.png",
+                "masked_idle_10.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "jump",
+            "playOnce": false,
+            "sprites": [
+                "masked_jump_0.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "run",
+            "playOnce": false,
+            "sprites": [
+                "masked_run_0.png",
+                "masked_run_1.png",
+                "masked_run_2.png",
+                "masked_run_3.png",
+                "masked_run_4.png",
+                "masked_run_5.png",
+                "masked_run_6.png",
+                "masked_run_7.png",
+                "masked_run_8.png",
+                "masked_run_9.png",
+                "masked_run_10.png",
+                "masked_run_11.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "wall_jmp",
+            "playOnce": true,
+            "sprites": [
+                "masked_wall_jmp_0.png",
+                "masked_wall_jmp_1.png",
+                "masked_wall_jmp_2.png",
+                "masked_wall_jmp_3.png",
+                "masked_wall_jmp_4.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
