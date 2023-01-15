@@ -12,12 +12,13 @@
 
 class Masked;
 class ViewManager;
+class PlatformManager;
 
-class GameView : public EventListener, public View
+class GameView : public View
 {
 public:
     
-    GameView();
+    GameView(PlatformManager* pPlatformManager);
     ~GameView();
     
     void initialize(ViewManager* pViewManager) override;

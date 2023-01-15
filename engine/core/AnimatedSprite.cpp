@@ -1,12 +1,13 @@
 #include "AnimatedSprite.hpp"
 
-#include "../data/DataCacheManager.hpp"
-#include "../data/AnimatedSpriteData.hpp"
-#include "../data/AnimationStateData.hpp"
-#include "../data/SpritesheetData.hpp"
-#include "../data/SpriteData.hpp"
+#include "data/DataCacheManager.hpp"
+#include "data/AnimatedSpriteData.hpp"
+#include "data/AnimationStateData.hpp"
+#include "data/SpritesheetData.hpp"
+#include "data/SpriteData.hpp"
+#include "platform/PlatformManager.h"
 
-AnimatedSprite::AnimatedSprite(DataCacheManager& rDataCacheManager, const string& animationFile) : Sprite(), m_rDataCacheManager(rDataCacheManager)
+AnimatedSprite::AnimatedSprite(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, const string& animationFile) : Sprite(pPlatformManager), m_rDataCacheManager(rDataCacheManager)
 {
     initializeMembers();
     

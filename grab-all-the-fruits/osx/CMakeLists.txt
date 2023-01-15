@@ -30,8 +30,8 @@ set(SOURCE_FILES    main.cpp)
 set(IMGUI ${PROJECT_SOURCE_DIR}/third-party/imgui)
 set(SDL_GAME_IMPL ${PROJECT_SOURCE_DIR}/sdl)
 set(ENGINE_IMPL ${PROJECT_SOURCE_DIR}/engine)
-set(GAME_IMPL ${PROJECT_SOURCE_DIR}/sample-game/src)
-set(GAME_ASSETS ${PROJECT_SOURCE_DIR}/sample-game/assets)
+set(GAME_IMPL ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/src)
+set(GAME_ASSETS ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/assets)
 
 Message("")
 Message( STATUS "GAME_IMPL : " ${GAME_IMPL} )
@@ -62,7 +62,7 @@ LIST(APPEND SRC_FILES ${IMGUI_SINGLE_FILE})
 LIST(APPEND SRC_FILES ${IMGUI}/backends/imgui_impl_sdl.h ${IMGUI}/backends/imgui_impl_sdl.cpp) # add SDL backend
 
 ADD_EXECUTABLE(game ${SRC_FILES})
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "game.out")
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "grab-all-the-fruits")
 # ------- End Executable - #
 
 # ------- Finds ---------- #

@@ -1,6 +1,8 @@
 #include "Masked.hpp"
 
-Masked::Masked(DataCacheManager& rDataCacheManager) : AnimatedSprite(rDataCacheManager, "assets/characters/masked/masked_animation.json") 
+#include "platform/PlatformManager.h"
+
+Masked::Masked(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager) : AnimatedSprite(pPlatformManager, rDataCacheManager, "assets/characters/masked/masked_animation.json") 
 {
     initializeMembers();
 

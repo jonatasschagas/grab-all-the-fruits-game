@@ -18,8 +18,10 @@ class ViewManager : public EventListener
 {
 public:
     
+    ViewManager();
     ~ViewManager();
     
+    void initialize(PlatformManager* pPlatformManager, DataCacheManager* pDataCacheManager);
     void receiveEvent(Event* pEvent);
     void render();
     void readInput(int x, int y, bool pressed);
@@ -31,28 +33,12 @@ public:
     void switchView(const string& viewName);
     
     DataCacheManager* getDataCacheManager();
+    PlatformManager* getPlatformManager();
     
-    static void setPlatformManager(PlatformManager* pPlatformManager);
-    static PlatformManager* getPlatformManager();
-    static void publishEvent(Event* pEvent);
-
-    static ViewManager* getInstance()
-    {
-        if (s_pViewManager == nullptr)
-        {
-            s_pViewManager = new ViewManager();
-        }
-        return s_pViewManager;
-    }
-
 private:
     
-    ViewManager();
-    
-    static PlatformManager* s_pPlatformManager;
-    static ViewManager* s_pViewManager;
-
-    DataCacheManager m_dataCacheManager;
+    PlatformManager* m_pPlatformManager;
+    DataCacheManager* m_pDataCacheManager;
     
     View* m_pCurrentView;
 	View* m_pPreviousView;
@@ -61,6 +47,8 @@ private:
     
     void initializeMembers()
     {
+        m_pPlatformManager = nullptr;
+        m_pDataCacheManager = nullptr;
         m_pCurrentView = nullptr;
 		m_pPreviousView = nullptr;
         m_views.clear();

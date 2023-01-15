@@ -1,9 +1,10 @@
 #include "Sprite.hpp"
-#include "../view/ViewManager.hpp"
-#include "../platform/DrawCall.h"
+#include "view/ViewManager.hpp"
+#include "platform/DrawCall.h"
+#include "platform/PlatformManager.h"
 #include <glm/gtx/transform.hpp>
 
-Sprite::Sprite()
+Sprite::Sprite(PlatformManager* pPlatformManager)
 {
     initializeMembers();
     
@@ -11,6 +12,7 @@ Sprite::Sprite()
     m_rotation =  glm::rotate(0.0f, glm::vec3(1.0f));
     
     m_pDrawCall = new DrawCall();
+    m_pPlatformManager = pPlatformManager;
 }
 
 Sprite::~Sprite()
@@ -24,8 +26,7 @@ Sprite::~Sprite()
 
 void Sprite::loadTexture(const string& textureFileName)
 {
-    PlatformManager* pPlatformManager = ViewManager::getPlatformManager();
-    pPlatformManager->loadTexture(textureFileName);
+    m_pPlatformManager->loadTexture(textureFileName);
     m_textureFilename = textureFileName;
 }
 
@@ -60,8 +61,7 @@ void Sprite::render()
         m_pDrawCall->colored = m_coloredSprite;
         m_pDrawCall->debug = m_debugSprite;
         
-        PlatformManager* pPlatformManager = ViewManager::getPlatformManager();
-        pPlatformManager->renderTexture(*m_pDrawCall);
+        m_pPlatformManager->renderTexture(*m_pDrawCall);
     }
 
     for (int i = 0; i < m_children.size(); i++)
@@ -166,14 +166,12 @@ glm::mat4 Sprite::calculateTransform(Sprite* pSprite)
 
 void Sprite::loadSoundEffect(const string& soundName)
 {
-    PlatformManager* pPlatformManager = ViewManager::getPlatformManager();
-    pPlatformManager->loadSoundEffect(soundName);
+    m_pPlatformManager->loadSoundEffect(soundName);
 }
 
 void Sprite::playSoundEffect(const string& soundName)
 {
-    PlatformManager* pPlatformManager = ViewManager::getPlatformManager();
-    pPlatformManager->playSoundEffect(soundName);
+    m_pPlatformManager->playSoundEffect(soundName);
 }
 
 void Sprite::addChild(Sprite* pChild)

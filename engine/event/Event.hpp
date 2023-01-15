@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string>
+#include "core/BaseDataStructures.h"
 
 using namespace std;
 
@@ -26,6 +27,9 @@ public:
     const int getData() const { return m_iData; };
     void setData(int iData) { m_iData = iData; };
 
+    const GamePoint& getInputCoordinates() const { return m_inputCoordinates; };
+    void setInputCoordinates(const GamePoint& inputCoordinates) { m_inputCoordinates = inputCoordinates; };
+
     void clone(Event* pOther) {
         m_eventName = pOther->getName();
         m_pParam = pOther->getParam();
@@ -37,6 +41,7 @@ private:
     string m_eventName;
     void* m_pParam;
     int m_iData;
+    GamePoint m_inputCoordinates;
     
     void initializeMembers() { 
         m_pParam = 0; 

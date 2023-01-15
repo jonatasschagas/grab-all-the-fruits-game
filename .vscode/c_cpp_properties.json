@@ -6,8 +6,8 @@
                 "${workspaceFolder}/engine/**",
                 "${workspaceFolder}/sdl/**",
                 "${workspaceFolder}/third-party/**",
-                "${workspaceFolder}/sample-game/src/**",
-                "${workspaceFolder}/sample-game/osx/**"
+                "${workspaceFolder}/grab-all-the-fruits/src/**",
+                "${workspaceFolder}/grab-all-the-fruits/osx/**"
             ],
             "defines": [],
             "macFrameworkPath": [

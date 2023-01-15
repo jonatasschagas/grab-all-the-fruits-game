@@ -3,6 +3,7 @@
 #include "characters/Masked.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
+#include "platform/PlatformManager.h"
 
 #ifdef __APPLE__
     #include <TargetConditionals.h>
@@ -12,7 +13,7 @@
 #include "imgui/imgui.h"
 #endif
 
-GameView::GameView()
+GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 {
     initializeMembers();
 }
@@ -47,8 +48,9 @@ void GameView::receiveEvent(Event* pEvent)
 
 void GameView::initGame()
 {
+    PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
     // creating the player   
-    m_pPlayer = new Masked(*m_pDataCacheManager);
+    m_pPlayer = new Masked(pPlatformManager, *m_pDataCacheManager);
     // setting the view as a sprite that covers the whole screen
     m_pPlayer->setXY(10, 10);
     m_pPlayer->setSize(12, 12);

@@ -2,9 +2,9 @@
 #include "SDLManager.hpp"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
-#include "../engine/view/ViewManager.hpp"
+#include "view/Game.hpp"
+#include "event/Event.hpp"
 #include "LTimer.hpp"
-#include "../engine/event/Event.hpp"
 
 #ifdef IMGUI_ENABLED
 #include "imgui/imgui.h"
@@ -15,20 +15,20 @@
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 
-SDLGame::SDLGame(const SDLGameConfigs& sdlGameConfigs) : m_sdlGameConfigs(sdlGameConfigs)
+SDLGame::SDLGame(const SDLGameConfigs& sdlGameConfigs, Game* pGame) : m_sdlGameConfigs(sdlGameConfigs)
 {
     initializeMembers();
     m_pWindow = NULL;
     m_pRenderer = NULL;
-    m_pViewManager = NULL;
+    m_pGame = pGame;
     m_pScreenRect = NULL;
     m_editor = false;
 }
 
 SDLGame::~SDLGame()
 {
-    delete m_pViewManager;
     delete m_pScreenRect;
+    delete m_pGame;
     
     #ifdef IMGUI_ENABLED
     ImGuiSDL::Deinitialize();
@@ -49,7 +49,7 @@ SDLGame::~SDLGame()
     initializeMembers();
 }
 
-bool SDLGame::init(const std::string& mainViewName, View* pView)
+bool SDLGame::init()
 {
     //Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 )
@@ -151,22 +151,19 @@ bool SDLGame::init(const std::string& mainViewName, View* pView)
         SDLManager* pManager = SDLManager::getInstance();
         // initializing the SDLManager -> its used in the gameobject classes to do the rendering
         pManager->init(m_pRenderer, m_pScreenRect->w, m_pScreenRect->h);
-        ViewManager::setPlatformManager(pManager);
         
         // initializing the game
-        m_pViewManager = ViewManager::getInstance();
-        m_pViewManager->addView(mainViewName, pView);
-        m_pViewManager->switchView(mainViewName);
+        m_pGame->initialize(pManager);
     }
     
     return true;
 }
 
-int SDLGame::run(const std::string& mainViewName, View* pView)
+int SDLGame::run()
 {
 
     //Start up SDL and create window
-    if(!init(mainViewName, pView))
+    if(!init())
     {
         printf( "Failed to initialize!\n" );
         return 1;
@@ -218,7 +215,7 @@ int SDLGame::run(const std::string& mainViewName, View* pView)
                 timeStep = 0.16f;
             }
             
-            m_pViewManager->update(timeStep);
+            m_pGame->update(timeStep);
             
             //Clear screen
             SDL_RenderClear(m_pRenderer);
@@ -232,7 +229,7 @@ int SDLGame::run(const std::string& mainViewName, View* pView)
             SDL_RenderClear(m_pRenderer);
             
             // RENDERING
-            m_pViewManager->render();
+            m_pGame->render();
             
             #ifdef IMGUI_ENABLED
             // IMGUI
@@ -288,27 +285,27 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
         if(currentKeyStates[SDL_SCANCODE_LEFT])
         {
             event.setName("left_start");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(currentKeyStates[SDL_SCANCODE_RIGHT])
         {
             event.setName("right_start");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(currentKeyStates[SDL_SCANCODE_UP])
         {
             event.setName("up_start");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(currentKeyStates[SDL_SCANCODE_DOWN])
         {
             event.setName("down_start");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(currentKeyStates[SDL_SCANCODE_SPACE])
         {
             event.setName("space_start");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
     }
     else if (sdlEvent.type == SDL_KEYUP)
@@ -318,32 +315,32 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
         if(scanCode == SDL_SCANCODE_DOWN)
         {
             event.setName("down_stop");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         if(scanCode == SDL_SCANCODE_UP)
         {
             event.setName("up_stop");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         if(scanCode == SDL_SCANCODE_LEFT)
         {
             event.setName("left_stop");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(scanCode == SDL_SCANCODE_RIGHT)
         {
             event.setName("right_stop");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(scanCode == SDL_SCANCODE_SPACE)
         {
             event.setName("space_stop");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
         else if(scanCode == SDL_SCANCODE_P)
         {
             event.setName("pause");
-            m_pViewManager->receiveEvent(&event);
+            m_pGame->receiveEvent(&event);
         }
 
     }
@@ -352,7 +349,10 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
         int x, y;
         SDL_GetMouseState(&x, &y);
         m_clicked = sdlEvent.type == SDL_MOUSEBUTTONDOWN;
-        m_pViewManager->readInput(x, y, m_clicked);
+
+        Event touchInputEvent(m_clicked ? "touch_start" : "touch_stop");
+        touchInputEvent.setInputCoordinates(GamePoint(x, y));
+        m_pGame->receiveEvent(&touchInputEvent);
     }
 }
 
@@ -365,5 +365,7 @@ void SDLGame::handleInputiOS(SDL_Event& sdlEvent)
 
     bool pressed = sdlEvent.type == SDL_FINGERDOWN;
     SDL_TouchFingerEvent fingerEvent = sdlEvent.tfinger;
-    m_pViewManager->readInput(fingerEvent.x * m_pScreenRect->w, fingerEvent.y * m_pScreenRect->h, pressed);
+    Event touchInputEvent(pressed ? "touch_start" : "touch_stop");
+    touchInputEvent.setInputCoordinates(GamePoint(fingerEvent.x * m_pScreenRect->w, fingerEvent.y * m_pScreenRect->h));
+    m_pGame->receiveEvent(&touchInputEvent);
 }

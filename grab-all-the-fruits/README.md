@@ -17,7 +17,7 @@ Dependencies to install
 ## Command Line Build
 
 ```
-cd sample-game/osx
+cd grab-all-the-fruits/osx
 mkdir out
 cd out
 cmake ../
@@ -36,7 +36,7 @@ I've included the .vscode folder that has all the configurations to debug the sa
 
 In order to detect memory leaks use valgrind for macos: https://github.com/LouisBrunner/valgrind-macos
 ```
-valgrind ./game.out
+valgrind ./grab-all-the-fruits
 ```
 
 ## GDB
@@ -44,7 +44,7 @@ valgrind ./game.out
 To detect segfaults use GDB: 
 ```
 brew install gdb
-sudo gdb ./game.out
+sudo gdb ./grab-all-the-fruits
 (gdb) run
 (gdb) bt
 ```
@@ -52,6 +52,6 @@ https://stackoverflow.com/questions/2876357/determine-the-line-of-code-that-caus
 
 ## Art
 
-The art of the sample-game can be found in the folder ```sample-game/assets```. The art
+The art of the grab-all-the-fruits can be found in the folder ```grab-all-the-fruits/assets```. The art
 of the sample-game comes from here: https://pixelfrog-assets.itch.io/pixel-adventure-1.
 Special thanks to "Pixel Frog" from itch.io for making this awesome art available.

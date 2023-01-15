@@ -5,11 +5,13 @@
 #include "event/EventListener.hpp"
 #include "core/AnimatedSprite.hpp"
 
+class PlatformManager;
+
 class Masked : public EventListener, public AnimatedSprite
 {
 public:
     
-    Masked(DataCacheManager& rDataCacheManager);
+    Masked(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager);
     ~Masked();
     
     void receiveEvent(Event* pEvent) override;

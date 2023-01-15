@@ -6,8 +6,7 @@
 #include <stdio.h>
 #include <string>
 
-class View;
-class ViewManager;
+class Game;
 
 struct SDLGameConfigs
 {
@@ -21,14 +20,14 @@ class SDLGame
 {
 public:
     
-    SDLGame(const SDLGameConfigs& sdlGameConfigs);
+    SDLGame(const SDLGameConfigs& sdlGameConfigs, Game* pGame);
     ~SDLGame();
     
-    int run(const std::string& mainViewName, View* pView);
+    int run();
 
 private:
     
-    bool init(const std::string& mainViewName, View* pView);
+    bool init();
     void handleInput(SDL_Event& sdlEvent);
     void handleInputOSX(SDL_Event& sdlEvent);
     void handleInputiOS(SDL_Event& sdlEvent);
@@ -43,7 +42,7 @@ private:
     SDL_Renderer* m_pRenderer;
     SDL_Rect* m_pScreenRect;
     
-    ViewManager* m_pViewManager;
+    Game* m_pGame;
     
     void initializeMembers() 
     {
@@ -52,7 +51,7 @@ private:
         m_pWindow = nullptr;
         m_pRenderer = nullptr;
         m_pScreenRect = nullptr;
-        m_pViewManager = nullptr;
+        m_pGame = nullptr;
     }
 
 };

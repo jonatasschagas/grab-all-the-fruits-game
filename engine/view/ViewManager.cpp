@@ -1,16 +1,14 @@
 #include "ViewManager.hpp"
 
-PlatformManager* ViewManager::s_pPlatformManager = 0;
 PlatformManager* ViewManager::getPlatformManager()
 {
-    return s_pPlatformManager;
+    return m_pPlatformManager;
 }
 
-ViewManager* ViewManager::s_pViewManager = 0;
-
-void ViewManager::setPlatformManager(PlatformManager* pPlatformManager)
+void ViewManager::initialize(PlatformManager* pPlatformManager, DataCacheManager* pDataCacheManager) 
 {
-    s_pPlatformManager = pPlatformManager;
+    m_pPlatformManager = pPlatformManager;
+    m_pDataCacheManager = pDataCacheManager;
 }
 
 ViewManager::ViewManager()
@@ -21,7 +19,6 @@ ViewManager::ViewManager()
 ViewManager::~ViewManager()
 {
     delete m_pCurrentView;
-    delete s_pPlatformManager;
     
     initializeMembers();
 }
@@ -29,11 +26,6 @@ ViewManager::~ViewManager()
 void ViewManager::receiveEvent(Event* pEvent)
 {
     m_pCurrentView->receiveEvent(pEvent);
-}
-
-void ViewManager::publishEvent(Event* pEvent)
-{
-    s_pViewManager->receiveEvent(pEvent);
 }
 
 void ViewManager::render()
@@ -96,5 +88,5 @@ void ViewManager::addView(const string& viewName, View* pView)
 
 DataCacheManager* ViewManager::getDataCacheManager()
 {
-    return &m_dataCacheManager;
+    return m_pDataCacheManager;
 }

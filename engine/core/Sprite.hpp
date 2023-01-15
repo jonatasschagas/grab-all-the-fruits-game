@@ -9,6 +9,7 @@
 #include "BaseDataStructures.h"
 
 class DrawCall;
+class PlatformManager;
 
 using namespace std;
 
@@ -16,7 +17,7 @@ class Sprite
 {
 public:
     
-    Sprite();
+    Sprite(PlatformManager* pPlatformManager);
     virtual ~Sprite();
     
     void loadTexture(const string& textureFileName);
@@ -84,6 +85,8 @@ protected:
     
 private:
     
+    PlatformManager* m_pPlatformManager;
+
     glm::vec2 m_coords;
     
     glm::mat4 calculateTransform(Sprite* pSprite);

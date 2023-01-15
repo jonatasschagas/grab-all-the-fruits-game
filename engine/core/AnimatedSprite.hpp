@@ -9,6 +9,7 @@
 using namespace std;
 
 class DataCacheManager;
+class PlatformManager;
 class AnimatedSpriteData;
 class AnimationStateData;
 class SpritesheetData;
@@ -18,7 +19,7 @@ class AnimatedSprite : public Sprite
 {
 public:
     
-    AnimatedSprite(DataCacheManager& rDataCacheManager, const string& animationFile);
+    AnimatedSprite(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, const string& animationFile);
     ~AnimatedSprite();
     
     void update(float delta) override;
