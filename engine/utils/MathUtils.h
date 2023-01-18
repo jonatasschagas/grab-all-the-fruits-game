@@ -77,4 +77,9 @@ inline float calculateDistanceBetweenNodes(float x1, float y1, float x2, float y
     return sqrtf(pow(abs(x2 - x1), 2) + pow(abs(y2 - y1), 2));
 }
 
+inline float lerp(float point1, float point2, float alpha)
+{
+    return point1 + alpha * (point2 - point1);
+}
+
 #endif /* MathUtils_h */

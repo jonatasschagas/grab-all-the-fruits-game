@@ -3,7 +3,7 @@
     "spriteSheetImage": "assets/characters/masked/masked.png",
     "states": [
         {
-            "name": "dbl_jump",
+            "name": "double_jump",
             "playOnce": true,
             "sprites": [
                 "masked_dbl_jmp_0.png",

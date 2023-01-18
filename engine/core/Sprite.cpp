@@ -209,7 +209,7 @@ void Sprite::setXY(float x, float y)
     m_coords = glm::vec2(x,y);
 }
 
-void Sprite::setXY(const GamePoint& position)
+void Sprite::setXY(const Vector2& position)
 {
     m_coords = glm::vec2(position.x, position.y);
 }

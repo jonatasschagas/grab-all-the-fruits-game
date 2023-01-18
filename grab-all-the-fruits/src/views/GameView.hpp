@@ -4,13 +4,13 @@
 
 #include <stdio.h>
 
-#include "event/EventListener.hpp"
 #include "data/DataCacheManager.hpp"
 #include "core/Sprite.hpp"
 #include "view/View.h"
 #include <vector>
 
-class Masked;
+class Player;
+class World;
 class ViewManager;
 class PlatformManager;
 
@@ -36,7 +36,8 @@ private:
     
     ViewManager* m_pViewManager;
     DataCacheManager* m_pDataCacheManager;
-    Masked* m_pPlayer;
+    World* m_pWorld;
+    Player* m_pPlayer;
 
     bool m_initialized;
     
@@ -45,6 +46,7 @@ private:
         m_pViewManager = nullptr;
         m_pDataCacheManager = nullptr;
         m_initialized = false;
+        m_pWorld = nullptr;
         m_pPlayer = nullptr;
     }
     

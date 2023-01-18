@@ -21,8 +21,8 @@ public:
     
     string loadNextSprite();
     
-    const GamePoint& getLeftOffset() const { return m_leftOffset; };
-    const GamePoint& getRightOffset() const { return m_rightOffset; };
+    const Vector2& getLeftOffset() const { return m_leftOffset; };
+    const Vector2& getRightOffset() const { return m_rightOffset; };
     
     string getName() const { return m_name; };
     float getTimePerSprite() const { return m_timePerSprite; };
@@ -40,8 +40,8 @@ private:
     bool m_playOnce;
     bool m_advanceAnimationManually;
     int m_currentSpriteIndex;
-    GamePoint m_leftOffset;
-    GamePoint m_rightOffset;
+    Vector2 m_leftOffset;
+    Vector2 m_rightOffset;
     string m_soundEffect;
     
     void initializeMembers()

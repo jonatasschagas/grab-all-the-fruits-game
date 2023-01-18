@@ -278,6 +278,7 @@ void SDLGame::handleInput(SDL_Event& sdlEvent)
 void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
 {
     Event event;
+    event.setTarget("player");
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
     
     if (sdlEvent.type == SDL_KEYDOWN)
@@ -292,7 +293,8 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
             event.setName("right_start");
             m_pGame->receiveEvent(&event);
         }
-        else if(currentKeyStates[SDL_SCANCODE_UP])
+        
+        if(currentKeyStates[SDL_SCANCODE_UP])
         {
             event.setName("up_start");
             m_pGame->receiveEvent(&event);
@@ -302,7 +304,8 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
             event.setName("down_start");
             m_pGame->receiveEvent(&event);
         }
-        else if(currentKeyStates[SDL_SCANCODE_SPACE])
+        
+        if(currentKeyStates[SDL_SCANCODE_SPACE])
         {
             event.setName("space_start");
             m_pGame->receiveEvent(&event);
@@ -317,11 +320,12 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
             event.setName("down_stop");
             m_pGame->receiveEvent(&event);
         }
-        if(scanCode == SDL_SCANCODE_UP)
+        else if(scanCode == SDL_SCANCODE_UP)
         {
             event.setName("up_stop");
             m_pGame->receiveEvent(&event);
         }
+        
         if(scanCode == SDL_SCANCODE_LEFT)
         {
             event.setName("left_stop");
@@ -332,7 +336,8 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
             event.setName("right_stop");
             m_pGame->receiveEvent(&event);
         }
-        else if(scanCode == SDL_SCANCODE_SPACE)
+        
+        if(scanCode == SDL_SCANCODE_SPACE)
         {
             event.setName("space_stop");
             m_pGame->receiveEvent(&event);
@@ -351,7 +356,7 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
         m_clicked = sdlEvent.type == SDL_MOUSEBUTTONDOWN;
 
         Event touchInputEvent(m_clicked ? "touch_start" : "touch_stop");
-        touchInputEvent.setInputCoordinates(GamePoint(x, y));
+        touchInputEvent.setInputCoordinates(Vector2(x, y));
         m_pGame->receiveEvent(&touchInputEvent);
     }
 }
@@ -366,6 +371,6 @@ void SDLGame::handleInputiOS(SDL_Event& sdlEvent)
     bool pressed = sdlEvent.type == SDL_FINGERDOWN;
     SDL_TouchFingerEvent fingerEvent = sdlEvent.tfinger;
     Event touchInputEvent(pressed ? "touch_start" : "touch_stop");
-    touchInputEvent.setInputCoordinates(GamePoint(fingerEvent.x * m_pScreenRect->w, fingerEvent.y * m_pScreenRect->h));
+    touchInputEvent.setInputCoordinates(Vector2(fingerEvent.x * m_pScreenRect->w, fingerEvent.y * m_pScreenRect->h));
     m_pGame->receiveEvent(&touchInputEvent);
 }

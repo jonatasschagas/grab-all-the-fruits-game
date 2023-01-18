@@ -1,6 +1,7 @@
 #include "GameView.hpp"
 
-#include "characters/Masked.hpp"
+#include "logic/World.hpp"
+#include "characters/Player.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
@@ -20,6 +21,8 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 
 GameView::~GameView()
 {
+    delete m_pWorld;
+
     initializeMembers();
 }
 
@@ -43,17 +46,19 @@ void GameView::initialize(ViewManager* pViewManager)
 
 void GameView::receiveEvent(Event* pEvent)
 {
-
+    m_pWorld->receiveEvent(pEvent);
+    m_pPlayer->receiveEvent(pEvent);
 }
 
 void GameView::initGame()
 {
     PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
+    
+    m_pWorld = new World();
+    
     // creating the player   
-    m_pPlayer = new Masked(pPlatformManager, *m_pDataCacheManager);
-    // setting the view as a sprite that covers the whole screen
-    m_pPlayer->setXY(10, 10);
-    m_pPlayer->setSize(12, 12);
+    const Body* pBody = m_pWorld->createBody("player", Vector2(0,10), GameSize(5,5));
+    m_pPlayer = new Player(pPlatformManager, pBody, *m_pDataCacheManager);
     addChild(m_pPlayer);
 }
 
@@ -65,6 +70,8 @@ void GameView::render()
 void GameView::update(float delta)
 {   
     Sprite::update(delta);
+    
+    m_pWorld->update(delta);
 }
 
 void GameView::readInput(int x, int y, bool pressed)

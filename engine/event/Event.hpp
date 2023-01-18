@@ -27,25 +27,34 @@ public:
     const int getData() const { return m_iData; };
     void setData(int iData) { m_iData = iData; };
 
-    const GamePoint& getInputCoordinates() const { return m_inputCoordinates; };
-    void setInputCoordinates(const GamePoint& inputCoordinates) { m_inputCoordinates = inputCoordinates; };
+    const Vector2& getInputCoordinates() const { return m_inputCoordinates; };
+    void setInputCoordinates(const Vector2& inputCoordinates) { m_inputCoordinates = inputCoordinates; };
+
+    void setTarget(const string& target) { this->m_target = target; };
+    const string& getTarget() const { return m_target; };
 
     void clone(Event* pOther) {
         m_eventName = pOther->getName();
         m_pParam = pOther->getParam();
         m_iData = pOther->getData();
+        m_target = pOther->getTarget();
+        m_inputCoordinates = pOther->getInputCoordinates();
     }
     
 private:
     
+    string m_target;
     string m_eventName;
     void* m_pParam;
     int m_iData;
-    GamePoint m_inputCoordinates;
+    Vector2 m_inputCoordinates;
     
     void initializeMembers() { 
         m_pParam = 0; 
         m_iData = 0;
+        m_target = "";
+        m_inputCoordinates = Vector2(0, 0);
+        m_eventName = "";
     }
     
 };

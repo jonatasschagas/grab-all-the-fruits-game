@@ -2,11 +2,11 @@
 #ifndef BASEDATASTRUCTURES_H
 #define BASEDATASTRUCTURES_H
 
-class GamePoint
+class Vector2
 {
 public:
-    GamePoint() {};
-    GamePoint(float _x, float _y) : x(_x), y(_y) {};
+    Vector2() {};
+    Vector2(float _x, float _y) : x(_x), y(_y) {};
 	float x;
 	float y;
 };

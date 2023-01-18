@@ -28,7 +28,7 @@ public:
     void setX(float x);
     void setY(float y);
     void setXY(float x, float y);
-    void setXY(const GamePoint& position);
+    void setXY(const Vector2& position);
     void setSize(float w, float h);
     void setSize(const GameSize& size);
     void setTextureCoordinates(float x, float y, float w, float h);

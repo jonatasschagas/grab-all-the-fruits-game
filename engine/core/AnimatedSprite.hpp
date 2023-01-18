@@ -29,6 +29,7 @@ public:
     const bool hasAnimation(const string& animationName) const;
     const bool isAnimationFinished(const string& animationName) const;
     AnimationStateData* getCurrentAnimationState() const { return m_pCurrentAnimationStateData; };
+    const string& getCurrentAnimationName() const;
     float getProgressAnimation() const;
     
     bool isVisibleInParent(Sprite* pChild) const override;

@@ -167,3 +167,8 @@ bool AnimatedSprite::isAtLastSprite() const
     vector<string> spriteNames = m_pCurrentAnimationStateData->getSpriteNames();
     return m_currentAnimationStateIndex >= (spriteNames.size() - 1);
 }
+
+const string& AnimatedSprite::getCurrentAnimationName() const
+{
+    return m_pCurrentAnimationStateData->getName();
+}
