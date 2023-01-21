@@ -71,6 +71,11 @@ inline bool checkCollision(float x1, float y1, float width1, float height1, floa
     return collidesX && collidesY;
 }
 
+inline bool checkCollision(const Vector2& position1, const GameSize& size1, const Vector2& position2, const GameSize& size2)
+{
+    return checkCollision(position1.x, position1.y, size1.w, size1.h, position2.x, position2.y, size2.w, size2.h);
+}
+
 inline float calculateDistanceBetweenNodes(float x1, float y1, float x2, float y2)
 {
     // distance between points -> pithagoras

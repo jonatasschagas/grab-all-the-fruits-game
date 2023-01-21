@@ -5,6 +5,8 @@
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
+#include "core/TileMapSprite.hpp"
+#include "data/TileMapData.hpp"
 
 #ifdef __APPLE__
     #include <TargetConditionals.h>
@@ -22,6 +24,7 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 GameView::~GameView()
 {
     delete m_pWorld;
+    delete m_pMap;
 
     initializeMembers();
 }
@@ -54,10 +57,25 @@ void GameView::initGame()
 {
     PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
     
-    m_pWorld = new World();
+    /*LOADING MAP*/
+    //TODO: load map from file
+    TileMapData* pTileMapData = new TileMapData("assets/levels/level1.json", "assets/levels", "assets/levels");
+    
+    //TODO: tile size should be read from the config file
+    TileMapSprite* pTileMapSprite = new TileMapSprite(GameSize(5, 5), pPlatformManager);
+    pTileMapSprite->loadMap(pTileMapData);
+    pTileMapSprite->setXY(0, 0);
+    addChild(pTileMapSprite);
+    GameSize worldSize = pPlatformManager->getWorldSizeUnits();
+    pTileMapSprite->setSize(worldSize.w, worldSize.h);
+    
+    m_pMap = new Map(pTileMapSprite);
+
+    m_pWorld = new World(*m_pMap);
     
     // creating the player   
-    const Body* pBody = m_pWorld->createBody("player", Vector2(0,10), GameSize(5,5));
+    //TODO: player size should be read from the config file
+    const Body* pBody = m_pWorld->createBody("player", Vector2(3,10), GameSize(5,5));
     m_pPlayer = new Player(pPlatformManager, pBody, *m_pDataCacheManager);
     addChild(m_pPlayer);
 }

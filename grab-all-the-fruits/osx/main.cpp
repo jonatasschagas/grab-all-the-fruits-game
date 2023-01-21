@@ -5,9 +5,10 @@ int main(int argc, char **argv)
 {
     int exitCode = 0;
 
+    //TODO: move this to a config file
     SDLGameConfigs sdlGameConfigs;    
     sdlGameConfigs.screenWidth = 800;
-    sdlGameConfigs.screenHeight = 640;
+    sdlGameConfigs.screenHeight = 380;
     sdlGameConfigs.windowTitle = "Grab All The Fruits!";
     
     // black background screen

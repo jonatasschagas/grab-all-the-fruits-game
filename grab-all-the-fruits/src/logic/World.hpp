@@ -6,10 +6,12 @@ struct Body;
 
 #include "core/BaseDataStructures.h"
 #include "event/EventListener.hpp"
+#include "Map.hpp"
 #include <vector>
 #include <string>
 
 using namespace std;
+
 
 //TODO: move to config
 const float PLAYER_RUNNING_SPEED = 2.5f;
@@ -19,7 +21,7 @@ class World : public EventListener
 {
 public:
     
-    World();
+    World(const Map& map);
     ~World();
     
     void update(float delta);
@@ -31,6 +33,7 @@ private:
     float calculateVXStep(float vx, float vxGloal, float deltaTime);
     float calculateXStep(float x, float vx, float deltaTime);
 
+    const Map& m_map;
     float m_gravity;
     vector<Body*> m_bodies;
 
@@ -42,4 +45,4 @@ private:
     
 };
 
-#endif /* Player_hpp */
+#endif /* World_hpp */

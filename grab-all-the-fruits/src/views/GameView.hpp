@@ -11,6 +11,7 @@
 
 class Player;
 class World;
+class Map;
 class ViewManager;
 class PlatformManager;
 
@@ -38,6 +39,7 @@ private:
     DataCacheManager* m_pDataCacheManager;
     World* m_pWorld;
     Player* m_pPlayer;
+    Map* m_pMap;
 
     bool m_initialized;
     
@@ -48,6 +50,7 @@ private:
         m_initialized = false;
         m_pWorld = nullptr;
         m_pPlayer = nullptr;
+        m_pMap = nullptr;
     }
     
 };

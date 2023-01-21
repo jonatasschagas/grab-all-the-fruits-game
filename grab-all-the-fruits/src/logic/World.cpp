@@ -5,7 +5,7 @@
 
 #include <string>
 
-World::World()
+World::World(const Map& map) : m_map(map)
 {
     initializeMembers();
 }
@@ -40,9 +40,7 @@ void World::update(float delta)
             pBody->m_x = lerp(pBody->m_x, pBody->m_adjustX, delta);
         }
         
-        //TODO: hook up the map manager        
-        //const bool willCollideWithWall = m_rMapManager.isWall(nextX, pc->m_y, pc->m_width, pc->m_height, facingRight);
-        const bool willCollideWithWall = nextX < 0 || nextX > 100;
+        const bool willCollideWithWall = m_map.isWall(Vector2(nextX, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), facingRight);
         if (!willCollideWithWall)
         {
             pBody->m_x = nextX;
@@ -50,11 +48,8 @@ void World::update(float delta)
         pBody->m_vx = newVx;
 
         float nextY = pBody->m_y + pBody->m_vy * delta;
-        //TODO: hook up the map manager        
-        //float groundTileY = m_rMapManager.getGroundTileY(pBody->m_x, pBody->m_y);
-        //bool isCeiling = m_rMapManager.isGround(pBody->m_x, nextY);
-        float groundTileY = 1;
-        bool isCeiling = false;
+        float groundTileY = m_map.getGroundCoordUnderneath(Vector2(pBody->m_x, pBody->m_y)).y;
+        bool isCeiling = m_map.isGround(Vector2(pBody->m_x, nextY));
         
         if (nextY > pBody->m_y && isCeiling)
         {
@@ -72,21 +67,19 @@ void World::update(float delta)
             pBody->m_grounded = true;
             pBody->m_doubleJumping = false;
 
-            //TODO: hook up the map manager
             // adjust m_x so that character won't go inside the wall
-            /*
-            const bool collidesWithWallFront = m_rMapManager.isWall(pBody->m_x, pBody->m_y, pBody->m_width, pBody->m_height, true);
-            const bool collidesWithWallBack = m_rMapManager.isWall(pBody->m_x, pBody->m_y, pBody->m_width, pBody->m_height, false);
+            const bool collidesWithWallFront = m_map.isWall(Vector2(pBody->m_x, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), true);
+            const bool collidesWithWallBack = m_map.isWall(Vector2(pBody->m_x, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), false);
             if(!pBody->m_adjustingX && (collidesWithWallFront || collidesWithWallBack))
             {
                 if (collidesWithWallFront)
-                    pBody->m_adjustX = m_rMapManager.getTileXFloor(pBody->m_x) * m_rGameConfigurationData.getTileSizeInWorldUnits();
+                    pBody->m_adjustX = m_map.getTileXFloor(pBody->m_x);
                 else
-                    pBody->m_adjustX = m_rMapManager.getTileXCeil(pBody->m_x) * m_rGameConfigurationData.getTileSizeInWorldUnits();
+                    pBody->m_adjustX = m_map.getTileXCeil(pBody->m_x);
 
                 pBody->m_adjustingX = true;
             }
-            */
+            
         }
          else
         {

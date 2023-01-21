@@ -8,6 +8,7 @@
 #include "DataCache.hpp"
 #include "SpritesheetData.hpp"
 #include "AnimatedSpriteData.hpp"
+#include "TileMapData.hpp"
 
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
     
     SpritesheetData* getSprite(const string& config, const string& img);
     AnimatedSpriteData* getAnimatedSprite(const string& config);
-    
+
     void updateEditor();
     
 private:

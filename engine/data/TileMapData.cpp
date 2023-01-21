@@ -282,7 +282,7 @@ TileMapData::TileMapData(const string& tileMapFilename,
         
         if (tileSetConfigDocument.HasMember("image"))
         {
-            const string image = locationFolder + "/" + tileSetsFolder + "/" + string(tileSetConfigDocument["image"].GetString());
+            const string image = tileSetsFolder + "/" + string(tileSetConfigDocument["image"].GetString());
             
             for (int j = 0; j < tileCount; j++)
             {

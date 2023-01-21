@@ -15,7 +15,7 @@ project(game)
 ## -> Author: https://github.com/JodyAndrews/SDL2_Basic_Setup/
 
 set(CMAKE_C_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 set(CMAKE_CXX_EXTENSIONS ON)
 
 # for debugging (-g flag) https://bytefreaks.net/programming-2/cc-how-do-you-set-gdb-debug-flag-g-with-cmake
