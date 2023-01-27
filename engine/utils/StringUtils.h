@@ -6,6 +6,11 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <memory>
+#include <stdexcept>
+
+
+using namespace std;
 
 inline size_t split(const std::string &txt, std::vector<std::string> &strs, char ch)
 {
@@ -43,6 +48,17 @@ inline string convertToString(char* a, int size)
         s = s + a[i];
     }
     return s;
+}
+
+template<typename ... Args>
+inline std::string stringFormat( const std::string& format, Args ... args )
+{
+    int size_s = std::snprintf( nullptr, 0, format.c_str(), args ... ) + 1; // Extra space for '\0'
+    if( size_s <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
+    auto size = static_cast<size_t>( size_s );
+    std::unique_ptr<char[]> buf( new char[ size ] );
+    std::snprintf( buf.get(), size, format.c_str(), args ... );
+    return std::string( buf.get(), buf.get() + size - 1 ); // We don't want the '\0' inside
 }
 
 #endif /* StringUtils_h */

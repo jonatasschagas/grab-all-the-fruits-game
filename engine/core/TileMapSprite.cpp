@@ -117,7 +117,7 @@ int TileMapSprite::getTileXFloor(float x) const
 
 int TileMapSprite::getTileY(float y) const
 {
-    return invertTileY((int)(y / m_tileSizeInWorldUnits.h));
+    return (int)floor(y / m_tileSizeInWorldUnits.h);
 }
 
 int TileMapSprite::getTileMapWidth() const
@@ -162,7 +162,6 @@ void TileMapSprite::setYOffSet(float yOffSet)
 
 int TileMapSprite::getTileData(int tileX, int tileY, const string& tileLayerName) const
 {
-    tileY = invertTileY(tileY);
     TileMapLayer* pTileLayer = nullptr;
     for (int i = 0; i < m_pCurrentMapData->getLayers().size(); i++)
     {
@@ -195,11 +194,6 @@ bool TileMapSprite::isVisibleInParent(Sprite* pChild) const
 
 void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer* pLayer)
 {
-    // tiles from Tiled software are placed from the top to the bottom (screen starts from top left)
-    // however in this "engine" we place the tiles from the bottom to the top (screen starts from bottom left)
-    int yNormal = y;
-    y = invertTileY(y);
-
     // reading texture coordinates
     int tileMapIndex = y * m_pCurrentMapData->getWidth() + x;
     const vector<int>& tileDataArray = pLayer->getData();
@@ -230,7 +224,7 @@ void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer*
     int height = m_tileSizeInWorldUnits.h;
 
     Sprite* pTileSprite = new Sprite(m_pPlatformManager);
-    pTileSprite->setXY(x * width, yNormal * height);
+    pTileSprite->setXY(x * width, y * height);
     pTileSprite->setSize(width, height);
     pTileSprite->setPivotAtCenter(true);
     pTileSprite->setTextureCoordinates(pTileConfig->getX(),
@@ -241,11 +235,6 @@ void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer*
     
     pTileSprite->loadTexture(pTileConfig->getImageName());
     pSpriteLayer->addChild(pTileSprite);
-}
-
-int TileMapSprite::invertTileY(const int originalTileY) const
-{
-    return (m_pCurrentMapData->getHeight() - 1) - originalTileY;
 }
 
 const GameSize& TileMapSprite::getTileSizeInWorldUnits() const

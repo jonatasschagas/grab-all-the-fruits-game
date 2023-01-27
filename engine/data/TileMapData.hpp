@@ -80,7 +80,7 @@ public:
                   const int tileWidth,
                   const int tileHeight,
                   const string& tiledVersion,
-                  const float version);
+                  const string& version);
     
     ~TileSetConfig();
     
@@ -102,7 +102,7 @@ public:
                        const int y, 
                        const int width, 
                        const int height);
-    float getVersion() const;
+    const string& getVersion() const;
     
 private:
     
@@ -119,7 +119,7 @@ private:
     int m_tileHeight;
     string m_tiledVersion;
     vector<TileConfig*> m_tileConfigs;
-    float m_version;
+    string m_version;
     
     void initializeMembers()
     {
@@ -136,7 +136,7 @@ private:
         m_tileWidth = 0;
         m_tileHeight = 0;
         m_tiledVersion = "";
-        m_version = 0;
+        m_version = "";
     }
     
 };
@@ -243,7 +243,7 @@ public:
     int getNextLayerId() const;
     int getNextObjectId() const;
     
-    double getVersion() const;
+    const string& getVersion() const;
     
     bool isInfinite() const;
     
@@ -268,7 +268,7 @@ private:
     int m_nextLayerId;
     int m_nextObjectId;
     
-    double m_version;
+    string m_version;
     bool m_infinite;
     
     vector<TileMapLayer*> m_layers;
@@ -290,7 +290,7 @@ private:
         m_nextLayerId = 0;
         m_nextObjectId = 0;
         
-        m_version = 0;
+        m_version = "";
         m_infinite = false;
         
         m_layers.clear();

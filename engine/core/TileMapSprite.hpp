@@ -55,7 +55,6 @@ private:
     void unloadMap();
     void loadMapLayers();
     void createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer* pLayer);
-    int invertTileY(const int originalTileY) const;
     
     PlatformManager* m_pPlatformManager;
     TileMapData* m_pCurrentMapData;

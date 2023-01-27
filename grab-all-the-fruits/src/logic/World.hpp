@@ -6,40 +6,35 @@ struct Body;
 
 #include "core/BaseDataStructures.h"
 #include "event/EventListener.hpp"
-#include "Map.hpp"
 #include <vector>
 #include <string>
+#include "GameConfiguration.h"
+#include <box2d/box2d.h>
 
 using namespace std;
 
-
-//TODO: move to config
-const float PLAYER_RUNNING_SPEED = 2.5f;
-const float PLAYER_JUMPING_SPEED = 12.f;
 
 class World : public EventListener
 {
 public:
     
-    World(const Map& map);
+    World();
     ~World();
     
     void update(float delta);
     void receiveEvent(Event* pEvent) override;
-    const Body* createBody(const string& name, const Vector2& position, const GameSize& size);
+    const Body* createBody(const string& name, const b2BodyDef& bodyDef, const b2FixtureDef& fixtureDef);
 
 private:
 
-    float calculateVXStep(float vx, float vxGloal, float deltaTime);
-    float calculateXStep(float x, float vx, float deltaTime);
+    void applySpeed(b2Body* pb2Body, const b2Vec2& speed);
 
-    const Map& m_map;
-    float m_gravity;
     vector<Body*> m_bodies;
+    b2World* m_pBox2DWorld;
 
     void initializeMembers()
     {
-        m_gravity = -5.4f;
+        m_pBox2DWorld = nullptr;
         m_bodies.clear();
     }
     

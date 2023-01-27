@@ -14,7 +14,7 @@ TileSetConfig::TileSetConfig(const string& name,
                              const int tileWidth, 
                              const int tileHeight, 
                              const string& tiledVersion, 
-                             const float version)
+                             const string& version)
 {
     initializeMembers();
     
@@ -86,7 +86,7 @@ string TileSetConfig::getTiledVersion() const
     return m_tiledVersion;
 }
 
-float TileSetConfig::getVersion() const
+const string& TileSetConfig::getVersion() const
 {
     return m_version;
 }
@@ -248,7 +248,7 @@ TileMapData::TileMapData(const string& tileMapFilename,
     m_nextObjectId = configurationDocument["nextobjectid"].GetInt();
     m_tileHeight = configurationDocument["tileheight"].GetInt();
     m_tileWidth = configurationDocument["tilewidth"].GetInt();
-    m_version = configurationDocument["version"].GetDouble();
+    m_version = configurationDocument["version"].GetString();
     m_tileWidth = configurationDocument["tilewidth"].GetInt();
     m_orientation = configurationDocument["orientation"].GetString();
     m_renderOrder = configurationDocument["renderorder"].GetString();
@@ -276,7 +276,7 @@ TileMapData::TileMapData(const string& tileMapFilename,
         const int tileHeight = tileSetConfigDocument["tileheight"].GetInt();
         const int tileWidth = tileSetConfigDocument["tilewidth"].GetInt();
         const string type = tileSetConfigDocument["type"].GetString();
-        const float version = tileSetConfigDocument["version"].GetFloat();
+        const string version = tileSetConfigDocument["version"].GetString();
         
         TileSetConfig* pTileSetConfig = new TileSetConfig(name, type, columns, margin, spacing, tileCount, tileWidth, tileHeight, tiledVersion, version);
         
@@ -475,7 +475,7 @@ int TileMapData::getNextObjectId() const
     return m_nextObjectId;
 }
 
-double TileMapData::getVersion() const
+const string& TileMapData::getVersion() const
 {
     return m_version;
 }

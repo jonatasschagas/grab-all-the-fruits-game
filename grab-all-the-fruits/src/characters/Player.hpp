@@ -8,19 +8,22 @@
 
 class PlatformManager;
 class Body;
-class Body;
+class World;
 
 class Player : public EventListener, public AnimatedSprite
 {
 public:
     
-    Player(PlatformManager* pPlatformManager, const Body* pBody, DataCacheManager& rDataCacheManager);
     ~Player();
     
     void receiveEvent(Event* pEvent) override;
     void update(float delta) override;
 
+    static Player* create(PlatformManager* pPlatformManager, World* pWorld, DataCacheManager& rDataCacheManager);
+
 private:
+    
+    Player(PlatformManager* pPlatformManager, const Body* pBody, DataCacheManager& rDataCacheManager);
     
     const Body* m_pBody;
     

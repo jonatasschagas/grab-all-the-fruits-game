@@ -5,121 +5,36 @@
 
 #include <string>
 
-World::World(const Map& map) : m_map(map)
+World::World()
 {
     initializeMembers();
+
+    b2Vec2 gravity(0.0f, GRAVITY);
+    m_pBox2DWorld = new b2World(gravity);
 }
 
 World::~World()
 {
+    delete m_pBox2DWorld;
+    
+    initializeMembers();
 }
 
 void World::update(float delta)
 {
-    for (int i = 0; i < m_bodies.size(); i++)
-    {
-        
-        Body* pBody = m_bodies[i];
-    
-        if (pBody->m_decelerating)
-            pBody->m_vxGoal = ((pBody->m_vxGoal * 0.9f) - pBody->m_vxGoal)/delta;
-
-        bool facingRight =  pBody->m_facingRight;
-        float newVx = calculateVXStep(pBody->m_vx, pBody->m_vxGoal, delta);
-        float nextX = calculateXStep(pBody->m_x, newVx, delta);
-
-        float diffAdjusting = abs(pBody->m_adjustX - pBody->m_x);
-        // when the x position is very close to be adjusted we stop adjusting
-        if (diffAdjusting < 0.1f)
-            pBody->m_adjustingX = false;
-
-        if (pBody->m_adjustingX)
-        {
-            // in here we make sure that the character won't seep inside the wall
-            // by adjusting his position on the x axis little by little each frame
-            pBody->m_x = lerp(pBody->m_x, pBody->m_adjustX, delta);
-        }
-        
-        const bool willCollideWithWall = m_map.isWall(Vector2(nextX, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), facingRight);
-        if (!willCollideWithWall)
-        {
-            pBody->m_x = nextX;
-        }
-        pBody->m_vx = newVx;
-
-        float nextY = pBody->m_y + pBody->m_vy * delta;
-        float groundTileY = m_map.getGroundCoordUnderneath(Vector2(pBody->m_x, pBody->m_y)).y;
-        bool isCeiling = m_map.isGround(Vector2(pBody->m_x, nextY));
-        
-        if (nextY > pBody->m_y && isCeiling)
-        {
-            // not allowing character to go thru the roof
-            pBody->m_vy = 0;
-            pBody->m_grounded = false;
-        }
-        else if (nextY <= groundTileY && groundTileY > 0)
-        {
-            // grounding
-            pBody->m_y = groundTileY;
-            pBody->m_vy = 0;
-
-            pBody->m_decelerating = false;
-            pBody->m_grounded = true;
-            pBody->m_doubleJumping = false;
-
-            // adjust m_x so that character won't go inside the wall
-            const bool collidesWithWallFront = m_map.isWall(Vector2(pBody->m_x, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), true);
-            const bool collidesWithWallBack = m_map.isWall(Vector2(pBody->m_x, pBody->m_y), GameSize(pBody->m_width, pBody->m_height), false);
-            if(!pBody->m_adjustingX && (collidesWithWallFront || collidesWithWallBack))
-            {
-                if (collidesWithWallFront)
-                    pBody->m_adjustX = m_map.getTileXFloor(pBody->m_x);
-                else
-                    pBody->m_adjustX = m_map.getTileXCeil(pBody->m_x);
-
-                pBody->m_adjustingX = true;
-            }
-            
-        }
-         else
-        {
-            if (pBody->m_vy <= 0)
-            {
-                pBody->m_dropHeight += (pBody->m_y - nextY);
-            }
-            else
-            {
-                pBody->m_dropHeight = 0;
-            }
-            
-            pBody->m_y = nextY;
-            pBody->m_vy = pBody->m_vy + m_gravity * delta;
-            pBody->m_grounded = false;
-        }
-    }
+    m_pBox2DWorld->Step(BOX2D_TIME_STEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
 }
 
-const Body* World::createBody(const string& name, const Vector2& position, const GameSize& size)
+const Body* World::createBody(const string& name, const b2BodyDef& bodyDef, const b2FixtureDef& fixtureDef)
 {
     Body* pBody = new Body();
     pBody->m_name = name;
-    pBody->m_x = position.x;
-    pBody->m_y = position.y;
-    pBody->m_width = size.w;
-    pBody->m_height = size.h;
+    
+    pBody->m_pb2Body = m_pBox2DWorld->CreateBody(&bodyDef);
+    pBody->m_pb2Body->CreateFixture(&fixtureDef);
+    
     m_bodies.push_back(pBody);
     return pBody;
-}
-
-float World::calculateVXStep(float vx, float vxGoal, float deltaTime)
-{
-    return lerp(vx, vxGoal, deltaTime);
-}
-
-float World::calculateXStep(float x, float vx, float deltaTime)
-{
-    float nextX = x + vx * deltaTime;
-    return nextX;
 }
 
 void World::receiveEvent(Event* pEvent) {
@@ -128,26 +43,30 @@ void World::receiveEvent(Event* pEvent) {
         Body* pBody = m_bodies[i];
         if (strcmp(pBody->m_name.c_str(), pEvent->getTarget().c_str()) == 0) {
             if (strcmp(pEvent->getName().c_str(), "right_start") == 0) {
-                pBody->m_vxGoal = PLAYER_RUNNING_SPEED;
+                applySpeed(pBody->m_pb2Body, b2Vec2(PLAYER_RUNNING_SPEED, 0));
             } else if (strcmp(pEvent->getName().c_str(), "right_stop") == 0) {
-                pBody->m_vxGoal = 0;
+                applySpeed(pBody->m_pb2Body, b2Vec2(0, 0));
             } else if (strcmp(pEvent->getName().c_str(), "left_start") == 0) {
-                pBody->m_vxGoal = -PLAYER_RUNNING_SPEED;
+                applySpeed(pBody->m_pb2Body, b2Vec2(-PLAYER_RUNNING_SPEED, 0));
             } else if (strcmp(pEvent->getName().c_str(), "left_stop") == 0) {
-                pBody->m_vxGoal = 0;
+                applySpeed(pBody->m_pb2Body, b2Vec2(0, 0));
             } else if (strcmp(pEvent->getName().c_str(), "space_start") == 0) {
-                if (pBody->m_grounded) {
-                    pBody->m_vy = PLAYER_JUMPING_SPEED;
-                    pBody->m_grounded = false;
-                } else if (!pBody->m_doubleJumping) {
-                    pBody->m_vy = PLAYER_JUMPING_SPEED;
-                    pBody->m_doubleJumping = true;
-                }
-            } else if (strcmp(pEvent->getName().c_str(), "space_stop") == 0) {
-                if (pBody->m_vy > 0) {
-                    pBody->m_vy = 0;
-                }
+                const b2Vec2& currentVel = pBody->m_pb2Body->GetLinearVelocity();
+                if (currentVel.y == 0) 
+                {
+                    applySpeed(pBody->m_pb2Body, b2Vec2(currentVel.x, PLAYER_JUMPING_SPEED));
+                } 
             }
         }
     }
+}
+
+void World::applySpeed(b2Body* pb2Body, const b2Vec2& speed)
+{
+    //source: https://gamedev.stackexchange.com/questions/47282/moving-player-in-box2d-without-forces
+    b2Vec2 vel = pb2Body->GetLinearVelocity();
+    b2Vec2 velChange = speed - vel;
+    float impulseX = pb2Body->GetMass() * velChange.x;
+    float impulseY = pb2Body->GetMass() * velChange.y;
+    pb2Body->ApplyLinearImpulse( b2Vec2(impulseX, impulseY), pb2Body->GetWorldCenter(), true);
 }

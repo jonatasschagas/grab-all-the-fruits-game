@@ -131,18 +131,7 @@ void SDLManager::renderTexture(const DrawCall& drawCall)
     
     // scaling to the size of the world
     worldX = worldX * m_scaleFactorX;
-    
-    if (drawCall.settings.topToDown)
-    {
-        worldY = fmax((worldY * m_scaleFactorY) - height,0);
-    }
-    else
-    {
-        // 1. (m_worldSizeHeightUnits - worldY) -> coordinates start from the top (0 is top and m_worldSizeHeightUnits is bottom.
-        // in order to have a system where the bottom starts with zero we do this -> (m_worldSizeHeightUnits - worldY)
-        // 2. We substract the height here in order to put the pivot from the sprite to the bottom left corner (default is top left corner)
-        worldY = ((m_worldSizeHeightUnits - worldY) * m_scaleFactorY) - height;
-    }
+    worldY = fmax((worldY * m_scaleFactorY) - height,0);
     
     // applying alpha
     int alpha = drawCall.textureSettings.alpha * 255;

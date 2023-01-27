@@ -4,31 +4,35 @@
 
 #include "core/TileMapSprite.hpp"
 #include "core/BaseDataStructures.h"
+#include "World.hpp"
 
 class Map
 {
 public:
     
-    Map(TileMapSprite* pTileMapSprite);
+    Map(World* pWorld, TileMapSprite* pTileMapSprite);
     ~Map();
 
-    const bool isWall(const Vector2& position, const GameSize& size, bool facingRight) const;
+    const bool isWall(const Vector2& position) const;
     Vector2 getGroundCoordUnderneath(const Vector2& position) const;
     const bool isGround(const Vector2& position) const;
+    const float getTileX(const float& x) const;
 
-    const float getTileXFloor(const float& x) const;
-    const float getTileXCeil(const float& x) const;
+    const Vector2 getWorldLimits() const;
 
 private:
 
-    const bool isTileWall(const int& tileX, const int& tileY) const;
+    void createMapInPhysicsWorld();
+
     const bool isTileGround(const int& tileX, const int& tileY) const;
     
     TileMapSprite* m_pTileMapSprite;
+    World* m_pWorld;
     
     void initializeMembers()
     {
         m_pTileMapSprite = nullptr;
+        m_pWorld = nullptr;
     }
     
 };

@@ -1,6 +1,7 @@
 #include "GameView.hpp"
 
 #include "logic/World.hpp"
+#include "logic/Map.hpp"
 #include "characters/Player.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
@@ -69,14 +70,12 @@ void GameView::initGame()
     GameSize worldSize = pPlatformManager->getWorldSizeUnits();
     pTileMapSprite->setSize(worldSize.w, worldSize.h);
     
-    m_pMap = new Map(pTileMapSprite);
-
-    m_pWorld = new World(*m_pMap);
+    m_pWorld = new World();
+    m_pMap = new Map(m_pWorld, pTileMapSprite);
     
     // creating the player   
     //TODO: player size should be read from the config file
-    const Body* pBody = m_pWorld->createBody("player", Vector2(3,10), GameSize(5,5));
-    m_pPlayer = new Player(pPlatformManager, pBody, *m_pDataCacheManager);
+    m_pPlayer = Player::create(pPlatformManager, m_pWorld, *m_pDataCacheManager);
     addChild(m_pPlayer);
 }
 

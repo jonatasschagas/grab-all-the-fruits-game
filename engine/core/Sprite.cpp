@@ -214,6 +214,10 @@ void Sprite::setXY(const Vector2& position)
     m_coords = glm::vec2(position.x, position.y);
 }
 
+void Sprite::setXYInvertedY(float x, float y)
+{
+    setXY(x, m_pPlatformManager->getWorldSizeUnits().h - y);
+}
 void Sprite::setSize(const GameSize& size)
 {
     m_size = glm::vec2(size.w, size.h);

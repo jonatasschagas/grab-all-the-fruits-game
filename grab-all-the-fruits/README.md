@@ -13,6 +13,7 @@ Dependencies to install
  - brew install glm
  - brew install rapidjson
  - brew install freetype2
+ - brew install box2d
 
 ## Command Line Build
 
