@@ -1,7 +1,7 @@
 #pragma once
 
 const float PLAYER_RUNNING_SPEED = 5.f;
-const float PLAYER_JUMPING_SPEED = 6.f;
+const float PLAYER_JUMPING_FORCE = 6.f;
 const float GRAVITY = -10.0f;
 const int BOX2D_VELOCITY_ITERATIONS = 6;
 const int BOX2D_POSITION_ITERATIONS = 2;

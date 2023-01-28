@@ -42,6 +42,8 @@ void Map::createMapInPhysicsWorld()
 
                 b2FixtureDef fixtureDef;
                 fixtureDef.shape = &squareShape;
+                fixtureDef.restitution = 0.f; // how bouncy it is
+                fixtureDef.friction = 0.f; // how slippery it is
                 
                 // create the tile...
                 m_pWorld->createBody(stringFormat("t_%d_%d", tileX, tileY), bodyDef, fixtureDef);

@@ -24,6 +24,9 @@ Player* Player::create(PlatformManager* pPlatformManager, World* pWorld, DataCac
     
     const Body* pBody = pWorld->createBody("player", bodyDef, fixtureDef);
 
+    // do not rotate the player freely
+    pBody->m_pb2Body->SetFixedRotation(true);
+
     Player* pPlayer = new Player(pPlatformManager, pBody, rDataCacheManager);
     return pPlayer;
 }
@@ -53,16 +56,20 @@ void Player::update(float delta)
         return;
     }
 
-    if (m_pBody->m_pb2Body->GetLinearVelocity().y < 0) {
+    const b2Vec2& linearVel = m_pBody->m_pb2Body->GetLinearVelocity();
+
+    if (linearVel .y < 0) {
         play("jump");
+        setFlip(linearVel .x < 0);
     }
-    else if (m_pBody->m_pb2Body->GetLinearVelocity().y > 0) {
+    else if (linearVel .y > 0) {
         play("fall");
+        setFlip(linearVel .x < 0);
     } 
-    else if (m_pBody->m_pb2Body->GetLinearVelocity().x != 0)
+    else if (linearVel .x != 0)
     {
         play("run");
-        setFlip(m_pBody->m_pb2Body->GetLinearVelocity().x < 0);
+        setFlip(linearVel .x < 0);
     }
     else
     {
@@ -72,5 +79,6 @@ void Player::update(float delta)
     }
     
     const b2Vec2& position = m_pBody->getPositionInPixels();
+    // physics engine uses inverted Y axis (0 to top) - engine uses axis Y starting from the top to the bottom
     setXYInvertedY(position.x, position.y);
 }

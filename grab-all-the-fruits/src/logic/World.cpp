@@ -54,7 +54,7 @@ void World::receiveEvent(Event* pEvent) {
                 const b2Vec2& currentVel = pBody->m_pb2Body->GetLinearVelocity();
                 if (currentVel.y == 0) 
                 {
-                    applySpeed(pBody->m_pb2Body, b2Vec2(currentVel.x, PLAYER_JUMPING_SPEED));
+                    pBody->m_pb2Body->ApplyLinearImpulse( b2Vec2(0, PLAYER_JUMPING_FORCE), pBody->m_pb2Body->GetWorldCenter(), true);
                 } 
             }
         }
@@ -67,6 +67,5 @@ void World::applySpeed(b2Body* pb2Body, const b2Vec2& speed)
     b2Vec2 vel = pb2Body->GetLinearVelocity();
     b2Vec2 velChange = speed - vel;
     float impulseX = pb2Body->GetMass() * velChange.x;
-    float impulseY = pb2Body->GetMass() * velChange.y;
-    pb2Body->ApplyLinearImpulse( b2Vec2(impulseX, impulseY), pb2Body->GetWorldCenter(), true);
+    pb2Body->ApplyLinearImpulse( b2Vec2(impulseX, 0), pb2Body->GetWorldCenter(), true);
 }

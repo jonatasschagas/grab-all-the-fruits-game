@@ -18,12 +18,14 @@ public:
     Body(){}
     Body(const string& name, b2Body* pb2Body) : m_name(name), m_pb2Body(pb2Body) {}
 
-    b2Vec2 getPositionInPixels() const { 
+    b2Vec2 getPositionInPixels() const 
+    { 
         const b2Vec2& position = m_pb2Body->GetPosition();
         return b2Vec2(position.x * PIXELS_PER_METER, position.y * PIXELS_PER_METER); 
     }
 
-    b2Vec2 getSizeInPixels() const { 
+    b2Vec2 getSizeInPixels() const 
+    { 
         const b2Shape* pShape = m_pb2Body->GetFixtureList()->GetShape();
         if (pShape->GetType() == b2Shape::Type::e_circle)
         {
