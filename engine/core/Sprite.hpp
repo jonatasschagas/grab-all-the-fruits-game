@@ -31,7 +31,7 @@ public:
     void setXYInvertedY(float x, float y);
     void setXY(const Vector2& position);
     void setSize(float w, float h);
-    void setSize(const GameSize& size);
+    void setSize(const Vector2& size);
     void setTextureCoordinates(float x, float y, float w, float h);
     void setScale(float scaleLevel);
     void setRotation(float degrees);

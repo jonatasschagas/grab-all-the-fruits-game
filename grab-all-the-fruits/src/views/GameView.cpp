@@ -2,7 +2,7 @@
 
 #include "logic/World.hpp"
 #include "logic/Map.hpp"
-#include "characters/Player.hpp"
+#include "objects/Player.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
@@ -70,7 +70,9 @@ void GameView::initGame()
     GameSize worldSize = pPlatformManager->getWorldSizeUnits();
     pTileMapSprite->setSize(worldSize.w, worldSize.h);
     
-    m_pWorld = new World();
+    m_pWorld = new World(Vector2(
+        pTileMapSprite->getTileMapWidth() * pTileMapSprite->getTileSizeInWorldUnits().w, 
+        pTileMapSprite->getTileMapHeight() * pTileMapSprite->getTileSizeInWorldUnits().h));
     m_pMap = new Map(m_pWorld, pTileMapSprite);
     
     // creating the player   

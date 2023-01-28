@@ -218,9 +218,9 @@ void Sprite::setXYInvertedY(float x, float y)
 {
     setXY(x, m_pPlatformManager->getWorldSizeUnits().h - y);
 }
-void Sprite::setSize(const GameSize& size)
+void Sprite::setSize(const Vector2& size)
 {
-    m_size = glm::vec2(size.w, size.h);
+    m_size = glm::vec2(size.x, size.y);
 }
 
 void Sprite::setSize(float w, float h)

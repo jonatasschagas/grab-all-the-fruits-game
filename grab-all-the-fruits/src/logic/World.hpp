@@ -8,8 +8,8 @@ struct Body;
 #include "event/EventListener.hpp"
 #include <vector>
 #include <string>
-#include "GameConfiguration.h"
-#include <box2d/box2d.h>
+#include "physics/PhysicsBody.hpp"
+#include "physics/PhysicsSystem.hpp"
 
 using namespace std;
 
@@ -18,24 +18,26 @@ class World : public EventListener
 {
 public:
     
-    World();
+    World(const Vector2& worldSize);
     ~World();
     
     void update(float delta);
     void receiveEvent(Event* pEvent) override;
-    const Body* createBody(const string& name, const b2BodyDef& bodyDef, const b2FixtureDef& fixtureDef);
+    
+    PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale);
+    PhysicsBody* createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition);
 
 private:
 
-    void applySpeed(b2Body* pb2Body, const b2Vec2& speed);
-
-    vector<Body*> m_bodies;
-    b2World* m_pBox2DWorld;
+    vector<PhysicsBody*> m_dynamicBodies;
+    vector<PhysicsBody*> m_staticBodies;
+    PhysicsSystem* m_pPhysicsSystem;
 
     void initializeMembers()
     {
-        m_pBox2DWorld = nullptr;
-        m_bodies.clear();
+        m_pPhysicsSystem = nullptr;
+        m_dynamicBodies.clear();
+        m_staticBodies.clear();
     }
     
 };

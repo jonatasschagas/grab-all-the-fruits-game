@@ -5,12 +5,14 @@
 #include <stdio.h>
 #include "event/EventListener.hpp"
 #include "core/AnimatedSprite.hpp"
+#include "GameObject.hpp"
+#include "physics/PhysicsOnCollideListener.hpp"
 
 class PlatformManager;
-class Body;
+class PhysicsBody;
 class World;
 
-class Player : public EventListener, public AnimatedSprite
+class Player : public EventListener, public AnimatedSprite, public PhysicsOnCollideListener, public GameObject
 {
 public:
     
@@ -21,15 +23,20 @@ public:
 
     static Player* create(PlatformManager* pPlatformManager, World* pWorld, DataCacheManager& rDataCacheManager);
 
+    void onCollide(PhysicsBody* pOtherBody) override;
+    const string& getType() const override { return m_type; }
+
 private:
     
-    Player(PlatformManager* pPlatformManager, const Body* pBody, DataCacheManager& rDataCacheManager);
+    Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
     
-    const Body* m_pBody;
-    
+    const PhysicsBody* m_pBody;
+    string m_type;
+
     void initializeMembers()
     {
         m_pBody = nullptr;
+        m_type = "player";
     }
     
 };

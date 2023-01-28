@@ -3,7 +3,6 @@
 #include <math.h>
 #include "utils/MathUtils.h"
 #include "utils/StringUtils.h"
-#include "GameConfiguration.h"
 
  Map::Map(World* pWorld, TileMapSprite* pTileMapSprite)
  {
@@ -27,26 +26,12 @@ void Map::createMapInPhysicsWorld()
         {
             if (isTileGround(tileX, tileY))
             {
-                b2BodyDef bodyDef;
-                bodyDef.type = b2_staticBody;
-                const float xPhysicsWorldInMeters = tileX * m_pTileMapSprite->getTileSizeInWorldUnits().w * METERS_PER_PIXEL;
-                // y is inverted in the physics world
-                const float yPhysicsWorldInMeters = ((m_pTileMapSprite->getTileMapHeight() - tileY) * m_pTileMapSprite->getTileSizeInWorldUnits().h) * METERS_PER_PIXEL;
-                bodyDef.position.Set(xPhysicsWorldInMeters, yPhysicsWorldInMeters);
-
-                b2PolygonShape squareShape;
-                squareShape.SetAsBox(
-                    (m_pTileMapSprite->getTileSizeInWorldUnits().w * METERS_PER_PIXEL)/2, 
-                    (m_pTileMapSprite->getTileSizeInWorldUnits().h * METERS_PER_PIXEL)/2
-                ); // 1 meter size
-
-                b2FixtureDef fixtureDef;
-                fixtureDef.shape = &squareShape;
-                fixtureDef.restitution = 0.f; // how bouncy it is
-                fixtureDef.friction = 0.f; // how slippery it is
-                
-                // create the tile...
-                m_pWorld->createBody(stringFormat("t_%d_%d", tileX, tileY), bodyDef, fixtureDef);
+                m_pWorld->createStaticBody(
+                    Vector2(tileX * m_pTileMapSprite->getTileSizeInWorldUnits().w, tileY * m_pTileMapSprite->getTileSizeInWorldUnits().h),
+                    Vector2(m_pTileMapSprite->getTileSizeInWorldUnits().w, m_pTileMapSprite->getTileSizeInWorldUnits().h),
+                    0.f, // friction
+                    0.f // restitution
+                );
             }
         }
     }

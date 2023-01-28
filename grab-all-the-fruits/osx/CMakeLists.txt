@@ -9,7 +9,7 @@ Message( STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER} )
 Message( STATUS "CMAKE_PROJECT_NAME: " ${CMAKE_PROJECT_NAME} )
 Message( STATUS "CMAKE_FINDCMAKE: " ${CMAKE_SOURCE_DIR}/CMAKE )
 
-project(game)
+project(game) # name of executable
 
 # ------- Set Vars ------- #
 ## -> Author: https://github.com/JodyAndrews/SDL2_Basic_Setup/
