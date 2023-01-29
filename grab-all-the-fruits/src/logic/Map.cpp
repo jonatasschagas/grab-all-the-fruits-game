@@ -67,7 +67,7 @@ const bool Map::isTileGround(const int& tileX, const int& tileY) const
         m_pTileMapSprite->setXOffSet(rCameraPosition.x - halfScreenHorizontal);
     }
     
-    if (rCameraPosition.y < halfScreenVertical)
+    if (rCameraPosition.y > halfScreenVertical)
     {
         m_pTileMapSprite->setYOffSet(0);
     }

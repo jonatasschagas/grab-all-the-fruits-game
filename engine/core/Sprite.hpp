@@ -77,7 +77,8 @@ public:
     bool hasTexture() const { return m_textureFilename.size() > 0; };
     
     void setSortChildren(bool sortChildren) { m_sortChildren = sortChildren; }
-
+    PlatformManager* getPlatformManager() const { return m_pPlatformManager; }
+    
 protected:
     
     Sprite* m_pParent;

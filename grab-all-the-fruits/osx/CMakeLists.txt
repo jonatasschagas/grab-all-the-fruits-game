@@ -1,18 +1,18 @@
 cmake_minimum_required(VERSION 3.13.1)
 
-Message("")
-Message( STATUS "CMAKE_BINARY_DIR: " ${CMAKE_BINARY_DIR} )
-Message( STATUS "CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR} )
-Message( STATUS "CMAKE_COMMAND: " ${CMAKE_COMMAND} )
-Message( STATUS "CMAKE_VERSION: " ${CMAKE_VERSION} )
-Message( STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER} )
-Message( STATUS "CMAKE_PROJECT_NAME: " ${CMAKE_PROJECT_NAME} )
-Message( STATUS "CMAKE_FINDCMAKE: " ${CMAKE_SOURCE_DIR}/CMAKE )
+message("")
+message( STATUS "CMAKE_BINARY_DIR: " ${CMAKE_BINARY_DIR} )
+message( STATUS "CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR} )
+message( STATUS "CMAKE_COMMAND: " ${CMAKE_COMMAND} )
+message( STATUS "CMAKE_VERSION: " ${CMAKE_VERSION} )
+message( STATUS "CMAKE_C_COMPILER: " ${CMAKE_C_COMPILER} )
+message( STATUS "CMAKE_PROJECT_NAME: " ${CMAKE_PROJECT_NAME} )
+message( STATUS "CMAKE_FINDCMAKE: " ${CMAKE_SOURCE_DIR}/CMAKE )
 
 project(game) # name of executable
 
-# ------- Set Vars ------- #
-## -> Author: https://github.com/JodyAndrews/SDL2_Basic_Setup/
+# ------- set Vars ------- #
+## -> Author: https://github.com/JodyAndrews/SDL2_Basic_setup/
 
 set(CMAKE_C_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
@@ -24,135 +24,141 @@ set(PROJECT_SOURCE_DIR ../..)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMAKE")
-set(SOURCE_FILES    main.cpp)
+set(SOURCE_fileS    main.cpp)
 set(IMGUI ${PROJECT_SOURCE_DIR}/third-party/imgui)
+set(IMGUI_SDL ${PROJECT_SOURCE_DIR}/third-party/imgui_sdl)
+set(THIRD_PARTY_LIBS ${PROJECT_SOURCE_DIR}/third-party/)
 set(SDL_GAME_IMPL ${PROJECT_SOURCE_DIR}/sdl)
 set(ENGINE_IMPL ${PROJECT_SOURCE_DIR}/engine)
 set(GAME_IMPL ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/src)
-set(GAME_ASSETS ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/assets)
+set(GAME_ASsetS ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/assets)
 
-Message("")
-Message( STATUS "GAME_IMPL : " ${GAME_IMPL} )
-Message( STATUS "ENGINE_IMPL : " ${ENGINE_IMPL} )
-Message( STATUS "SDL_GAME_IMPL : " ${SDL_GAME_IMPL} )
-Message("")
+message("")
+message( STATUS "GAME_IMPL : " ${GAME_IMPL} )
+message( STATUS "ENGINE_IMPL : " ${ENGINE_IMPL} )
+message( STATUS "SDL_GAME_IMPL : " ${SDL_GAME_IMPL} )
+message("")
 
 # Add -O0 to remove optimizations when using gcc
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 --std=c++14")
-SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 --std=c++14")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
-# ------- End Set Vars --- #
+# Adding Support to IMGUI
+add_definitions(-DIMGUI_ENABLED)
+
+# ------- End set Vars --- #
 
 # ------- Executable ----- #
-FILE(GLOB_RECURSE SRC_FILES ${SDL_GAME_IMPL}/*.cpp ${ENGINE_IMPL}/*.cpp ${GAME_IMPL}/*.cpp main.cpp)
+file(GLOB_RECURSE SRC_fileS ${SDL_GAME_IMPL}/*.cpp ${ENGINE_IMPL}/*.cpp ${GAME_IMPL}/*.cpp main.cpp)
 
 # cherry picking IMGUI files
-FILE(GLOB IMGUI_MAIN ${IMGUI}/*.h ${IMGUI}/*.cpp ${IMGUI}/*.h ${IMGUI}/*.cpp) # add main imgui files
-FILE(GLOB_RECURSE IMGUI_MISC_CPP ${IMGUI}/misc/cpp/*.*) # add cpp misc files
-FILE(GLOB_RECURSE IMGUI_FONTS ${IMGUI}/misc/fonts/*.ttf) # add font misc files
-FILE(GLOB_RECURSE IMGUI_FREETYPE ${IMGUI}/misc/freetype/*.h ${IMGUI}/misc/freetype/*.cpp) # add freetype misc files
-FILE(GLOB_RECURSE IMGUI_SINGLE_FILE ${IMGUI}/misc/single_file/*.h ${IMGUI}/misc/single_file/*.cpp) # add single_file misc files
-LIST(APPEND SRC_FILES ${IMGUI_MAIN}) 
-LIST(APPEND SRC_FILES ${IMGUI_MISC_CPP})
-LIST(APPEND SRC_FILES ${IMGUI_FONTS})
-LIST(APPEND SRC_FILES ${IMGUI_FREETYPE})
-LIST(APPEND SRC_FILES ${IMGUI_SINGLE_FILE})
-LIST(APPEND SRC_FILES ${IMGUI}/backends/imgui_impl_sdl.h ${IMGUI}/backends/imgui_impl_sdl.cpp) # add SDL backend
+file(GLOB IMGUI_MAIN ${IMGUI}/*.h ${IMGUI}/*.cpp ${IMGUI}/*.h ${IMGUI}/*.cpp) # add main imgui files
+file(GLOB_RECURSE IMGUI_MISC_CPP ${IMGUI}/misc/cpp/*.*) # add cpp misc files
+file(GLOB_RECURSE IMGUI_FONTS ${IMGUI}/misc/fonts/*.ttf) # add font misc files
+file(GLOB_RECURSE IMGUI_FREETYPE ${IMGUI}/misc/freetype/*.h ${IMGUI}/misc/freetype/*.cpp) # add freetype misc files
+file(GLOB_RECURSE IMGUI_SINGLE_file ${IMGUI}/misc/single_file/*.h ${IMGUI}/misc/single_file/*.cpp) # add single_file misc files
+list(APPEND SRC_fileS ${IMGUI_MAIN}) 
+list(APPEND SRC_fileS ${IMGUI_MISC_CPP})
+list(APPEND SRC_fileS ${IMGUI_FONTS})
+list(APPEND SRC_fileS ${IMGUI_FREETYPE})
+list(APPEND SRC_fileS ${IMGUI_SINGLE_file})
+list(APPEND SRC_fileS ${IMGUI}/backends/imgui_impl_sdl.h ${IMGUI}/backends/imgui_impl_sdl.cpp) # add SDL backend
+list(APPEND SRC_fileS ${IMGUI_SDL}/imgui_sdl.h ${IMGUI_SDL}/imgui_sdl.cpp) # add imguil_SDL
 
-ADD_EXECUTABLE(game ${SRC_FILES})
+add_executable(game ${SRC_fileS})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "grab-all-the-fruits")
 # ------- End Executable - #
 
 # ------- Finds ---------- #
 
-FIND_PACKAGE(SDL2 REQUIRED)
-Message("")
-Message( STATUS "FINDING SDL2" )
-IF (${SDL2_FOUND})
-    Message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
-    Message( STATUS "SDL2_INCLUDE_DIR:" ${SDL2_INCLUDE_DIR})
-    Message( STATUS "SDL2_LIBRARY: " ${SDL2_LIBRARY})
-ELSE()
-    Message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
-    Message( FATAL_ERROR "SDL2 NOT FOUND" )
-ENDIF()
+find_package(SDL2 REQUIRED)
+message("")
+message( STATUS "FINDING SDL2" )
+if (${SDL2_FOUND})
+    message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
+    message( STATUS "SDL2_INCLUDE_DIR:" ${SDL2_INCLUDE_DIR})
+    message( STATUS "SDL2_LIBRARY: " ${SDL2_LIBRARY})
+else()
+    message( STATUS "SDL2_FOUND: " ${SDL2_FOUND})
+    message( FATAL_ERROR "SDL2 NOT FOUND" )
+endif()
 
-FIND_PACKAGE(SDL2_IMAGE REQUIRED)
-Message("")
-Message( STATUS "FINDING SDL2_IMAGE" )
-Message( STATUS "SDL2_IMAGE_FOUND: " ${SDL2_IMAGE_FOUND})
-IF (${SDL2_IMAGE_FOUND})
-    Message( STATUS "SDL2_IMAGE_INCLUDE_DIR: " ${SDL2_IMAGE_INCLUDE_DIR})
-    Message( STATUS "SDL2_IMAGE_LIBRARY: " ${SDL2_IMAGE_LIBRARY})
-ELSE()
-    Message( FATAL_ERROR "SDL2_IMAGE NOT FOUND" )
-ENDIF()
+find_package(SDL2_IMAGE REQUIRED)
+message("")
+message( STATUS "FINDING SDL2_IMAGE" )
+message( STATUS "SDL2_IMAGE_FOUND: " ${SDL2_IMAGE_FOUND})
+if (${SDL2_IMAGE_FOUND})
+    message( STATUS "SDL2_IMAGE_INCLUDE_DIR: " ${SDL2_IMAGE_INCLUDE_DIR})
+    message( STATUS "SDL2_IMAGE_LIBRARY: " ${SDL2_IMAGE_LIBRARY})
+else()
+    message( FATAL_ERROR "SDL2_IMAGE NOT FOUND" )
+endif()
 
-FIND_PACKAGE(SDL2Mixer REQUIRED)
-Message("")
-Message( STATUS "FINDING SDL2Mixer" )
-Message( STATUS "SDL2Mixer_FOUND: " ${SDL2Mixer_FOUND} )
-IF (${SDL2Mixer_FOUND})
-    Message( STATUS "SDL2Mixer_INCLUDE_DIR: " ${SDL2Mixer_INCLUDE_DIR})
-    Message( STATUS "SDL2Mixer_LIBRARY: " ${SDL2Mixer_LIBRARY})
-ELSE()
-    Message( FATAL_ERROR "SDL2Mixer NOT FOUND" )
-ENDIF()
+find_package(SDL2Mixer REQUIRED)
+message("")
+message( STATUS "FINDING SDL2Mixer" )
+message( STATUS "SDL2Mixer_FOUND: " ${SDL2Mixer_FOUND} )
+if (${SDL2Mixer_FOUND})
+    message( STATUS "SDL2Mixer_INCLUDE_DIR: " ${SDL2Mixer_INCLUDE_DIR})
+    message( STATUS "SDL2Mixer_LIBRARY: " ${SDL2Mixer_LIBRARY})
+else()
+    message( FATAL_ERROR "SDL2Mixer NOT FOUND" )
+endif()
 
-FIND_PACKAGE(GLM REQUIRED)
-Message("")
-Message( STATUS "FINDING GLM" )
-Message( STATUS "GLM_FOUND: " ${GLM_FOUND} )
-IF (${GLM_FOUND})
-    Message( STATUS "GLM_INCLUDE_DIR: " ${GLM_INCLUDE_DIR})
-    Message( STATUS "GLM_LIBRARY: GLM is header only library")
-ELSE()
-    Message( FATAL_ERROR "GLM NOT FOUND" )
-ENDIF()
+find_package(GLM REQUIRED)
+message("")
+message( STATUS "FINDING GLM" )
+message( STATUS "GLM_FOUND: " ${GLM_FOUND} )
+if (${GLM_FOUND})
+    message( STATUS "GLM_INCLUDE_DIR: " ${GLM_INCLUDE_DIR})
+    message( STATUS "GLM_LIBRARY: GLM is header only library")
+else()
+    message( FATAL_ERROR "GLM NOT FOUND" )
+endif()
 
-FIND_PACKAGE(Rapidjson REQUIRED)
-Message("")
-Message( STATUS "FINDING Rapidjson" )
-Message( STATUS "RAPIDJSON_FOUND: " ${RAPIDJSON_FOUND} )
-IF (${RAPIDJSON_FOUND})
-    Message( STATUS "RAPIDJSON_INCLUDE_DIRS: " ${RAPIDJSON_INCLUDE_DIRS})
-    Message( STATUS "RAPIDJSON_LIBRARY: RAPIDJSON is header only library")
-ELSE()
-    Message( FATAL_ERROR "RAPIDJSON NOT FOUND" )
-ENDIF()
+find_package(Rapidjson REQUIRED)
+message("")
+message( STATUS "FINDING Rapidjson" )
+message( STATUS "RAPIDJSON_FOUND: " ${RAPIDJSON_FOUND} )
+if (${RAPIDJSON_FOUND})
+    message( STATUS "RAPIDJSON_INCLUDE_DIRS: " ${RAPIDJSON_INCLUDE_DIRS})
+    message( STATUS "RAPIDJSON_LIBRARY: RAPIDJSON is header only library")
+else()
+    message( FATAL_ERROR "RAPIDJSON NOT FOUND" )
+endif()
 
-FIND_PACKAGE(Freetype REQUIRED)
-Message("")
-Message( STATUS "FINDING FREETYPE" )
-Message( STATUS "FREETYPE_FOUND: " ${FREETYPE_FOUND} )
-IF (${FREETYPE_FOUND})
-    Message( STATUS "FREETYPE_INCLUDE_DIR_freetype2: " ${FREETYPE_INCLUDE_DIR_freetype2})
-    Message( STATUS "FREETYPE_INCLUDE_DIR_ft2build: " ${FREETYPE_INCLUDE_DIR_ft2build})
-    Message( STATUS "FREETYPE_LIBRARY: " ${FREETYPE_LIBRARY})
-ELSE()
-    Message( FATAL_ERROR "FREETYPE NOT FOUND" )
-ENDIF()
+find_package(Freetype REQUIRED)
+message("")
+message( STATUS "FINDING FREETYPE" )
+message( STATUS "FREETYPE_FOUND: " ${FREETYPE_FOUND} )
+if (${FREETYPE_FOUND})
+    message( STATUS "FREETYPE_INCLUDE_DIR_freetype2: " ${FREETYPE_INCLUDE_DIR_freetype2})
+    message( STATUS "FREETYPE_INCLUDE_DIR_ft2build: " ${FREETYPE_INCLUDE_DIR_ft2build})
+    message( STATUS "FREETYPE_LIBRARY: " ${FREETYPE_LIBRARY})
+else()
+    message( FATAL_ERROR "FREETYPE NOT FOUND" )
+endif()
 
-FIND_PACKAGE(box2d REQUIRED)
-Message("")
-Message( STATUS "FINDING Box2d" )
-Message( STATUS "box2d_FOUND: " ${box2d_FOUND} )
-IF (${box2d_FOUND})
-    Message( STATUS "box2d_INCLUDE_DIR: " ${box2d_INCLUDE_DIR})
-    Message( STATUS "box2d_LIBRARY: " ${box2d_LIBRARY})
-ELSE()
-    Message( FATAL_ERROR "Box2D NOT FOUND" )
-ENDIF()
+find_package(box2d REQUIRED)
+message("")
+message( STATUS "FINDING Box2d" )
+message( STATUS "box2d_FOUND: " ${box2d_FOUND} )
+if (${box2d_FOUND})
+    message( STATUS "box2d_INCLUDE_DIR: " ${box2d_INCLUDE_DIR})
+    message( STATUS "box2d_LIBRARY: " ${box2d_LIBRARY})
+else()
+    message( FATAL_ERROR "Box2D NOT FOUND" )
+endif()
 
-Message("")
+message("")
 
 # copy assets to build directory
-FILE(COPY ${GAME_ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${GAME_ASsetS} DESTINATION ${CMAKE_BINARY_DIR})
 
 # ------- End Finds ------ #
 
 # ------- Inc & Link ---- #
 
-INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR} ${GLM_INCLUDE_DIR} ${RAPIDJSON_INCLUDE_DIRS} ${THIRD_PARTY_LIBS} ${ENGINE_IMPL} ${SDL_GAME_IMPL} ${GAME_IMPL} ${IMGUI} ${FREETYPE_INCLUDE_DIR_freetype2} ${FREETYPE_INCLUDE_DIR_ft2build} ${box2d_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} ${FREETYPE_LIBRARY} ${box2d_LIBRARY})
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2Mixer_INCLUDE_DIR} ${GLM_INCLUDE_DIR} ${RAPIDJSON_INCLUDE_DIRS} ${ENGINE_IMPL} ${SDL_GAME_IMPL} ${GAME_IMPL} ${IMGUI} ${FREETYPE_INCLUDE_DIR_freetype2} ${FREETYPE_INCLUDE_DIR_ft2build} ${box2d_INCLUDE_DIR} ${THIRD_PARTY_LIBS})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2Mixer_LIBRARY} ${FREETYPE_LIBRARY} ${box2d_LIBRARY})
 # ------- End ----------- #

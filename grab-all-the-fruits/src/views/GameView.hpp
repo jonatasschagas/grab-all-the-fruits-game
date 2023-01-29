@@ -42,6 +42,7 @@ private:
     Map* m_pMap;
 
     bool m_initialized;
+    bool m_started;
     
     void initializeMembers()
     {
@@ -51,6 +52,7 @@ private:
         m_pWorld = nullptr;
         m_pPlayer = nullptr;
         m_pMap = nullptr;
+        m_started = false;
     }
     
 };

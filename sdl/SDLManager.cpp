@@ -399,3 +399,13 @@ void SDLManager::setOffsetY(float y)
 {
     m_currentOffsetY = y;
 }
+
+int SDLManager::getScreenWidth() const
+{
+    return m_screenWidth;
+}
+
+int SDLManager::getScreenHeight() const
+{
+    return m_screenHeight;
+}

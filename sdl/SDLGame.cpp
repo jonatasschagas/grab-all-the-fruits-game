@@ -8,8 +8,8 @@
 
 #ifdef IMGUI_ENABLED
 #include "imgui/imgui.h"
-#include "imgui/imgui_sdl.h"
-#include "imgui/imgui_impl_sdl.hpp"
+#include "imgui_sdl/imgui_sdl.h"
+#include "imgui/backends/imgui_impl_sdl.h"
 #endif
 
 const int SCREEN_FPS = 60;
@@ -18,11 +18,8 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 SDLGame::SDLGame(const SDLGameConfigs& sdlGameConfigs, Game* pGame) : m_sdlGameConfigs(sdlGameConfigs)
 {
     initializeMembers();
-    m_pWindow = NULL;
-    m_pRenderer = NULL;
+    
     m_pGame = pGame;
-    m_pScreenRect = NULL;
-    m_editor = false;
 }
 
 SDLGame::~SDLGame()
@@ -202,7 +199,7 @@ int SDLGame::run()
                 
                 #ifdef IMGUI_ENABLED
                 // IMGUI, capture clicks and keyboard strokes
-                ImGui_ImplSDL2_ProcessEvent(&e);
+                ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
                 #endif
                 
                 handleInput(sdlEvent);
@@ -233,20 +230,17 @@ int SDLGame::run()
             
             #ifdef IMGUI_ENABLED
             // IMGUI
-            if (m_editor) {
-                ImGui_ImplSDL2_NewFrame(m_pWindow);
-                ImGui::NewFrame();
-                
-                int windowWidth = 0, windowHeight = 0;
-                SDL_GetWindowSize(m_pWindow, &windowWidth, &windowHeight);
-                ImGui::SetWindowSize(ImVec2(windowWidth * .6f, windowHeight * .5f), ImGuiCond_Appearing);
-                
-                m_pViewManager->updateEditor();
-                
-                ImGui::End();
-                ImGui::Render();
-                ImGuiSDL::Render(ImGui::GetDrawData());
-            }
+            ImGui_ImplSDL2_NewFrame(m_pWindow);
+            ImGui::NewFrame();
+            
+            int windowWidth = 0, windowHeight = 0;
+            SDL_GetWindowSize(m_pWindow, &windowWidth, &windowHeight);
+            ImGui::SetWindowSize(ImVec2(windowWidth * .6f, windowHeight * .5f), ImGuiCond_Appearing);
+            
+            m_pGame->updateEditor(timeStep);
+            
+            ImGui::Render();
+            ImGuiSDL::Render(ImGui::GetDrawData());
             #endif
 
             //Update screen

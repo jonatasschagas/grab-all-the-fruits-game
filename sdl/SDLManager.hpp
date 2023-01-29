@@ -47,6 +47,9 @@ public:
     const Vector2 getScreenSizeInGameUnits() const;
     bool shouldScale() const;
     
+    int getScreenWidth() const override;
+    int getScreenHeight() const override;
+
     static SDLManager* getInstance()
     {
         if(!sm_pInstance)

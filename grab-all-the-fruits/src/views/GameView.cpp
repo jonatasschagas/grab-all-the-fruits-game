@@ -82,6 +82,11 @@ void GameView::initGame()
 
 void GameView::render()
 {
+    if (!m_started)
+    {
+        return;
+    }   
+
     Sprite::render();
 }
 
@@ -99,6 +104,33 @@ void GameView::readInput(int x, int y, bool pressed)
 
 void GameView::updateEditor()
 {
-#if TARGET_OS_OSX
+    if (m_started)
+    {
+        return;
+    }
+    
+#if IMGUI_ENABLED
+    //TODO: move this to a separate class
+    // center the window
+    PlatformManager* pPlatformManager = getPlatformManager();
+    ImGui::SetNextWindowPos(ImVec2(pPlatformManager->getScreenWidth() * 0.5f, pPlatformManager->getScreenHeight() * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
+
+    ImGui::Begin("Grab All The Fruits!", nullptr, 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
+    
+    if (ImGui::Button("New Game")) 
+    {
+        m_started = true;
+    }
+    else if (ImGui::Button("Continue")) 
+    {
+        //TODO: load game
+        m_started = true;
+    }
+    ImGui::End();
+
 #endif
 }

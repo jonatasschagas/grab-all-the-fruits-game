@@ -33,7 +33,6 @@ private:
     void handleInputiOS(SDL_Event& sdlEvent);
 
     const SDLGameConfigs& m_sdlGameConfigs;
-    bool m_editor;
     bool m_clicked;
     
     //The window we'll be rendering to
@@ -46,7 +45,6 @@ private:
     
     void initializeMembers() 
     {
-        m_editor = false;
         m_clicked = false;
         m_pWindow = nullptr;
         m_pRenderer = nullptr;
