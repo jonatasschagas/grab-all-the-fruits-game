@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include "DrawCall.h"
-#include "../core/BaseDataStructures.h"
+#include "../core/Vector2.h"
 
 using namespace std;
 

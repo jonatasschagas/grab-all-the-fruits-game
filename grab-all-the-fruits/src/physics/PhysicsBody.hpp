@@ -2,7 +2,7 @@
 #ifndef PhysicsBody_hpp 
 #define PhysicsBody_hpp
 
-#include "core/BaseDataStructures.h"
+#include "core/Vector2.h"
 #include "PhysicsOnCollideListener.hpp"
 #include "objects/GameObject.hpp"
 

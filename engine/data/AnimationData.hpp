@@ -7,7 +7,7 @@
 #include "AnimationData.hpp"
 #include "JSONTypes.h"
 
-#include "../core/BaseDataStructures.h"
+#include "../core/Vector2.h"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 #ifndef PhysicsSystem_hpp 
 #define PhysicsSystem_hpp
 
-#include "core/BaseDataStructures.h"
+#include "core/Vector2.h"
 #include "PhysicsBody.hpp"
 
 class PhysicsSystem 

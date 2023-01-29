@@ -4,7 +4,7 @@
 #define MathUtils_h
 
 #include <random>
-#include "../core/BaseDataStructures.h"
+#include "../core/Vector2.h"
 
 inline float simple_lerp(float point1, float point2, float alpha)
 {
@@ -71,9 +71,9 @@ inline bool checkCollision(float x1, float y1, float width1, float height1, floa
     return collidesX && collidesY;
 }
 
-inline bool checkCollision(const Vector2& position1, const GameSize& size1, const Vector2& position2, const GameSize& size2)
+inline bool checkCollision(const Vector2& position1, const Vector2& size1, const Vector2& position2, const Vector2& size2)
 {
-    return checkCollision(position1.x, position1.y, size1.w, size1.h, position2.x, position2.y, size2.w, size2.h);
+    return checkCollision(position1.x, position1.y, size1.x, size1.y, position2.x, position2.y, size2.x, size2.y);
 }
 
 inline float calculateDistanceBetweenNodes(float x1, float y1, float x2, float y2)

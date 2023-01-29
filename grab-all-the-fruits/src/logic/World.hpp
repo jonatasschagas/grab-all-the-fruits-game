@@ -4,7 +4,7 @@
 
 struct Body;
 
-#include "core/BaseDataStructures.h"
+#include "core/Vector2.h"
 #include "event/EventListener.hpp"
 #include <vector>
 #include <string>

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include "glm/glm.hpp"
-#include "BaseDataStructures.h"
+#include "Vector2.h"
 
 class DrawCall;
 class PlatformManager;

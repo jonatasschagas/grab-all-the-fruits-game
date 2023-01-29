@@ -3,7 +3,7 @@
 #define Map_hpp
 
 #include "core/TileMapSprite.hpp"
-#include "core/BaseDataStructures.h"
+#include "core/Vector2.h"
 #include "World.hpp"
 
 class Map
