@@ -7,7 +7,7 @@ Box2dPhysicsBody::Box2dPhysicsBody(b2Body* pBox2DBody, const PhysicsBodyType& bo
 {
     initializeMembers();
     m_pBox2DBody = pBox2DBody;
-    //m_pBox2DBody->SetUserData(this);
+    m_pBox2DBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
     m_bodyType = bodyType;
 }
 

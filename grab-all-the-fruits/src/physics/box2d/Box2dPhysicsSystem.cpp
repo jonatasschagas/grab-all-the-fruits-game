@@ -103,19 +103,19 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
 
 void Box2dPhysicsSystem::EndContact(b2Contact* contact)
 {
-    /*Box2dPhysicsBody* pBodyA = nullptr;
+    Box2dPhysicsBody* pBodyA = nullptr;
     Box2dPhysicsBody* pBodyB = nullptr;
 
     b2BodyUserData bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
     if (bodyUserData.pointer)
     {
-        pBodyA = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData);
+        pBodyA = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
     }
         
     bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
     if (bodyUserData.pointer)
     {
-        pBodyB = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData);
+        pBodyB = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
     }
 
     PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
@@ -128,5 +128,5 @@ void Box2dPhysicsSystem::EndContact(b2Contact* contact)
     if (pOnCollideListener != nullptr)
     {
         pOnCollideListener->onCollide(pBodyA);
-    }*/
+    }
 }
