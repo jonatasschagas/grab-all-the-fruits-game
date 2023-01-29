@@ -47,7 +47,7 @@ const Vector2 Box2dPhysicsBody::getGamePosition() const
 {
     return Vector2(
         m_pBox2DBody->GetPosition().x * PIXELS_PER_METER,
-        m_pBox2DBody->GetPosition().y * PIXELS_PER_METER
+        m_worldSize.y - m_pBox2DBody->GetPosition().y * PIXELS_PER_METER
     );
 }
 const Vector2 Box2dPhysicsBody::getPhysicsSize() const
@@ -76,7 +76,7 @@ const Vector2 Box2dPhysicsBody::getPhysicsPosition() const
 {
     return Vector2(
         m_pBox2DBody->GetPosition().x,
-        m_worldSize.y - m_pBox2DBody->GetPosition().y
+        m_pBox2DBody->GetPosition().y
     );
 }
 
@@ -88,10 +88,10 @@ const Vector2 Box2dPhysicsBody::getVelocity() const
     );
 }
 
-void Box2dPhysicsBody::setGamePosition(const Vector2& rPosition) 
+void Box2dPhysicsBody::updatePhysicsPosition(const Vector2& rGamePosition)
 {
     m_pBox2DBody->SetTransform(
-        b2Vec2(rPosition.x * METERS_PER_PIXEL, (m_worldSize.y - rPosition.y) * METERS_PER_PIXEL),
+        b2Vec2(rGamePosition.x * METERS_PER_PIXEL, (m_worldSize.y - rGamePosition.y) * METERS_PER_PIXEL),
         m_pBox2DBody->GetAngle()
     );
 }

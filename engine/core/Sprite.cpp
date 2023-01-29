@@ -216,7 +216,7 @@ void Sprite::setXY(const Vector2& position)
 
 void Sprite::setXYInvertedY(float x, float y)
 {
-    setXY(x, m_pPlatformManager->getWorldSizeUnits().h - y);
+    setXY(x, m_pPlatformManager->getScreenSizeInGameUnits().y - y);
 }
 void Sprite::setSize(const Vector2& size)
 {

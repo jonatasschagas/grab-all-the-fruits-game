@@ -32,7 +32,7 @@ public:
     virtual const Vector2 getPhysicsPosition() const = 0;
     virtual const Vector2 getVelocity() const = 0;
 
-    virtual void setGamePosition(const Vector2& rPosition) = 0;
+    virtual void updatePhysicsPosition(const Vector2& rGamePosition) = 0;
     virtual void setGameObject(GameObject* pGameObject) = 0;
     virtual GameObject* getGameObject() const = 0;
 

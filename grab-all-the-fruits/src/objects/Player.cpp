@@ -33,6 +33,7 @@ Player::Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, Data
     initializeMembers();
 
     m_pBody = pBody;
+    m_pPlatformManager = pPlatformManager;
     setSize(m_pBody->getGameSize());
     play("idle");
 }
@@ -74,7 +75,11 @@ void Player::update(float delta)
         setFlip(flipped);
     }
     
-    const Vector2 position = m_pBody->getGamePosition();
-    // physics engine uses inverted Y axis (0 to top) - engine uses axis Y starting from the top to the bottom
-    setXYInvertedY(position.x, position.y);
+    const Vector2 gamePosition = getGamePosition();
+    setXY(gamePosition);
+}
+
+const Vector2 Player::getGamePosition()
+{ 
+    return m_pBody->getGamePosition(); 
 }

@@ -13,12 +13,7 @@ public:
     Map(World* pWorld, TileMapSprite* pTileMapSprite);
     ~Map();
 
-    const bool isWall(const Vector2& position) const;
-    Vector2 getGroundCoordUnderneath(const Vector2& position) const;
-    const bool isGround(const Vector2& position) const;
-    const float getTileX(const float& x) const;
-
-    const Vector2 getWorldLimits() const;
+    void updateCameraPosition(const Vector2& rCameraPosition);
 
 private:
 

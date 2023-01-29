@@ -37,8 +37,8 @@ void GameView::initialize(ViewManager* pViewManager)
 
     // setting the view as a sprite that covers the whole screen
     PlatformManager* pPlatformManager = pViewManager->getPlatformManager();
-    GameSize worldSize = pPlatformManager->getWorldSizeUnits();
-    setSize(worldSize.w, worldSize.h);
+    Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
+    setSize(screenSize);
     setXY(0, 0);
     setPivotAtCenter(true);
    
@@ -63,22 +63,21 @@ void GameView::initGame()
     TileMapData* pTileMapData = new TileMapData("assets/levels/level1.json", "assets/levels", "assets/levels");
     
     //TODO: tile size should be read from the config file
-    TileMapSprite* pTileMapSprite = new TileMapSprite(GameSize(5, 5), pPlatformManager);
+    TileMapSprite* pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager);
     pTileMapSprite->loadMap(pTileMapData);
     pTileMapSprite->setXY(0, 0);
     addChild(pTileMapSprite);
-    GameSize worldSize = pPlatformManager->getWorldSizeUnits();
-    pTileMapSprite->setSize(worldSize.w, worldSize.h);
+    Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
+    pTileMapSprite->setSize(screenSize);
     
-    m_pWorld = new World(Vector2(
-        pTileMapSprite->getTileMapWidth() * pTileMapSprite->getTileSizeInWorldUnits().w, 
-        pTileMapSprite->getTileMapHeight() * pTileMapSprite->getTileSizeInWorldUnits().h));
+    m_pWorld = new World(pTileMapSprite->getMapSizeInGameUnits());
     m_pMap = new Map(m_pWorld, pTileMapSprite);
     
     // creating the player   
     //TODO: player size should be read from the config file
     m_pPlayer = Player::create(pPlatformManager, m_pWorld, *m_pDataCacheManager);
-    addChild(m_pPlayer);
+    // player has to be a child of the map, so it can be moved with the camera
+    pTileMapSprite->addChild(m_pPlayer);
 }
 
 void GameView::render()
@@ -91,6 +90,7 @@ void GameView::update(float delta)
     Sprite::update(delta);
     
     m_pWorld->update(delta);
+    m_pMap->updateCameraPosition(m_pPlayer->getGamePosition());
 }
 
 void GameView::readInput(int x, int y, bool pressed)

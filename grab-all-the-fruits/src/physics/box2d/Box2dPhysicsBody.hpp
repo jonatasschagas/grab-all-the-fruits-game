@@ -21,8 +21,8 @@ public:
     void setGameObject(GameObject* pGameObject) override;
     GameObject* getGameObject() const override;
 
-    void setGamePosition(const Vector2& rPosition) override;
-
+    void updatePhysicsPosition(const Vector2& rGamePosition) override;
+    
     void applyForce(const Vector2& rForce, const PhysicsForceType& forceType) override;
     void applyInstantForce(const Vector2& rForce) override;
 

@@ -27,8 +27,8 @@ void Map::createMapInPhysicsWorld()
             if (isTileGround(tileX, tileY))
             {
                 m_pWorld->createStaticBody(
-                    Vector2(tileX * m_pTileMapSprite->getTileSizeInWorldUnits().w, tileY * m_pTileMapSprite->getTileSizeInWorldUnits().h),
-                    Vector2(m_pTileMapSprite->getTileSizeInWorldUnits().w, m_pTileMapSprite->getTileSizeInWorldUnits().h),
+                    Vector2(tileX * m_pTileMapSprite->getTileSizeInGameUnits().x, tileY * m_pTileMapSprite->getTileSizeInGameUnits().y),
+                    Vector2(m_pTileMapSprite->getTileSizeInGameUnits().x, m_pTileMapSprite->getTileSizeInGameUnits().y),
                     0.f, // friction
                     0.f // restitution
                 );
@@ -37,49 +37,43 @@ void Map::createMapInPhysicsWorld()
     }
 }
 
-const bool Map::isWall(const Vector2& position) const
-{
-    int tileX = m_pTileMapSprite->getTileX(position.x);
-    int tileY = m_pTileMapSprite->getTileY(position.y);
-    return isTileGround(tileX, tileY);
-}
-    
-Vector2 Map::getGroundCoordUnderneath(const Vector2& position) const
-{
-    int tileX = m_pTileMapSprite->getTileX(position.x);
-    int startTileY = m_pTileMapSprite->getTileY(position.y);
-
-    for (int tileY = startTileY; tileY <= m_pTileMapSprite->getTileMapHeight(); tileY++)
-    {
-        if (isTileGround(tileX, tileY))
-        {
-            return Vector2(position.x, (tileY - 1) * m_pTileMapSprite->getTileSizeInWorldUnits().h);
-        }
-    }
-    // return a coordinate below the visible screen so that the object is not visible
-    return Vector2(position.x, (m_pTileMapSprite->getTileMapHeight() + 10) * m_pTileMapSprite->getTileSizeInWorldUnits().h);
-}
-
-const bool Map::isGround(const Vector2& position) const
-{
-    int tileX = m_pTileMapSprite->getTileX(position.x);
-    int tileY = m_pTileMapSprite->getTileY(position.y);
-    return isTileGround(tileX, tileY);
-}
-
-const float Map::getTileX(const float& x) const
-{
-    return floor(x/m_pTileMapSprite->getTileSizeInWorldUnits().w) * m_pTileMapSprite->getTileSizeInWorldUnits().w;
-}
-
 const bool Map::isTileGround(const int& tileX, const int& tileY) const
 {
     int tileData = m_pTileMapSprite->getTileData(tileX, tileY, "ground");
     return tileData != 0;
 }
  
-const Vector2 Map::getWorldLimits() const
-{
-    return Vector2(m_pTileMapSprite->getTileMapWidth() * m_pTileMapSprite->getTileSizeInWorldUnits().w,
-                    m_pTileMapSprite->getTileMapHeight() * m_pTileMapSprite->getTileSizeInWorldUnits().h);
-}
+ void Map::updateCameraPosition(const Vector2& rCameraPosition)
+ {
+
+    const int screenSizeX = m_pTileMapSprite->getScreenWidthInGameUnits();
+    const int screenSizeY = m_pTileMapSprite->getScreenHeightInGameUnits();
+    const int worldUnitsX = m_pTileMapSprite->getMapSizeInGameUnits().x;
+    const int worldUnitsY = m_pTileMapSprite->getMapSizeInGameUnits().y;
+    const int halfScreenHorizontal = screenSizeX/2;
+    const int halfScreenVertical = screenSizeY/2;
+    float levelMaxX = worldUnitsX - halfScreenHorizontal;
+    
+    if (rCameraPosition.x < halfScreenHorizontal)
+    {
+        m_pTileMapSprite->setXOffSet(0);
+    }
+    else if (rCameraPosition.x > levelMaxX)
+    {
+        m_pTileMapSprite->setXOffSet(levelMaxX - halfScreenHorizontal);
+    }
+    else
+    {
+        m_pTileMapSprite->setXOffSet(rCameraPosition.x - halfScreenHorizontal);
+    }
+    
+    if (rCameraPosition.y < halfScreenVertical)
+    {
+        m_pTileMapSprite->setYOffSet(0);
+    }
+    else
+    {
+        m_pTileMapSprite->setYOffSet(rCameraPosition.y - halfScreenVertical);
+    }
+    
+ }

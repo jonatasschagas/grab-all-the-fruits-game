@@ -28,7 +28,7 @@ public:
     virtual const int getWorldLocationXFromScreenCoordinates(int x) const = 0;
     virtual const int getWorldLocationYFromScreenCoordinates(int y) const = 0;
     
-    virtual const GameSize getWorldSizeUnits() const = 0;
+    virtual const Vector2 getScreenSizeInGameUnits() const = 0;
     
     virtual void setDebugMode(bool debugMode) = 0;
     virtual bool isDebugMode() const = 0;

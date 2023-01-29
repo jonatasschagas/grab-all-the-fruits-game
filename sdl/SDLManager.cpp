@@ -16,12 +16,12 @@ void SDLManager::init(SDL_Renderer* pRenderer, int screenWidth, int screenHeight
     
     float aspectRatio = screenWidth / (screenHeight * 1.f);
     
-    m_worldSizeWidthUnits = 100;
+    m_screenWidthInGameUnits = 100;
     // the number of vertical units depends on the aspect ratio from the device
-    m_worldSizeHeightUnits = m_worldSizeWidthUnits / aspectRatio;
+    m_screenHeightInGameUnits = m_screenWidthInGameUnits / aspectRatio;
     
-    m_scaleFactorX = (screenWidth * 1.0f) /m_worldSizeWidthUnits;
-    m_scaleFactorY = (screenHeight * 1.0f) /m_worldSizeHeightUnits;
+    m_scaleFactorX = (screenWidth * 1.0f) /m_screenWidthInGameUnits;
+    m_scaleFactorY = (screenHeight * 1.0f) /m_screenHeightInGameUnits;
 
 }
 
@@ -48,7 +48,7 @@ void SDLManager::renderText(const string& labelName, float worldX, float worldY,
     
     // scaling to the size of the world
     worldX = worldX * m_scaleFactorX;
-    worldY = ((m_worldSizeHeightUnits - worldY) * m_scaleFactorY) - height;
+    worldY = ((m_screenHeightInGameUnits - worldY) * m_scaleFactorY) - height;
     
     // render the sprite
     pTexture->render(m_pRenderer, worldX, worldY, &textureClip, width, height, false);
@@ -170,10 +170,10 @@ void SDLManager::renderDebugQuad(float worldX, float worldY, float width, float 
 		}
 		else
 		{
-			// 1. (m_worldSizeHeightUnits - worldY) -> coordinates start from the top (0 is top and m_worldSizeHeightUnits is bottom.
-			// in order to have a system where the bottom starts with zero we do this -> (m_worldSizeHeightUnits - worldY)
+			// 1. (m_screenHeightInGameUnits - worldY) -> coordinates start from the top (0 is top and m_screenHeightInGameUnits is bottom.
+			// in order to have a system where the bottom starts with zero we do this -> (m_screenHeightInGameUnits - worldY)
 			// 2. We substract the height here in order to put the pivot from the sprite to the bottom left corner (default is top left corner)
-			worldY = ((m_worldSizeHeightUnits - worldY) * m_scaleFactorY) - height;
+			worldY = ((m_screenHeightInGameUnits - worldY) * m_scaleFactorY) - height;
 		}
         
         SDL_FRect outlineRect = { worldX, worldY, width, height };
@@ -201,10 +201,10 @@ void SDLManager::renderFillQuad(float worldX, float worldY, float width, float h
     }
     else
     {
-        // 1. (m_worldSizeHeightUnits - worldY) -> coordinates start from the top (0 is top and m_worldSizeHeightUnits is bottom.
-        // in order to have a system where the bottom starts with zero we do this -> (m_worldSizeHeightUnits - worldY)
+        // 1. (m_screenHeightInGameUnits - worldY) -> coordinates start from the top (0 is top and m_screenHeightInGameUnits is bottom.
+        // in order to have a system where the bottom starts with zero we do this -> (m_screenHeightInGameUnits - worldY)
         // 2. We substract the height here in order to put the pivot from the sprite to the bottom left corner (default is top left corner)
-        worldY = ((m_worldSizeHeightUnits - worldY) * m_scaleFactorY) - height;
+        worldY = ((m_screenHeightInGameUnits - worldY) * m_scaleFactorY) - height;
     }
 
     SDL_FRect outlineRect = { worldX, worldY, width, height };
@@ -283,7 +283,7 @@ const int SDLManager::getWorldLocationXFromScreenCoordinates(int x) const
 
 const int SDLManager::getWorldLocationYFromScreenCoordinates(int y) const
 {
-    return m_worldSizeHeightUnits - y/m_scaleFactorY;
+    return m_screenHeightInGameUnits - y/m_scaleFactorY;
 }
 
 bool SDLManager::isDebugMode() const
@@ -296,9 +296,9 @@ void SDLManager::setDebugMode(bool debugMode)
     m_debugMode = debugMode;
 }
 
-const GameSize SDLManager::getWorldSizeUnits() const
+const Vector2 SDLManager::getScreenSizeInGameUnits() const
 {
-    return GameSize(m_worldSizeWidthUnits, m_worldSizeHeightUnits);
+    return Vector2(m_screenWidthInGameUnits, m_screenHeightInGameUnits);
 }
 
 void SDLManager::playSoundEffect(const string& path)

@@ -44,7 +44,7 @@ public:
     const int getWorldLocationXFromScreenCoordinates(int x) const;
     const int getWorldLocationYFromScreenCoordinates(int y) const;
     
-    const GameSize getWorldSizeUnits() const;
+    const Vector2 getScreenSizeInGameUnits() const;
     bool shouldScale() const;
     
     static SDLManager* getInstance()
@@ -85,8 +85,8 @@ private:
     float m_scaleFactorX;
     float m_scaleFactorY;
     float m_currentOffsetY;
-    int m_worldSizeWidthUnits;
-    int m_worldSizeHeightUnits;
+    int m_screenWidthInGameUnits;
+    int m_screenHeightInGameUnits;
     bool m_debugMode;
 	bool m_sounds;
     
@@ -100,8 +100,8 @@ private:
         m_songs.clear();
         m_scaleFactorX = 0.f;
         m_scaleFactorY = 0.f;
-        m_worldSizeWidthUnits = 0;
-        m_worldSizeHeightUnits = 0;
+        m_screenWidthInGameUnits = 0;
+        m_screenHeightInGameUnits = 0;
         m_currentOffsetY = 0;
         m_debugMode = false;
 		m_sounds = false;

@@ -2,7 +2,7 @@
 #include "data/TileMapData.hpp"
 #include "platform/PlatformManager.h"
 
-TileMapSprite::TileMapSprite(const GameSize& tileSizeWorldUnits, PlatformManager* pPlatformManager) : Sprite(pPlatformManager)
+TileMapSprite::TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager* pPlatformManager) : Sprite(pPlatformManager)
 {
     initializeMembers();
         
@@ -55,13 +55,14 @@ void TileMapSprite::loadMap(TileMapData* pMapData)
         unloadMap();
 
     m_pCurrentMapData = pMapData;
-    GameSize m_tileMapSize(m_pCurrentMapData->getWidth(), m_pCurrentMapData->getHeight());
     
     // creates the map as a huge sprite
     setXY(0,0);
-    setSize(m_tileMapSize.w * m_tileSizeInWorldUnits.w,
-            m_tileMapSize.h * m_tileSizeInWorldUnits.h);
     setPivotAtCenter(true);
+
+    m_mapSizeInGameUnits.x = m_pCurrentMapData->getWidth() * m_tileSizeInWorldUnits.x;
+    m_mapSizeInGameUnits.y = m_pCurrentMapData->getHeight() * m_tileSizeInWorldUnits.y;
+    setSize(m_mapSizeInGameUnits);
 
     loadMapLayers();
 }
@@ -78,8 +79,8 @@ void TileMapSprite::loadMapLayers()
         {
             Sprite* pSpriteLayer = new Sprite(m_pPlatformManager);
             pSpriteLayer->setXY(0, 0);
-            pSpriteLayer->setSize(pLayer->getWidth() * m_tileSizeInWorldUnits.w,
-                                  pLayer->getHeight() * m_tileSizeInWorldUnits.h);
+            pSpriteLayer->setSize(pLayer->getWidth() * m_tileSizeInWorldUnits.x,
+                                  pLayer->getHeight() * m_tileSizeInWorldUnits.y);
             pSpriteLayer->setPivotAtCenter(true);
             pSpriteLayer->setTileMap(true);
             addChild(pSpriteLayer);
@@ -97,47 +98,37 @@ void TileMapSprite::loadMapLayers()
 
 const float TileMapSprite::getWorldLimitX() const
 {
-    return m_pCurrentMapData->getWidth() * m_tileSizeInWorldUnits.w;
+    return m_pCurrentMapData->getWidth() * m_tileSizeInWorldUnits.x;
 }
 
 int TileMapSprite::getTileX(float x) const
 {
-    return (int)(x / m_tileSizeInWorldUnits.w);
-}
-
-int TileMapSprite::getTileXCeil(float x) const
-{
-    return (int)ceil(x / m_tileSizeInWorldUnits.w);
-}
-
-int TileMapSprite::getTileXFloor(float x) const
-{
-    return (int)floor(x / m_tileSizeInWorldUnits.w);
+    return (int)(x / m_tileSizeInWorldUnits.x);
 }
 
 int TileMapSprite::getTileY(float y) const
 {
-    return (int)floor(y / m_tileSizeInWorldUnits.h);
+    return (int)floor(y / m_tileSizeInWorldUnits.y);
 }
 
 int TileMapSprite::getTileMapWidth() const
 {
-    return getWorldUnitsX() / m_tileSizeInWorldUnits.h;
+    return m_pCurrentMapData->getWidth();
 }
 
 int TileMapSprite::getTileMapHeight() const
 {
-    return getWorldUnitsY() / m_tileSizeInWorldUnits.h;
+    return m_pCurrentMapData->getHeight();
 }
 
-int TileMapSprite::getWorldUnitsX() const
+int TileMapSprite::getScreenWidthInGameUnits() const
 {
-    return m_pPlatformManager->getWorldSizeUnits().w;
+    return m_pPlatformManager->getScreenSizeInGameUnits().x;
 }
 
-int TileMapSprite::getWorldUnitsY() const
+int TileMapSprite::getScreenHeightInGameUnits() const
 {
-    return m_pPlatformManager->getWorldSizeUnits().h;
+    return m_pPlatformManager->getScreenSizeInGameUnits().y;
 }
 
 float TileMapSprite::getXOffSet() const
@@ -220,8 +211,8 @@ void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer*
     const TileConfig* pTileConfig = pTileSetConfig->getTileConfig(tileNumberInTileSet);
 
     // finally, creating the sprite
-    int width = m_tileSizeInWorldUnits.w;
-    int height = m_tileSizeInWorldUnits.h;
+    int width = m_tileSizeInWorldUnits.x;
+    int height = m_tileSizeInWorldUnits.y;
 
     Sprite* pTileSprite = new Sprite(m_pPlatformManager);
     pTileSprite->setXY(x * width, y * height);
@@ -237,7 +228,12 @@ void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer*
     pSpriteLayer->addChild(pTileSprite);
 }
 
-const GameSize& TileMapSprite::getTileSizeInWorldUnits() const
+const Vector2& TileMapSprite::getTileSizeInGameUnits() const
 {
     return m_tileSizeInWorldUnits;
+}
+
+const Vector2& TileMapSprite::getMapSizeInGameUnits() const
+{
+    return m_mapSizeInGameUnits;
 }

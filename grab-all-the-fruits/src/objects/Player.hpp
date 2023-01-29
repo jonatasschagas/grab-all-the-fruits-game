@@ -26,16 +26,20 @@ public:
     void onCollide(PhysicsBody* pOtherBody) override;
     const string& getType() const override { return m_type; }
 
+    const Vector2 getGamePosition();
+
 private:
     
     Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
     
+    PlatformManager* m_pPlatformManager;
     const PhysicsBody* m_pBody;
     string m_type;
 
     void initializeMembers()
     {
         m_pBody = nullptr;
+        m_pPlatformManager = nullptr;
         m_type = "player";
     }
     

@@ -16,7 +16,7 @@ class TileMapSprite : public Sprite
 {
 public:
     
-    TileMapSprite(const GameSize& tileSizeWorldUnits, PlatformManager* pPlatformManager);
+    TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager* pPlatformManager);
     ~TileMapSprite();
     
     void update(float delta) override;
@@ -27,15 +27,12 @@ public:
     const float getWorldLimitX() const;
     
     int getTileX(float x) const;
-    int getTileXCeil(float x) const;
-    int getTileXFloor(float x) const;
-    
     int getTileY(float y) const;
     int getTileMapWidth() const;
     int getTileMapHeight() const;
     
-    int getWorldUnitsX() const;
-    int getWorldUnitsY() const;
+    int getScreenWidthInGameUnits() const;
+    int getScreenHeightInGameUnits() const;
     
     float getXOffSet() const;
     void setXOffSet(float xOffSet);
@@ -48,7 +45,8 @@ public:
     
     bool isVisibleInParent(Sprite* pChild) const override;
     
-    const GameSize& getTileSizeInWorldUnits() const;
+    const Vector2& getTileSizeInGameUnits() const;
+    const Vector2& getMapSizeInGameUnits() const;
 
 private:
     
@@ -58,7 +56,8 @@ private:
     
     PlatformManager* m_pPlatformManager;
     TileMapData* m_pCurrentMapData;
-    GameSize m_tileSizeInWorldUnits;
+    Vector2 m_tileSizeInWorldUnits;
+    Vector2 m_mapSizeInGameUnits;
     float m_xOffSet;
     float m_yOffSet;
     
@@ -66,10 +65,12 @@ private:
     {
         m_pPlatformManager = nullptr;
         m_pCurrentMapData = nullptr;
-        m_tileSizeInWorldUnits.w = 0;
-        m_tileSizeInWorldUnits.h = 0;
+        m_tileSizeInWorldUnits.x = 0;
+        m_tileSizeInWorldUnits.y = 0;
         m_xOffSet = 0;
         m_yOffSet = 0;
+        m_mapSizeInGameUnits.x = 0;
+        m_mapSizeInGameUnits.y = 0;
     }
     
 };
