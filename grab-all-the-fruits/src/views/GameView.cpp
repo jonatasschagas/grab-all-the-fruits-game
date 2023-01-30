@@ -13,10 +13,6 @@
     #include <TargetConditionals.h>
 #endif
 
-#if IMGUI_ENABLED
-#include "imgui/imgui.h"
-#endif
-
 GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 {
     initializeMembers();
@@ -26,6 +22,7 @@ GameView::~GameView()
 {
     delete m_pWorld;
     delete m_pMap;
+    delete m_pMainMenu;
 
     initializeMembers();
 }
@@ -34,14 +31,17 @@ void GameView::initialize(ViewManager* pViewManager)
 {
     m_pViewManager = pViewManager;
     m_pDataCacheManager = pViewManager->getDataCacheManager();
-
+    
     // setting the view as a sprite that covers the whole screen
     PlatformManager* pPlatformManager = pViewManager->getPlatformManager();
-    Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
-    setSize(screenSize);
+    Vector2 screenSizeInGameUnits = pPlatformManager->getScreenSizeInGameUnits();
+    setSize(screenSizeInGameUnits);
     setXY(0, 0);
     setPivotAtCenter(true);
    
+    m_pMainMenu = new MainMenu(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
+    m_pMainMenu->setButtonClickListener(this);
+
     initGame();
     
     m_initialized = true;
@@ -109,28 +109,17 @@ void GameView::updateEditor()
         return;
     }
     
-#if IMGUI_ENABLED
-    //TODO: move this to a separate class
-    // center the window
-    PlatformManager* pPlatformManager = getPlatformManager();
-    ImGui::SetNextWindowPos(ImVec2(pPlatformManager->getScreenWidth() * 0.5f, pPlatformManager->getScreenHeight() * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
+    m_pMainMenu->update();
+}
 
-    ImGui::Begin("Grab All The Fruits!", nullptr, 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
-    
-    if (ImGui::Button("New Game")) 
+void GameView::onClick(const string& rButtonName)
+{
+    if (strcmp(rButtonName.c_str(), "new_game") != 0)
     {
         m_started = true;
     }
-    else if (ImGui::Button("Continue")) 
+    else if (strcmp(rButtonName.c_str(), "continue") != 0)
     {
-        //TODO: load game
         m_started = true;
     }
-    ImGui::End();
-
-#endif
 }

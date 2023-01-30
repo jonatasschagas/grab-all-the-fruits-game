@@ -6,6 +6,8 @@
 
 #include "data/DataCacheManager.hpp"
 #include "core/Sprite.hpp"
+#include "ui/MainMenu.hpp"
+#include "ui/ButtonClickListener.hpp"
 #include "view/View.h"
 #include <vector>
 
@@ -15,7 +17,7 @@ class Map;
 class ViewManager;
 class PlatformManager;
 
-class GameView : public View
+class GameView : public View, public ButtonClickListener
 {
 public:
     
@@ -30,6 +32,8 @@ public:
     void readInput(int x, int y, bool pressed) override;
     
     void updateEditor() override;
+
+    void onClick(const string& rButtonName) override;
     
 private:
     
@@ -40,6 +44,7 @@ private:
     World* m_pWorld;
     Player* m_pPlayer;
     Map* m_pMap;
+    MainMenu* m_pMainMenu;
 
     bool m_initialized;
     bool m_started;
@@ -52,6 +57,7 @@ private:
         m_pWorld = nullptr;
         m_pPlayer = nullptr;
         m_pMap = nullptr;
+        m_pMainMenu = nullptr;
         m_started = false;
     }
     
