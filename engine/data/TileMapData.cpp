@@ -96,17 +96,16 @@ const TileConfig* TileSetConfig::getTileConfig(const int tileIndex) const
     return m_tileConfigs[tileIndex];
 }
 
-void TileSetConfig::addTileConfig(const int id, 
-                                  const string& tileType, 
-                                  const string& tileName, 
+TileConfig* TileSetConfig::addTileConfig(const int id, 
                                   const string& imageName, 
                                   const int x, 
                                   const int y, 
                                   const int width, 
                                   const int height)
 {
-    TileConfig* pTileConfig = new TileConfig(id, tileType, tileName, imageName, x, y, width, height);
+    TileConfig* pTileConfig = new TileConfig(id, imageName, x, y, width, height);
     m_tileConfigs.push_back(pTileConfig);
+    return pTileConfig;
 }
 
 TileSet::TileSet(const int firstGid, 
@@ -291,13 +290,18 @@ TileMapData::TileMapData(const string& tileMapFilename,
                 int textureHeight = tileHeight;
                 
                 int tileNumberInTileSet = j;
-                string tileType = "";
-                string tileName = "";
                 
                 // extracting the coordinates from the tileset image based on the tileType
                 int textureY = (tileNumberInTileSet / columns);
                 int textureX = (tileNumberInTileSet - textureY * columns);
                 
+                TileConfig* pTileConfig = pTileSetConfig->addTileConfig(id,
+                                                image,
+                                                textureX * textureWidth,
+                                                textureY * textureHeight,
+                                                textureWidth,
+                                                textureHeight);
+
                 if (tileSetConfigDocument.HasMember("tiles"))
                 {
                     auto arrayTilesProperties = tileSetConfigDocument["tiles"].GetArray();
@@ -308,25 +312,18 @@ TileMapData::TileMapData(const string& tileMapFilename,
                         if (tileProperty.HasMember("properties"))
                         {
                             auto arrayProperties = tileProperty["properties"].GetArray();
-                            if (arrayProperties.Size() > 1)
+                            for (int k = 0; k < arrayProperties.Size(); k++)
                             {
-                                tileType = arrayProperties[0].GetObject()["value"].GetString();
-                                tileName = arrayProperties[1].GetObject()["value"].GetString();
+                                auto property = arrayProperties[k].GetObject();
+                                auto name = property["name"].GetString();
+                                auto value = property["value"].GetString();
+
+                                pTileConfig->addProperty(name, value);
                             }
                         }
                     }
                 }
-                
-                pTileSetConfig->addTileConfig(id,
-                                              tileType,
-                                              tileName,
-                                              image,
-                                              textureX * textureWidth,
-                                              textureY * textureHeight,
-                                              textureWidth,
-                                              textureHeight);
             }
-            
         }
         else if (tileSetConfigDocument.HasMember("tiles"))
         {
@@ -340,23 +337,25 @@ TileMapData::TileMapData(const string& tileMapFilename,
                 int imageHeight = tileConfigJson["imageheight"].GetInt();
                 int imageWidth = tileConfigJson["imagewidth"].GetInt();
                 
-                string tileType = "";
-                string tileName = "";
-                
-                if (tileConfigJson.HasMember("properties"))
-                {
-                    tileType = tileConfigJson["properties"].GetArray()[0].GetObject()["value"].GetString();
-                    tileName = tileConfigJson["properties"].GetArray()[1].GetObject()["value"].GetString();
-                }
-                
-                pTileSetConfig->addTileConfig(id,
-                                              tileType,
-                                              tileName,
+                TileConfig* pTileConfig = pTileSetConfig->addTileConfig(id,
                                               image,
                                               0,
                                               0,
                                               imageWidth,
                                               imageHeight);
+
+                if (tileConfigJson.HasMember("properties"))
+                {
+                    auto arrayProperties = tileConfigJson["properties"].GetArray();
+                    for (int k = 0; k < arrayProperties.Size(); k++)
+                    {
+                        auto property = arrayProperties[k].GetObject();
+                        auto name = property["name"].GetString();
+                        auto value = property["value"].GetString();
+
+                        pTileConfig->addProperty(name, value);
+                    }
+                }
             }
         }
 

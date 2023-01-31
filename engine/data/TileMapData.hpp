@@ -14,8 +14,6 @@ class TileConfig
 public:
     
     TileConfig(const int id,
-               const string& tileType,
-               const string& tileName,
                const string& imageName,
                const int x,
                const int y,
@@ -25,8 +23,6 @@ public:
         initializeMembers();
         
         m_id = id;
-        m_tileType = tileType;
-        m_tileName = tileName;
         m_imageName = imageName;
         m_x = x;
         m_y = y;
@@ -35,24 +31,37 @@ public:
     }
     
     const int getTileId() const { return m_id; }
-    const string& getTileType() const { return m_tileType; }
-    const string& getTileName() const { return m_tileName; }
     const string& getImageName() const { return m_imageName; }
     const int getX() const { return m_x; }
     const int getY() const { return m_y; }
     const int getWidth() const { return m_width; }
     const int getHeight() const { return m_height; }
     
+    void addProperty(const string& key, const string& value)
+    {
+        m_properties[key] = value;
+    }
+
+    const string getProperty(const string& key) const
+    {
+        map<string, string>::const_iterator it = m_properties.find(key);
+        if (it != m_properties.end())
+        {
+            return it->second;
+        }
+        
+        return "";
+    }
+
 private:
     
-    string m_tileName;
-    string m_tileType;
     int m_id;
     string m_imageName;
     int m_x;
     int m_y;
     int m_width;
     int m_height;
+    map<string, string> m_properties;
     
     void initializeMembers()
     {
@@ -61,8 +70,7 @@ private:
         m_width = 0;
         m_height = 0;
         m_imageName = "";
-        m_tileType = "";
-        m_tileName = "";
+        m_properties.clear();
     }
     
 };
@@ -94,14 +102,12 @@ public:
     int getTileHeight() const;
     string getTiledVersion() const;
     const TileConfig* getTileConfig(const int tileIndex) const;
-    void addTileConfig(const int id, 
-                       const string& tileType, 
-                       const string& tileName, 
-                       const string& imageName, 
-                       const int x, 
-                       const int y, 
-                       const int width, 
-                       const int height);
+    TileConfig* addTileConfig(const int id, 
+                              const string& imageName, 
+                              const int x, 
+                              const int y, 
+                              const int width, 
+                              const int height);
     const string& getVersion() const;
     
 private:
