@@ -12,6 +12,17 @@ TileMapSprite::TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager*
     setPivotAtCenter(true);
 }
 
+TileMapSprite::TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager* pPlatformManager, TileMapMetaTileFactory* pTileMapMetaTileFactory) : Sprite(pPlatformManager)
+{
+    initializeMembers();
+    
+    m_tileSizeInWorldUnits = tileSizeWorldUnits;
+    m_pPlatformManager = pPlatformManager;
+    m_pTileMapMetaTileFactory = pTileMapMetaTileFactory;
+
+    setPivotAtCenter(true);
+}
+
 TileMapSprite::~TileMapSprite()
 {
     unloadMap();
@@ -49,13 +60,14 @@ void TileMapSprite::unloadMap()
     }
 }
 
-void TileMapSprite::loadMap(TileMapData* pMapData)
+void TileMapSprite::loadMap(TileMapData* pMapData, const string& metaLayerName)
 {
     if (pMapData != nullptr)
         unloadMap();
 
     m_pCurrentMapData = pMapData;
-    
+    m_curretMapMetaLayerName = metaLayerName;
+
     // creates the map as a huge sprite
     setXY(0,0);
     setPivotAtCenter(true);
@@ -75,6 +87,7 @@ void TileMapSprite::loadMapLayers()
     for (int i = 0; i < layersArray.size(); i++)
     {
         TileMapLayer* pLayer = layersArray[i];
+        const string& layerName = pLayer->getName();
         if (pLayer->isVisible())
         {
             Sprite* pSpriteLayer = new Sprite(m_pPlatformManager);
@@ -84,12 +97,24 @@ void TileMapSprite::loadMapLayers()
             pSpriteLayer->setPivotAtCenter(true);
             pSpriteLayer->setTileMap(true);
             addChild(pSpriteLayer);
+
+            if (strcmp(m_curretMapMetaLayerName.c_str(), layerName.c_str()) == 0)
+            {
+                m_pCurrentMapMetaLayer = pLayer;
+            }
             
             for (int x = 0; x < pLayer->getWidth(); x++)
             {
                 for (int y = 0; y < pLayer->getHeight(); y++)
                 {
-                    createTile(x, y, pSpriteLayer, pLayer);
+                    if (strcmp(m_curretMapMetaLayerName.c_str(), layerName.c_str()) == 0 && m_pTileMapMetaTileFactory != nullptr)
+                    {
+                        createMetaTile(x, y, pSpriteLayer, pLayer);
+                    }
+                    else
+                    {
+                        createTile(x, y, pSpriteLayer, pLayer);
+                    }
                 }
             }
         }
@@ -226,6 +251,48 @@ void TileMapSprite::createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer*
     
     pTileSprite->loadTexture(pTileConfig->getImageName());
     pSpriteLayer->addChild(pTileSprite);
+}
+
+void TileMapSprite::createMetaTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer* pLayer)
+{
+    // reading texture coordinates
+    int tileMapIndex = y * m_pCurrentMapData->getWidth() + x;
+    const vector<int>& tileDataArray = pLayer->getData();
+    
+    if (tileDataArray.size() <= tileMapIndex)
+    {
+        // invalid tile coordinates
+        return;
+    }
+    
+    int tileType = tileDataArray[tileMapIndex];
+    
+    TileSet* pTileSet = m_pCurrentMapData->getTileSetFromTileData(tileType);
+    if (pTileSet == NULL)
+    {
+        // no tile set for this tileType
+        return;
+    }
+    
+    TileSetConfig* pTileSetConfig = pTileSet->getConfig();
+
+    int tileNumberInTileSet = tileType - pTileSet->getFirstGid();
+    
+    const TileConfig* pTileConfig = pTileSetConfig->getTileConfig(tileNumberInTileSet);
+
+    int width = m_tileSizeInWorldUnits.x;
+    int height = m_tileSizeInWorldUnits.y;
+    Vector2 position(x * width, y * height);
+    Vector2 size(width, height);
+
+    Sprite* pMetaTileSprite = m_pTileMapMetaTileFactory->createMetaTile(pTileConfig, position, size);
+    
+    pMetaTileSprite->setXY(position);
+    pMetaTileSprite->setSize(size);
+    pMetaTileSprite->setPivotAtCenter(true);
+    pMetaTileSprite->setTileMap(true);
+    
+    pSpriteLayer->addChild(pMetaTileSprite);
 }
 
 const Vector2& TileMapSprite::getTileSizeInGameUnits() const

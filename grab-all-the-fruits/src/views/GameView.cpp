@@ -3,6 +3,7 @@
 #include "logic/World.hpp"
 #include "logic/Map.hpp"
 #include "objects/Player.hpp"
+#include "objects/AnimatedObjectsFactory.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
@@ -62,15 +63,23 @@ void GameView::initGame()
     //TODO: load map from file
     TileMapData* pTileMapData = new TileMapData("assets/levels/level1.json", "assets/levels", "assets/levels");
     
+    Vector2 tileSizeInGameUnits(5, 5);
+    Vector2 mapSizeInGameUnits(pTileMapData->getWidth() * tileSizeInGameUnits.x, pTileMapData->getHeight() * tileSizeInGameUnits.y);
+
+    m_pWorld = new World(mapSizeInGameUnits);
+    
+    //TODO: read assets path from the config file
+    AnimatedObjectsFactory* pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld);
+
     //TODO: tile size should be read from the config file
-    TileMapSprite* pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager);
-    pTileMapSprite->loadMap(pTileMapData);
+    TileMapSprite* pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager, pAnimatedObjectsFactory);
+    pTileMapSprite->loadMap(pTileMapData, "meta");
     pTileMapSprite->setXY(0, 0);
     addChild(pTileMapSprite);
+    
     Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
     pTileMapSprite->setSize(screenSize);
     
-    m_pWorld = new World(pTileMapSprite->getMapSizeInGameUnits());
     m_pMap = new Map(m_pWorld, pTileMapSprite);
     
     // creating the player   

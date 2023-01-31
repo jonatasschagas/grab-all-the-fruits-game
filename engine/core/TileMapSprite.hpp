@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include "../core/Sprite.hpp"
+#include "TileMapMetaTileFactory.hpp"
 #include "core/Vector2.h"
 
 using namespace std;
@@ -17,12 +18,13 @@ class TileMapSprite : public Sprite
 public:
     
     TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager* pPlatformManager);
+    TileMapSprite(const Vector2& tileSizeWorldUnits, PlatformManager* pPlatformManager, TileMapMetaTileFactory* pTileMapMetaTileFactory);
     ~TileMapSprite();
     
     void update(float delta) override;
     void render() override;
     
-    void loadMap(TileMapData* pMapData);
+    void loadMap(TileMapData* pMapData, const string& metaLayerName);
 
     const float getWorldLimitX() const;
     
@@ -48,29 +50,39 @@ public:
     const Vector2& getTileSizeInGameUnits() const;
     const Vector2& getMapSizeInGameUnits() const;
 
+    void setTileMapMetaTileFactory(TileMapMetaTileFactory* pTileMapMetaTileFactory);
+
 private:
     
     void unloadMap();
     void loadMapLayers();
     void createTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer* pLayer);
+    void createMetaTile(int x, int y, Sprite* pSpriteLayer, TileMapLayer* pLayer);
     
     PlatformManager* m_pPlatformManager;
     TileMapData* m_pCurrentMapData;
+    TileMapLayer* m_pCurrentMapMetaLayer;
+    string m_curretMapMetaLayerName;
     Vector2 m_tileSizeInWorldUnits;
     Vector2 m_mapSizeInGameUnits;
     float m_xOffSet;
     float m_yOffSet;
+
+    TileMapMetaTileFactory* m_pTileMapMetaTileFactory; //optional
     
     void initializeMembers()
     {
         m_pPlatformManager = nullptr;
         m_pCurrentMapData = nullptr;
+        m_pCurrentMapMetaLayer = nullptr;
+        m_pTileMapMetaTileFactory = nullptr;
         m_tileSizeInWorldUnits.x = 0;
         m_tileSizeInWorldUnits.y = 0;
         m_xOffSet = 0;
         m_yOffSet = 0;
         m_mapSizeInGameUnits.x = 0;
         m_mapSizeInGameUnits.y = 0;
+        m_curretMapMetaLayerName = "";
     }
     
 };

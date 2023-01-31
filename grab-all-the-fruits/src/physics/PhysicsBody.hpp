@@ -10,7 +10,8 @@ enum PhysicsBodyType
 {
     PhysicsBodyTypeStatic,
     PhysicsBodyTypeDynamic,
-    PhysicsBodyTypeKinematic
+    PhysicsBodyTypeKinematic,
+    PhysicsBodyTypeSensor
 };
 
 enum PhysicsForceType

@@ -25,27 +25,27 @@ public:
     void init(SDL_Renderer* pRenderer, int screenWidth, int screenHeight);
     
     void renderText(const string& labelName, float worldX, float worldY, float scaleX=1, float scaleY=1);
-    void renderTexture(const DrawCall& drawCall);
-    void setOffsetY(float y);
+    void renderTexture(const DrawCall& drawCall) override;
+    void setOffsetY(float y) override;
     
     void renderDebugQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown=false, bool scale=true);
     
     void renderFillQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown=false, bool scale=true);
     
-    void playSoundEffect(const string& path);
-    void playMusic(const string& path);
-	void stopSounds();
+    void playSoundEffect(const string& path) override;
+    void playMusic(const string& path) override;
+	void stopSounds() override;
     
-    bool loadMusic(const string& path);
-    bool loadSoundEffect(const string& path);
-    void loadTexture(const string& path);
+    bool loadMusic(const string& path) override;
+    bool loadSoundEffect(const string& path) override;
+    void loadTexture(const string& path) override;
     bool loadText(const string& labelName, string text, int red, int green, int blue, int size);
     
-    const int getWorldLocationXFromScreenCoordinates(int x) const;
-    const int getWorldLocationYFromScreenCoordinates(int y) const;
+    const int getWorldLocationXFromScreenCoordinates(int x) const override;
+    const int getWorldLocationYFromScreenCoordinates(int y) const override;
     
-    const Vector2 getScreenSizeInGameUnits() const;
-    bool shouldScale() const;
+    const Vector2 getScreenSizeInGameUnits() const override;
+    bool shouldScale() const override;
     
     int getScreenWidth() const override;
     int getScreenHeight() const override;
@@ -62,10 +62,10 @@ public:
     SDLManager(SDLManager const&) = delete;
     void operator=(SDLManager const&) = delete;
     
-    void setDebugMode(bool debugMode);
-    bool isDebugMode() const;
+    void setDebugMode(bool debugMode) override;
+    bool isDebugMode() const override;
     
-	unsigned int getTicks() const;
+	unsigned int getTicks() const override;
 	
     ~SDLManager();
     

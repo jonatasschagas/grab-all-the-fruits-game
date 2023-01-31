@@ -34,6 +34,10 @@ public:
     
     bool isVisibleInParent(Sprite* pChild) const override;
     
+    void stopAnimation() { m_stopAnimation = true; }
+    void resumeAnimation() { m_stopAnimation = false; }
+    bool isAnimationStopped() const { return m_stopAnimation; }
+
 private:
     
     void advanceStep();
@@ -47,6 +51,7 @@ private:
     
     int m_currentAnimationStateIndex;
     float m_spriteTimeAccumulator;
+    bool m_stopAnimation;
     
     void initializeMembers()
     {
@@ -56,6 +61,7 @@ private:
         m_pCurrentSpriteData = nullptr;
         m_spriteTimeAccumulator = 0.0f;
         m_currentAnimationStateIndex = 0;
+        m_stopAnimation = false;
     }
     
 };

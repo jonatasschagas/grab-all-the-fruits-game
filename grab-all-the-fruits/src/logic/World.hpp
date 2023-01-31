@@ -26,11 +26,13 @@ public:
     
     PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale);
     PhysicsBody* createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition);
+    PhysicsBody* createSensor(const Vector2& position, const Vector2& size);
 
 private:
 
     vector<PhysicsBody*> m_dynamicBodies;
     vector<PhysicsBody*> m_staticBodies;
+    vector<PhysicsBody*> m_sensors;
     PhysicsSystem* m_pPhysicsSystem;
 
     void initializeMembers()
@@ -38,6 +40,7 @@ private:
         m_pPhysicsSystem = nullptr;
         m_dynamicBodies.clear();
         m_staticBodies.clear();
+        m_sensors.clear();
     }
     
 };

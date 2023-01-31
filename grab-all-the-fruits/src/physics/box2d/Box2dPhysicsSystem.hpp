@@ -33,6 +33,10 @@ public:
         float friction,
         float restituition) override;
 
+    PhysicsBody* createSensor(
+        const Vector2& rGamePosition, 
+        const Vector2& rGameSize) override;
+
     void BeginContact(b2Contact* contact) override;
     void EndContact(b2Contact* contact) override;
     

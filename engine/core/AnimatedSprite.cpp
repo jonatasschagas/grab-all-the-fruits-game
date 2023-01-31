@@ -27,6 +27,9 @@ void AnimatedSprite::update(float delta)
 {
     Sprite::update(delta);
     
+    if (m_stopAnimation)
+        return;
+
     if (m_pCurrentAnimationStateData == nullptr || m_pCurrentAnimationStateData->isAdvanceAnimationManually())
     {
         return;

@@ -16,6 +16,7 @@ class World;
 class Map;
 class ViewManager;
 class PlatformManager;
+class AnimatedObjectsFactory;
 
 class GameView : public View, public ButtonClickListener
 {
@@ -45,6 +46,7 @@ private:
     Player* m_pPlayer;
     Map* m_pMap;
     MainMenu* m_pMainMenu;
+    AnimatedObjectsFactory* m_pAnimatedObjectsFactory;
 
     bool m_initialized;
     bool m_started;
@@ -58,6 +60,7 @@ private:
         m_pPlayer = nullptr;
         m_pMap = nullptr;
         m_pMainMenu = nullptr;
+        m_pAnimatedObjectsFactory = nullptr;
         m_started = false;
     }
     

@@ -89,6 +89,29 @@ PhysicsBody* Box2dPhysicsSystem::createStaticBody(
     return pPhysicsBody;
 }
 
+PhysicsBody* Box2dPhysicsSystem::createSensor(const Vector2& rGamePosition, const Vector2& rGameSize)
+{
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position = toPhysicsWorld(rGamePosition);
+
+    b2PolygonShape squareShape;
+    squareShape.SetAsBox(
+        (rGameSize.x * METERS_PER_PIXEL)/2, 
+        (rGameSize.y * METERS_PER_PIXEL)/2
+    );
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &squareShape;
+    fixtureDef.isSensor = true;
+    
+    b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
+    b2Body->CreateFixture(&fixtureDef);
+    
+    Box2dPhysicsBody* pPhysicsBody = new Box2dPhysicsBody(b2Body, PhysicsBodyType::PhysicsBodyTypeSensor, m_worldSize);
+    return pPhysicsBody;
+}
+
 b2Vec2 Box2dPhysicsSystem::toPhysicsWorld(const Vector2& rGamePosition) const
 {
     const float xPhysicsWorldInMeters = rGamePosition.x * METERS_PER_PIXEL;

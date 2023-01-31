@@ -24,6 +24,11 @@ World::~World()
         delete m_staticBodies[i];
     }
 
+    for (int i = 0; i < m_sensors.size(); i++)
+    {
+        delete m_sensors[i];
+    }
+
     delete m_pPhysicsSystem;
     
     initializeMembers();
@@ -44,6 +49,13 @@ PhysicsBody* World::createStaticBody(const Vector2& position, const Vector2& siz
 {
     PhysicsBody* pBody = m_pPhysicsSystem->createStaticBody(position, size, friction, restituition);
     m_staticBodies.push_back(pBody);
+    return pBody;
+}
+
+PhysicsBody* World::createSensor(const Vector2& position, const Vector2& size)
+{
+    PhysicsBody* pBody = m_pPhysicsSystem->createSensor(position, size);
+    m_sensors.push_back(pBody);
     return pBody;
 }
 

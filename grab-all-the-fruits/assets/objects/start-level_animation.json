@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/start.json",
+    "spriteSheetImage": "assets/objects/start.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": true,
+            "sprites": [
+                "start_0.png",
+                "start_1.png",
+                "start_2.png",
+                "start_3.png",
+                "start_4.png",
+                "start_5.png",
+                "start_6.png",
+                "start_7.png",
+                "start_8.png",
+                "start_9.png",
+                "start_10.png",
+                "start_11.png",
+                "start_12.png",
+                "start_13.png",
+                "start_14.png",
+                "start_15.png",
+                "start_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
