@@ -2,6 +2,7 @@
 
 #include "WaypointAnimatedObject.hpp"
 #include "FruitAnimatedObject.hpp"
+#include "obstacles/SpikesObstacle.hpp"
 #include "DisappearingAnimation.hpp"
 #include "Player.hpp"
 #include "AnimatedObject.hpp"
@@ -49,6 +50,10 @@ Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, co
     else if (objectType.compare("collectable") == 0)
     {
         pAnimatedObject = createCollectable(objectName, objectType, position, size);
+    }  
+    else if (objectType.compare("obstacle") == 0)
+    {
+        pAnimatedObject = createObstacle(objectName, objectType, position, size);
     }  
     
     return pAnimatedObject;
@@ -114,4 +119,39 @@ AnimatedObject* AnimatedObjectsFactory::createDisappearingAnimation(const Vector
     pAnimatedObject->setXY(position.x, position.y);
     pAnimatedObject->setSize(size.x, size.y);
     return pAnimatedObject;
+}
+
+AnimatedObject* AnimatedObjectsFactory::createObstacle(const string& objectName, const string& objectType, Vector2 position, Vector2 size)
+{
+    if (objectName.compare("spikes") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+
+        // wiring up to the physics engine
+        PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
+        
+        SpikesObstacle* pSpikes = new SpikesObstacle(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pSensor,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener
+        );
+
+        pSensor->setGameObject(pSpikes);
+        pSensor->setOnCollideListener(pSpikes);
+
+        pSpikes->setXY(position.x, position.y);
+        pSpikes->setSize(size.x, size.y);
+        
+        pSpikes->play("idle");
+
+        return pSpikes;
+    }
+    else
+    {
+        return nullptr;
+    }
 }

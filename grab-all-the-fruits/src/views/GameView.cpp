@@ -21,10 +21,10 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 
 GameView::~GameView()
 {
-    delete m_pWorld;
     delete m_pMap;
     delete m_pMainMenu;
-
+    delete m_pWorld;
+    
     initializeMembers();
 }
 
@@ -59,11 +59,15 @@ void GameView::receiveEvent(Event* pEvent)
     }
     else if (pEvent->getName().compare("fruit-collected") == 0)
     {
-        AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
-        pAnimatedObj->play("idle");
-        m_pTileMapSprite->addChild(pAnimatedObj);
+        createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+    }
+    else if (pEvent->getName().compare("player-died") == 0 && !m_died)
+    {
+        createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        m_pPlayer->destroy();
+        m_died = true;
     }   
-    else
+    else if (!m_died)
     {
         m_pPlayer->receiveEvent(pEvent);
     }
@@ -113,10 +117,13 @@ void GameView::update(float delta)
     Sprite::update(delta);
     
     m_pWorld->update(delta);
-    m_pPlayer->update(delta);
 
-    Vector2 playerPosition = m_pPlayer->getGamePosition();
-    m_pMap->updateCameraPosition(playerPosition);
+    if (!m_died)
+    {
+        m_pPlayer->update(delta);
+        Vector2 playerPosition = m_pPlayer->getGamePosition();
+        m_pMap->updateCameraPosition(playerPosition);
+    }
 }
 
 void GameView::readInput(int x, int y, bool pressed)
@@ -143,4 +150,11 @@ void GameView::onClick(const string& rButtonName)
     {
         m_started = true;
     }
+}
+
+void GameView::createDisappearingAnimation(const Vector2& position, const Vector2& size)
+{
+    AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createDisappearingAnimation(position, size);
+    pAnimatedObj->play("idle");
+    m_pTileMapSprite->addChild(pAnimatedObj);
 }

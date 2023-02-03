@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include "event/EventListener.hpp"
-#include "AnimatedObject.hpp"
+#include "PhysicalAnimatedObject.hpp"
 #include "core/Vector2.h"
 #include "physics/PhysicsOnCollideListener.hpp"
 
@@ -12,11 +12,11 @@ class PlatformManager;
 class PhysicsBody;
 class World;
 
-class Player : public EventListener, public AnimatedObject, public PhysicsOnCollideListener
+class Player : public EventListener, public PhysicalAnimatedObject, public PhysicsOnCollideListener
 {
 public:
     
-    Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
+    Player(PlatformManager* pPlatformManager, PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
     
     ~Player();
     
@@ -31,7 +31,7 @@ public:
 private:
     
     PlatformManager* m_pPlatformManager;
-    const PhysicsBody* m_pBody;
+    PhysicsBody* m_pBody;
     string m_type;
 
     void initializeMembers()

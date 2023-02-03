@@ -41,6 +41,8 @@ private:
     
     void initGame();
     
+    void createDisappearingAnimation(const Vector2& position, const Vector2& size);
+    
     ViewManager* m_pViewManager;
     DataCacheManager* m_pDataCacheManager;
     TileMapSprite* m_pTileMapSprite;
@@ -53,6 +55,7 @@ private:
 
     bool m_initialized;
     bool m_started;
+    bool m_died;
     
     void initializeMembers()
     {
@@ -66,6 +69,7 @@ private:
         m_pMainMenu = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
         m_started = false;
+        m_died = false;
         m_tileSizeInGameUnits = Vector2(0, 0);
     }
     

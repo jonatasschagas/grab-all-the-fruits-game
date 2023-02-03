@@ -14,7 +14,10 @@ PhysicalAnimatedObject::PhysicalAnimatedObject(
 
 PhysicalAnimatedObject::~PhysicalAnimatedObject()
 {
-    m_pPhysicsBody->destroy();
+    if (m_pPhysicsBody != nullptr)
+    {
+        m_pPhysicsBody->destroy();
+    }
     
     initializeMembers();
 }

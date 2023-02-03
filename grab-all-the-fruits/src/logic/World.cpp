@@ -59,28 +59,4 @@ PhysicsBody* World::createSensor(const Vector2& position, const Vector2& size)
     return pBody;
 }
 
-void World::receiveEvent(Event* pEvent) {
-    for (int i = 0; i < m_dynamicBodies.size(); i++)
-    {   
-        PhysicsBody* pBody = m_dynamicBodies[i];
-        GameObject* pGameObject = pBody->getGameObject();
-
-        if (strcmp(pGameObject->getType().c_str(), pEvent->getTarget().c_str()) == 0) {
-            if (strcmp(pEvent->getName().c_str(), "right_start") == 0) {
-                pBody->applyInstantForce(Vector2(PLAYER_RUNNING_SPEED, 0));
-            } else if (strcmp(pEvent->getName().c_str(), "right_stop") == 0) {
-                pBody->applyInstantForce(Vector2(0, 0));
-            } else if (strcmp(pEvent->getName().c_str(), "left_start") == 0) {
-                pBody->applyInstantForce(Vector2(-PLAYER_RUNNING_SPEED, 0));
-            } else if (strcmp(pEvent->getName().c_str(), "left_stop") == 0) {
-                pBody->applyInstantForce(Vector2(0, 0));
-            } else if (strcmp(pEvent->getName().c_str(), "space_start") == 0) {
-                const Vector2& currentVel = pBody->getVelocity();
-                if (currentVel.y == 0) 
-                {
-                    pBody->applyForce(Vector2(0, PLAYER_JUMPING_FORCE), PhysicsForceType::PhysicsForceTypeImpulse);
-                } 
-            }
-        }
-    }
-}
+void World::receiveEvent(Event* pEvent) {}

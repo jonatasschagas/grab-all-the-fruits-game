@@ -1,0 +1,14 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/spikes.json",
+    "spriteSheetImage": "assets/objects/obstacles/spikes.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "spikes_0.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
