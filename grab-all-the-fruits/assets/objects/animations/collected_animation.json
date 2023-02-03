@@ -1,6 +1,6 @@
 {
-    "spriteSheetConfig": "assets/objects/collected.json",
-    "spriteSheetImage": "assets/objects/collected.png",
+    "spriteSheetConfig": "assets/objects/animations/collected.json",
+    "spriteSheetImage": "assets/objects/animations/collected.png",
     "states": [
         {
             "name": "idle",

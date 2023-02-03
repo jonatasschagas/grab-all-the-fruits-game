@@ -59,7 +59,7 @@ void GameView::receiveEvent(Event* pEvent)
     }
     else if (pEvent->getName().compare("fruit-collected") == 0)
     {
-        AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createGenericObject("collected", pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
         pAnimatedObj->play("idle");
         m_pTileMapSprite->addChild(pAnimatedObj);
     }   

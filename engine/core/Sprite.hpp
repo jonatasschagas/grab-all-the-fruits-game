@@ -74,6 +74,8 @@ public:
     void removeChild(Sprite* pChildToRemove);
     void removeChildForced(Sprite* pChildToRemove);
     void removeAllChildren();
+
+    void destroy();
     
     virtual bool isVisibleInParent(Sprite* pChild) const;
     bool hasTexture() const { return m_textureFilename.size() > 0; };

@@ -8,3 +8,8 @@ AnimatedObject::~AnimatedObject()
 {
     initializeMembers();
 }
+
+void AnimatedObject::update(float deltaTime)
+{
+    AnimatedSprite::update(deltaTime);
+}

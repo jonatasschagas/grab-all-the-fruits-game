@@ -42,8 +42,14 @@ void AnimatedSprite::update(float delta)
         if (m_currentAnimationStateIndex >= spriteNames.size())
         {
             if (m_pCurrentAnimationStateData->isPlayOnce())
+            {
+                if (m_onAnimationFinishedCallback)
+                {
+                    m_onAnimationFinishedCallback();
+                }
                 return;
-            
+            }
+                
             m_currentAnimationStateIndex = 0;
         }
         

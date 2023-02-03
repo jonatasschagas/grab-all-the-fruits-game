@@ -122,10 +122,6 @@ b2Vec2 Box2dPhysicsSystem::toPhysicsWorld(const Vector2& rGamePosition) const
 
 void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
 {
-}
-
-void Box2dPhysicsSystem::EndContact(b2Contact* contact)
-{
     Box2dPhysicsBody* pBodyA = nullptr;
     Box2dPhysicsBody* pBodyB = nullptr;
 
@@ -152,4 +148,8 @@ void Box2dPhysicsSystem::EndContact(b2Contact* contact)
     {
         pOnCollideListener->onCollide(pBodyA);
     }
+}
+
+void Box2dPhysicsSystem::EndContact(b2Contact* contact)
+{
 }

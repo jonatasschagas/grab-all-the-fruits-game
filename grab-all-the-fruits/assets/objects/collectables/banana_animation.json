@@ -1,6 +1,6 @@
 {
-    "spriteSheetConfig": "assets/objects/banana.json",
-    "spriteSheetImage": "assets/objects/banana.png",
+    "spriteSheetConfig": "assets/objects/collectables/banana.json",
+    "spriteSheetImage": "assets/objects/collectables/banana.png",
     "states": [
         {
             "name": "idle",

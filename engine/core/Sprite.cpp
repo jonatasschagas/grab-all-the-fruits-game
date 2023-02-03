@@ -310,3 +310,16 @@ void Sprite::setColor(float r, float g, float b)
     m_b = b;
     m_coloredSprite = true;
 }
+
+void Sprite::destroy()
+{
+    if (m_pParent != nullptr)
+    {
+        m_pParent->removeChild(this);
+    }
+    else
+    {
+        removeAllChildren();
+        delete this;
+    }
+}

@@ -31,5 +31,8 @@ void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         Event event("fruit-collected");
         event.setInputCoordinates(getGamePosition());
         m_pEventListener->receiveEvent(&event);
+
+        //TODO: Destroy these objects
+        //destroy();
     }
 }

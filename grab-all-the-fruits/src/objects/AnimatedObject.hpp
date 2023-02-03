@@ -17,6 +17,8 @@ public:
 
     const string& getType() const override { return m_type; };
 
+    void update(float deltaTime) override;
+
 private:
 
     string m_type;

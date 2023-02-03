@@ -25,12 +25,12 @@ public:
     
     Player* createPlayer(const Vector2& position, const Vector2& size);
 
-    AnimatedObject* createGenericObject(const string& animatedObject, const Vector2& position, const Vector2& size);
+    AnimatedObject* createDisappearingAnimation(const Vector2& position, const Vector2& size);
     
 private:
 
-    AnimatedObject* createWaypoint(const string& animationFile, const string& objectName, const string& objectType, Vector2 position, Vector2 size);
-    AnimatedObject* createCollectable(const string& animationFile, const string& objectName, const string& objectType, Vector2 position, Vector2 size);
+    AnimatedObject* createWaypoint(const string& objectName, const string& objectType, Vector2 position, Vector2 size);
+    AnimatedObject* createCollectable(const string& objectName, const string& objectType, Vector2 position, Vector2 size);
     
     string m_animatedObjectsPath;
     PlatformManager* m_pPlatformManager;

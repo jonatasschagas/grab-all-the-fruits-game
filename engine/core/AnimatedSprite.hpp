@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <functional>
 #include "../core/Sprite.hpp"
 
 using namespace std;
@@ -38,6 +39,8 @@ public:
     void resumeAnimation() { m_stopAnimation = false; }
     bool isAnimationStopped() const { return m_stopAnimation; }
 
+    void setOnAnimationFinishedCallback(function<void()> callback) { m_onAnimationFinishedCallback = callback; }
+
 private:
     
     void advanceStep();
@@ -53,6 +56,8 @@ private:
     float m_spriteTimeAccumulator;
     bool m_stopAnimation;
     
+    function<void()> m_onAnimationFinishedCallback;
+
     void initializeMembers()
     {
         m_pAnimatedSpriteData = nullptr;

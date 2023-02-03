@@ -1,6 +1,6 @@
 {
-    "spriteSheetConfig": "assets/objects/start.json",
-    "spriteSheetImage": "assets/objects/start.png",
+    "spriteSheetConfig": "assets/objects/waypoints/start.json",
+    "spriteSheetImage": "assets/objects/waypoints/start.png",
     "states": [
         {
             "name": "idle",
