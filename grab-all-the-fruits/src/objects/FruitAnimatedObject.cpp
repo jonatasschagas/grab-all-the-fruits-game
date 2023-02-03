@@ -6,10 +6,11 @@
 FruitAnimatedObject::FruitAnimatedObject(
     PlatformManager* pPlatformManager, 
     DataCacheManager& rDataCacheManager, 
+    PhysicsBody* pPhysicsBody,
     const string& animationFile, 
     const string& name,
     const string& type,
-    EventListener* pEventListener) : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, type), PhysicsOnCollideListener()
+    EventListener* pEventListener) : PhysicalAnimatedObject(pPlatformManager, rDataCacheManager, pPhysicsBody, animationFile, type), PhysicsOnCollideListener()
 {
     initializeMembers();
 
@@ -32,7 +33,6 @@ void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         event.setInputCoordinates(getGamePosition());
         m_pEventListener->receiveEvent(&event);
 
-        //TODO: Destroy these objects
-        //destroy();
+        destroy();
     }
 }

@@ -69,7 +69,7 @@ AnimatedObject* AnimatedObjectsFactory::createWaypoint(const string& objectName,
     PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
     pSensor->setGameObject(pWaypoint);
     pSensor->setOnCollideListener(pWaypoint);
-
+    
     pWaypoint->play("idle");
 
     return pWaypoint;
@@ -78,16 +78,19 @@ AnimatedObject* AnimatedObjectsFactory::createWaypoint(const string& objectName,
 AnimatedObject* AnimatedObjectsFactory::createCollectable(const string& objectName, const string& objectType, Vector2 position, Vector2 size)
 {
     string animationFile = m_animatedObjectsPath + "/collectables/" + objectName + "_animation.json";
+
+    // wiring up to the physics engine
+    PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
+    
     FruitAnimatedObject* pFruit = new FruitAnimatedObject(
             m_pPlatformManager, 
             m_rDataCacheManager, 
+            pSensor,
             animationFile, 
             objectName,
             objectType,
             m_pEventListener);
     
-    // wiring up to the physics engine
-    PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
     pSensor->setGameObject(pFruit);
     pSensor->setOnCollideListener(pFruit);
 

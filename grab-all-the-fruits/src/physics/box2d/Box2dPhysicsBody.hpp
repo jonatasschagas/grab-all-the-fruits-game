@@ -29,6 +29,8 @@ public:
     void setOnCollideListener(PhysicsOnCollideListener* pOnCollideListener) override;
     PhysicsOnCollideListener* getOnCollideListener() const;
 
+    void destroy() override;
+
 private:
 
     b2Body* m_pBox2DBody;

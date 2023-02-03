@@ -42,6 +42,8 @@ public:
 
     virtual void setOnCollideListener(PhysicsOnCollideListener* pOnCollideListener) = 0;
 
+    virtual void destroy() = 0;
+
 };
 
 #endif /* PhysicsBody_hpp */

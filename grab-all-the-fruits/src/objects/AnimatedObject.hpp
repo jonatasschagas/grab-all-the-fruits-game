@@ -30,4 +30,4 @@ private:
 
 };
 
-#endif //AnimatedObjectsFactory_H
+#endif //AnimatedObject_H

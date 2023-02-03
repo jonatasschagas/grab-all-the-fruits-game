@@ -144,3 +144,9 @@ GameObject* Box2dPhysicsBody::getGameObject() const
 {
     return m_pGameObject;
 }
+
+void Box2dPhysicsBody::destroy()
+{
+    b2World* pBox2DWorld = m_pBox2DBody->GetWorld();
+    pBox2DWorld->DestroyBody(m_pBox2DBody);
+}

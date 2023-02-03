@@ -3,7 +3,7 @@
 #define FruitAnimatedObject_H
 
 #include <string>
-#include "AnimatedObject.hpp"
+#include "PhysicalAnimatedObject.hpp"
 #include "physics/PhysicsOnCollideListener.hpp"
 #include "data/DataCacheManager.hpp"
 #include "event/EventListener.hpp"
@@ -12,13 +12,14 @@ class PlatformManager;
 
 using namespace std;
 
-class FruitAnimatedObject : public AnimatedObject, public PhysicsOnCollideListener
+class FruitAnimatedObject : public PhysicalAnimatedObject, public PhysicsOnCollideListener
 {
 public:
     
     FruitAnimatedObject(
         PlatformManager* pPlatformManager, 
         DataCacheManager& rDataCacheManager, 
+        PhysicsBody* pPhysicsBody,
         const string& animationFile, 
         const string& name, 
         const string& type, 

@@ -46,7 +46,11 @@ void MainMenu::update()
         ImGui::Text(" - LazyFoo -> https://lazyfoo.net (SDL2 tutorials)");
         ImGui::Text(" - Erin Catto -> Box2d");
         ImGui::Text(" - Pixelfrog -> Art");
+        ImGui::Text(" - IForce -> https://www.iforce2d.net/ (Box2d tutorials)");
+        ImGui::Text(" - Tiled - flexible map editor -> https://www.mapeditor.org/");
         ImGui::Text(" - Nacho Lasheras -> https://nacholasheras.com/ (Friend and mentor)");
+        ImGui::Text(" - Antti Mattila -> (Friend and mentor)");
+        ImGui::Text(" - Patrick Corander -> (The first person to teach me how games work)");
         
         if (ImGui::Button("Back")) 
         {
