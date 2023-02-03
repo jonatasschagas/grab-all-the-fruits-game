@@ -7,7 +7,8 @@ WaypointAnimatedObject::WaypointAnimatedObject(
     PlatformManager* pPlatformManager, 
     DataCacheManager& rDataCacheManager, 
     const string& animationFile, 
-    const string& name) : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, "waypoint"), PhysicsOnCollideListener()
+    const string& name,
+    const string& type) : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, type), PhysicsOnCollideListener()
 {
     initializeMembers();
 

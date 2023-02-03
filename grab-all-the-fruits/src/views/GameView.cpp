@@ -57,6 +57,12 @@ void GameView::receiveEvent(Event* pEvent)
         m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
         m_pTileMapSprite->addChild(m_pPlayer);
     }
+    else if (pEvent->getName().compare("fruit-collected") == 0)
+    {
+        AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createGenericObject("collected", pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        pAnimatedObj->play("idle");
+        m_pTileMapSprite->addChild(pAnimatedObj);
+    }   
     else
     {
         m_pPlayer->receiveEvent(pEvent);

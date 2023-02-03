@@ -47,6 +47,8 @@ public:
     const glm::vec2& getSize() const { return m_size; };
     float getTransformedX() const { return m_points[0].x; }
     float getTransformedY() const { return m_points[0].y; }
+    Vector2 getScreenPosition() { return Vector2(getTransformedX(), getTransformedY()); }
+    Vector2 getGamePosition() { return Vector2(m_coords.x, m_coords.y); }
     float getWidth() const { return m_points[1].x - m_points[0].x; }
     float getHeight() const { return m_points[1].y - m_points[0].y; }
     

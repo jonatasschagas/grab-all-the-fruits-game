@@ -15,7 +15,7 @@ class WaypointAnimatedObject : public AnimatedObject, public PhysicsOnCollideLis
 {
 public:
     
-    WaypointAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, const string& animationFile, const string& name);
+    WaypointAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, const string& animationFile, const string& name, const string& type);
     ~WaypointAnimatedObject();
 
     const string& getName() const { return m_name; }

@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/banana.json",
+    "spriteSheetImage": "assets/objects/banana.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "banana_0.png",
+                "banana_1.png",
+                "banana_2.png",
+                "banana_3.png",
+                "banana_4.png",
+                "banana_5.png",
+                "banana_6.png",
+                "banana_7.png",
+                "banana_8.png",
+                "banana_9.png",
+                "banana_10.png",
+                "banana_11.png",
+                "banana_12.png",
+                "banana_13.png",
+                "banana_14.png",
+                "banana_15.png",
+                "banana_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

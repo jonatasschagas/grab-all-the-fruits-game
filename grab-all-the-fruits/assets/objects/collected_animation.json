@@ -1,0 +1,19 @@
+{
+    "spriteSheetConfig": "assets/objects/collected.json",
+    "spriteSheetImage": "assets/objects/collected.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": true,
+            "sprites": [
+                "collected_0.png",
+                "collected_1.png",
+                "collected_2.png",
+                "collected_3.png",
+                "collected_4.png",
+                "collected_5.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
