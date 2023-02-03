@@ -52,7 +52,15 @@ void GameView::initialize(ViewManager* pViewManager)
 void GameView::receiveEvent(Event* pEvent)
 {
     m_pWorld->receiveEvent(pEvent);
-    m_pPlayer->receiveEvent(pEvent);
+    if (pEvent->getName().compare("create-player") == 0)
+    {
+        m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        m_pTileMapSprite->addChild(m_pPlayer);
+    }
+    else
+    {
+        m_pPlayer->receiveEvent(pEvent);
+    }
 }
 
 void GameView::initGame()
@@ -63,30 +71,25 @@ void GameView::initGame()
     //TODO: load map from file
     TileMapData* pTileMapData = new TileMapData("assets/levels/level1.json", "assets/levels", "assets/levels");
     
-    Vector2 tileSizeInGameUnits(5, 5);
-    Vector2 mapSizeInGameUnits(pTileMapData->getWidth() * tileSizeInGameUnits.x, pTileMapData->getHeight() * tileSizeInGameUnits.y);
+    //TODO: tile size should be read from the config file 
+    m_tileSizeInGameUnits = Vector2(5, 5);
+    Vector2 mapSizeInGameUnits(pTileMapData->getWidth() * m_tileSizeInGameUnits.x, pTileMapData->getHeight() * m_tileSizeInGameUnits.y);
 
     m_pWorld = new World(mapSizeInGameUnits);
     
     //TODO: read assets path from the config file
-    AnimatedObjectsFactory* pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld);
+    m_pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
     //TODO: tile size should be read from the config file
-    TileMapSprite* pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager, pAnimatedObjectsFactory);
-    pTileMapSprite->loadMap(pTileMapData, "meta");
-    pTileMapSprite->setXY(0, 0);
-    addChild(pTileMapSprite);
+    m_pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager, m_pAnimatedObjectsFactory);
+    m_pTileMapSprite->loadMap(pTileMapData, "meta");
+    m_pTileMapSprite->setXY(0, 0);
+    addChild(m_pTileMapSprite);
     
     Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
-    pTileMapSprite->setSize(screenSize);
+    m_pTileMapSprite->setSize(screenSize);
     
-    m_pMap = new Map(m_pWorld, pTileMapSprite);
-    
-    // creating the player   
-    //TODO: player size should be read from the config file
-    m_pPlayer = Player::create(pPlatformManager, m_pWorld, *m_pDataCacheManager);
-    // player has to be a child of the map, so it can be moved with the camera
-    pTileMapSprite->addChild(m_pPlayer);
+    m_pMap = new Map(m_pWorld, m_pTileMapSprite);
 }
 
 void GameView::render()
@@ -104,7 +107,10 @@ void GameView::update(float delta)
     Sprite::update(delta);
     
     m_pWorld->update(delta);
-    m_pMap->updateCameraPosition(m_pPlayer->getGamePosition());
+    m_pPlayer->update(delta);
+
+    Vector2 playerPosition = m_pPlayer->getGamePosition();
+    m_pMap->updateCameraPosition(playerPosition);
 }
 
 void GameView::readInput(int x, int y, bool pressed)

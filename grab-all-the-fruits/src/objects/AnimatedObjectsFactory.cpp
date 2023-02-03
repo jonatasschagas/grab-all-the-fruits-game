@@ -1,15 +1,19 @@
 #include "AnimatedObjectsFactory.hpp"
 
 #include "WaypointAnimatedObject.hpp"
+#include "Player.hpp"
+#include "AnimatedObject.hpp"
+#include "event/EventListener.hpp"
 #include "platform/PlatformManager.h"
 #include "logic/World.hpp"
 
-AnimatedObjectsFactory::AnimatedObjectsFactory(const string& animatedObjectsPath, PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, World* pWorld) : m_rDataCacheManager(rDataCacheManager)
+AnimatedObjectsFactory::AnimatedObjectsFactory(const string& animatedObjectsPath, PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, World* pWorld, EventListener* pEventListener) : m_rDataCacheManager(rDataCacheManager)
 {
     initializeMembers();
 
     m_pPlatformManager = pPlatformManager;
     m_animatedObjectsPath = animatedObjectsPath;
+    m_pEventListener = pEventListener;
     m_pWorld = pWorld;
 }
 
@@ -18,7 +22,7 @@ AnimatedObjectsFactory::~AnimatedObjectsFactory()
     initializeMembers();
 }
 
-Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, Vector2 position, Vector2 size)
+Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, const Vector2& position, const Vector2& size)
 {
     const string& objectName = pTileConfig->getProperty("name");
     const string& objectType = pTileConfig->getProperty("type");
@@ -29,7 +33,18 @@ Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, Ve
 
     if (objectType.compare("waypoint") == 0)
     {
-        pAnimatedObject = createWaypoint(animationFile, objectName, position, size);
+        if (objectName.compare("start-level") == 0)
+        {
+            Event event;
+            event.setName("create-player");
+            event.setInputCoordinates(position);
+            m_pEventListener->receiveEvent(&event);
+            return nullptr;
+        }
+        else
+        {
+            pAnimatedObject = createWaypoint(animationFile, objectName, position, size);
+        }
     } 
     else 
     {
@@ -55,4 +70,12 @@ AnimatedObject* AnimatedObjectsFactory::createWaypoint(const string& animationFi
     pWaypoint->play("idle");
 
     return pWaypoint;
+}
+
+Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vector2& size)
+{
+    PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 0, 0, 1.0f);
+    Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager);
+    pBody->setGameObject(pPlayer);
+    return pPlayer;
 }

@@ -4,24 +4,24 @@
 
 #include <stdio.h>
 #include "event/EventListener.hpp"
-#include "core/AnimatedSprite.hpp"
-#include "GameObject.hpp"
+#include "AnimatedObject.hpp"
+#include "core/Vector2.h"
 #include "physics/PhysicsOnCollideListener.hpp"
 
 class PlatformManager;
 class PhysicsBody;
 class World;
 
-class Player : public EventListener, public AnimatedSprite, public PhysicsOnCollideListener, public GameObject
+class Player : public EventListener, public AnimatedObject, public PhysicsOnCollideListener
 {
 public:
+    
+    Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
     
     ~Player();
     
     void receiveEvent(Event* pEvent) override;
     void update(float delta) override;
-
-    static Player* create(PlatformManager* pPlatformManager, World* pWorld, DataCacheManager& rDataCacheManager);
 
     void onCollide(PhysicsBody* pOtherBody) override;
     const string& getType() const override { return m_type; }
@@ -29,8 +29,6 @@ public:
     const Vector2 getGamePosition();
 
 private:
-    
-    Player(PlatformManager* pPlatformManager, const PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
     
     PlatformManager* m_pPlatformManager;
     const PhysicsBody* m_pBody;

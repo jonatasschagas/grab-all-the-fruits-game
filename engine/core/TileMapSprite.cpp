@@ -286,6 +286,11 @@ void TileMapSprite::createMetaTile(int x, int y, Sprite* pSpriteLayer, TileMapLa
     Vector2 size(width, height);
 
     Sprite* pMetaTileSprite = m_pTileMapMetaTileFactory->createMetaTile(pTileConfig, position, size);
+
+    if (pMetaTileSprite == nullptr)
+    {
+        return;
+    }
     
     pMetaTileSprite->setXY(position);
     pMetaTileSprite->setSize(size);

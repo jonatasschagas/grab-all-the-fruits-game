@@ -10,23 +10,28 @@ using namespace std;
 
 class PlatformManager;
 class World;
+class EventListener;
 class AnimatedObject;
+class Player;
 
 class AnimatedObjectsFactory : public TileMapMetaTileFactory
 {
 public:
 
-    AnimatedObjectsFactory(const string& animatedObjectsPath, PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, World* pWorld);
+    AnimatedObjectsFactory(const string& animatedObjectsPath, PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, World* pWorld, EventListener* pEventListener);
     ~AnimatedObjectsFactory();
     
-    Sprite* createMetaTile(const TileConfig* pTileConfig, Vector2 position, Vector2 size) override;
+    Sprite* createMetaTile(const TileConfig* pTileConfig, const Vector2& position, const Vector2& size) override;
+    
+    Player* createPlayer(const Vector2& position, const Vector2& size);
 
 private:
 
     AnimatedObject* createWaypoint(const string& animationFile, const string& objectName, Vector2 position, Vector2 size);
-
+    
     string m_animatedObjectsPath;
     PlatformManager* m_pPlatformManager;
+    EventListener* m_pEventListener;
     World* m_pWorld;
     DataCacheManager& m_rDataCacheManager;
 
@@ -34,6 +39,7 @@ private:
     {
         m_animatedObjectsPath = "";
         m_pPlatformManager = nullptr;
+        m_pEventListener = nullptr;
         m_pWorld = nullptr;
     }
 

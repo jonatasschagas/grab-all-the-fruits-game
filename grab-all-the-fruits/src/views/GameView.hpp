@@ -8,6 +8,7 @@
 #include "core/Sprite.hpp"
 #include "ui/MainMenu.hpp"
 #include "ui/ButtonClickListener.hpp"
+#include "core/TileMapSprite.hpp"
 #include "view/View.h"
 #include <vector>
 
@@ -42,8 +43,10 @@ private:
     
     ViewManager* m_pViewManager;
     DataCacheManager* m_pDataCacheManager;
+    TileMapSprite* m_pTileMapSprite;
     World* m_pWorld;
     Player* m_pPlayer;
+    Vector2 m_tileSizeInGameUnits;
     Map* m_pMap;
     MainMenu* m_pMainMenu;
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory;
@@ -57,11 +60,13 @@ private:
         m_pDataCacheManager = nullptr;
         m_initialized = false;
         m_pWorld = nullptr;
+        m_pTileMapSprite = nullptr;
         m_pPlayer = nullptr;
         m_pMap = nullptr;
         m_pMainMenu = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
         m_started = false;
+        m_tileSizeInGameUnits = Vector2(0, 0);
     }
     
 };

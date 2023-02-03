@@ -11,7 +11,7 @@ public:
 
     virtual ~TileMapMetaTileFactory() {}
     
-    virtual Sprite* createMetaTile(const TileConfig* pTileConfig, Vector2 position, Vector2 size) = 0;
+    virtual Sprite* createMetaTile(const TileConfig* pTileConfig, const Vector2& position, const Vector2& size) = 0;
 
 };
 
