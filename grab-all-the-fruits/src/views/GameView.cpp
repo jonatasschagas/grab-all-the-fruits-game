@@ -85,7 +85,7 @@ void GameView::initGame()
     m_tileSizeInGameUnits = Vector2(5, 5);
     Vector2 mapSizeInGameUnits(pTileMapData->getWidth() * m_tileSizeInGameUnits.x, pTileMapData->getHeight() * m_tileSizeInGameUnits.y);
 
-    m_pWorld = new World(mapSizeInGameUnits);
+    m_pWorld = new World(mapSizeInGameUnits, pPlatformManager);
     
     //TODO: read assets path from the config file
     m_pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
@@ -100,6 +100,18 @@ void GameView::initGame()
     m_pTileMapSprite->setSize(screenSize);
     
     m_pMap = new Map(m_pWorld, m_pTileMapSprite);
+
+
+    /*Sprite* pTestSprite = new Sprite(pPlatformManager);
+    vector<Vertex> vertices;
+    vertices.push_back(Vertex(Vector2(10, 10), Color(255, 0, 0, 255)));
+    vertices.push_back(Vertex(Vector2(10, 15), Color(255, 255, 0, 255)));
+    vertices.push_back(Vertex(Vector2(15, 15), Color(255, 255, 255, 255)));
+    vertices.push_back(Vertex(Vector2(20, 15), Color(255, 255, 0, 255)));
+    vertices.push_back(Vertex(Vector2(20, 20), Color(255, 0, 0, 255)));
+    vertices.push_back(Vertex(Vector2(10, 10), Color(255, 0, 0, 255)));
+    pTestSprite->setVertices(vertices);
+    addChild(pTestSprite);*/
 }
 
 void GameView::render()
@@ -110,6 +122,7 @@ void GameView::render()
     }   
 
     Sprite::render();
+    m_pWorld->renderDebug(Vector2(m_pTileMapSprite->getXOffSet(), m_pTileMapSprite->getYOffSet()));
 }
 
 void GameView::update(float delta)

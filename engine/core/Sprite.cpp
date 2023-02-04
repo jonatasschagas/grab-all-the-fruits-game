@@ -39,7 +39,7 @@ void Sprite::render()
     if (notVisibleInParent)
         return;
     
-    if (hasTexture() || m_debugSprite || m_coloredSprite)
+    if (hasTexture() || m_debugSprite || m_coloredSprite || m_pDrawCall->vertices.size() > 0)
     {
         m_pDrawCall->spriteProperties.x = m_points[0].x;
         m_pDrawCall->spriteProperties.y = m_points[0].y;
@@ -309,6 +309,11 @@ void Sprite::setColor(float r, float g, float b)
     m_g = g;
     m_b = b;
     m_coloredSprite = true;
+}
+
+void Sprite::setVertices(vector<Vertex>& vertices)
+{
+    m_pDrawCall->vertices = vertices;
 }
 
 void Sprite::destroy()

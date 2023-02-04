@@ -1,8 +1,11 @@
-#ifndef Header_h
-#define Header_h
+#pragma once
+#ifndef DrawCall_h
+#define DrawCall_h
 
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include "core/Vector2.h"
 
 using namespace std;
 
@@ -28,7 +31,7 @@ struct ColorReplacement
 
 struct TextureSettings
 {
-    string name;
+    string name = "";
     int x;
     int y;
     int w;
@@ -42,6 +45,18 @@ struct SpriteProperties
     float y;
     float w;
     float h;
+};
+
+struct Vertex
+{
+    Vertex(Vector2 _position, Vector2 _textureCoordinates, Color _color) : 
+        position(_position), textureCoordinates(_textureCoordinates), color(_color) {}
+    Vertex(Vector2 _position, Color _color) : position(_position), color(_color) {}
+    Vertex(){};
+
+    Vector2 position;
+    Vector2 textureCoordinates;
+    Color color;
 };
 
 struct Settings
@@ -64,6 +79,7 @@ public:
     Color color;
     bool debug;
     bool colored;
+    vector<Vertex> vertices;
 };
 
 inline TextureSettings makeTextureSettings(const string& textureName, int tx, int ty, int tw, int th, float alpha=1.0f)
@@ -132,4 +148,4 @@ inline Settings makeSettings(bool flipHorizontal=false,
     return settings;
 }
 
-#endif /* Header_h */
+#endif /* DrawCall_h */

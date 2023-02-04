@@ -3,17 +3,21 @@
 #include "logic/GameConfiguration.h"
 #include <box2d/box2d.h>
 #include "Box2dPhysicsBody.hpp"
+#include "Box2dDebugRenderer.hpp"
 #include "physics/PhysicsOnCollideListener.hpp"
 
-Box2dPhysicsSystem::Box2dPhysicsSystem(const Vector2& rWorldSize) : b2ContactListener(), 
+Box2dPhysicsSystem::Box2dPhysicsSystem(const Vector2& rWorldSize, PlatformManager* pPlatformManager) : b2ContactListener(), 
     m_worldSize(rWorldSize)
 {
     initializeMembers();
+
+    m_pDebugRenderer = new Box2dDebugRenderer(rWorldSize, pPlatformManager);
 }
 
 Box2dPhysicsSystem::~Box2dPhysicsSystem()
 {
     delete m_pBox2DWorld;
+    delete m_pDebugRenderer;
     initializeMembers();
 }
 
@@ -22,11 +26,19 @@ void Box2dPhysicsSystem::initWorld(const Vector2& rGravity)
     b2Vec2 gravity(0.0f, GRAVITY);
     m_pBox2DWorld = new b2World(gravity);
     m_pBox2DWorld->SetContactListener(this);
+    m_pBox2DWorld->SetDebugDraw(m_pDebugRenderer);
+    m_pDebugRenderer->SetFlags( b2Draw::e_shapeBit);
 }
 
 void Box2dPhysicsSystem::update(float delta)
 {
     m_pBox2DWorld->Step(BOX2D_TIME_STEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
+}
+
+void Box2dPhysicsSystem::renderDebug(const Vector2& rOffset)
+{
+    m_pDebugRenderer->updateOffset(rOffset);
+    m_pBox2DWorld->DebugDraw();
 }
 
 PhysicsBody* Box2dPhysicsSystem::createDynamicBody(

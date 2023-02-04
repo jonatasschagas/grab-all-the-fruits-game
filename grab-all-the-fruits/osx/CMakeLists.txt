@@ -31,7 +31,7 @@ set(THIRD_PARTY_LIBS ${PROJECT_SOURCE_DIR}/third-party/)
 set(SDL_GAME_IMPL ${PROJECT_SOURCE_DIR}/sdl)
 set(ENGINE_IMPL ${PROJECT_SOURCE_DIR}/engine)
 set(GAME_IMPL ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/src)
-set(GAME_ASsetS ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/assets)
+set(GAME_ASSETS ${PROJECT_SOURCE_DIR}/grab-all-the-fruits/assets)
 
 message("")
 message( STATUS "GAME_IMPL : " ${GAME_IMPL} )
@@ -153,7 +153,7 @@ endif()
 message("")
 
 # copy assets to build directory
-file(COPY ${GAME_ASsetS} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${GAME_ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
 
 # ------- End Finds ------ #
 

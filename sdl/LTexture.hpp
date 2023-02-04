@@ -44,6 +44,8 @@ public:
     int getWidth();
     int getHeight();
     
+    SDL_Texture* getTexture();
+
 private:
     
     //The actual hardware texture

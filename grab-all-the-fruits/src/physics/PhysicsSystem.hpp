@@ -13,6 +13,7 @@ public:
 
     virtual void initWorld(const Vector2& rGravity) = 0;
     virtual void update(float delta) = 0;
+    virtual void renderDebug(const Vector2& rOffset) = 0;
     
     virtual PhysicsBody* createDynamicBody(
         const Vector2& rGamePosition, 

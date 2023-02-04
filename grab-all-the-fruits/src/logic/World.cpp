@@ -1,13 +1,14 @@
 #include "World.hpp"
 #include "physics/box2d/Box2dPhysicsSystem.hpp"
+#include "platform/PlatformManager.h"
 #include "GameConfiguration.h"
 #include <string>
 
-World::World(const Vector2& worldSize)
+World::World(const Vector2& worldSize, PlatformManager* pPlatformManager)
 {
     initializeMembers();
 
-    m_pPhysicsSystem = new Box2dPhysicsSystem(worldSize);
+    m_pPhysicsSystem = new Box2dPhysicsSystem(worldSize, pPlatformManager);
     Vector2 gravity(0.0f, GRAVITY);
     m_pPhysicsSystem->initWorld(gravity);
 }
@@ -37,6 +38,11 @@ World::~World()
 void World::update(float delta)
 {
     m_pPhysicsSystem->update(delta);
+}
+
+void World::renderDebug(const Vector2& rOffset)
+{
+    m_pPhysicsSystem->renderDebug(rOffset);
 }
 
 PhysicsBody* World::createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale)

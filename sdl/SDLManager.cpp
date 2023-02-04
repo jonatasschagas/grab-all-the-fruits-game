@@ -56,6 +56,12 @@ void SDLManager::renderText(const string& labelName, float worldX, float worldY,
 
 void SDLManager::renderTexture(const DrawCall& drawCall)
 {
+
+    if (drawCall.vertices.size() > 0)
+    {
+        renderPolygon(drawCall);
+        return;
+    }
     
     if (drawCall.debug)
     {
@@ -147,6 +153,48 @@ void SDLManager::renderTexture(const DrawCall& drawCall)
                      0,
                      drawCall.settings.flipHorizontal);
     
+}
+
+void SDLManager::renderPolygon(const DrawCall& drawCall)
+{
+    vector<Vertex> vertices = drawCall.vertices;
+    if (vertices.size() < 3)
+    {
+        return;
+    }
+    
+    // scaling to the size of the world
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        vertices[i].position.x = vertices[i].position.x * m_scaleFactorX;
+        vertices[i].position.y = vertices[i].position.y * m_scaleFactorY;
+    }
+
+    vector<SDL_Vertex> sdlVerts; 
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        SDL_Vertex sdlVert;
+        sdlVert.position.x = vertices[i].position.x;
+        sdlVert.position.y = vertices[i].position.y;
+        sdlVert.color.r = vertices[i].color.r;
+        sdlVert.color.g = vertices[i].color.g;
+        sdlVert.color.b = vertices[i].color.b;
+        sdlVert.color.a = vertices[i].color.a;
+        sdlVert.tex_coord.x = vertices[i].textureCoordinates.x;
+        sdlVert.tex_coord.y = vertices[i].textureCoordinates.y;
+        sdlVerts.push_back(sdlVert);
+    }    
+
+    SDL_Texture* pTexture = nullptr;
+    string path = drawCall.textureSettings.name;
+    
+    if (path.size() > 0)
+    {
+        const int index = m_textureMap.at(path);
+        pTexture = m_textures.at(index)->getTexture();
+    }
+    
+    SDL_RenderGeometry(m_pRenderer, pTexture, sdlVerts.data(), sdlVerts.size(), nullptr, 0 );
 }
 
 void SDLManager::renderDebugQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown, bool scale)

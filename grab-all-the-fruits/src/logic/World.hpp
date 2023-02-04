@@ -2,8 +2,6 @@
 #ifndef World_hpp 
 #define World_hpp
 
-struct Body;
-
 #include "core/Vector2.h"
 #include "event/EventListener.hpp"
 #include <vector>
@@ -13,15 +11,17 @@ struct Body;
 
 using namespace std;
 
+class PlatformManager;
 
 class World : public EventListener
 {
 public:
     
-    World(const Vector2& worldSize);
+    World(const Vector2& worldSize, PlatformManager* pPlatformManager);
     ~World();
     
     void update(float delta);
+    void renderDebug(const Vector2& rOffset);
     void receiveEvent(Event* pEvent) override;
     
     PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale);

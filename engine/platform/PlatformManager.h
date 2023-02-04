@@ -16,7 +16,7 @@ public:
     virtual void setOffsetY(float y) = 0;
     
     virtual void renderTexture(const DrawCall& drawCall) = 0;
-    
+
     virtual void playSoundEffect(const string& path) = 0;
     virtual void playMusic(const string& path) = 0;
     virtual void stopSounds() = 0;

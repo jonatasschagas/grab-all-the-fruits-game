@@ -29,9 +29,9 @@ public:
     void setOffsetY(float y) override;
     
     void renderDebugQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown=false, bool scale=true);
-    
     void renderFillQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown=false, bool scale=true);
-    
+    void renderPolygon(const DrawCall& drawCall);
+
     void playSoundEffect(const string& path) override;
     void playMusic(const string& path) override;
 	void stopSounds() override;

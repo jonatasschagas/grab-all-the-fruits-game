@@ -7,9 +7,8 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include "Vector2.h"
-
-class DrawCall;
-class PlatformManager;
+#include "platform/DrawCall.h"
+#include "platform/PlatformManager.h"
 
 using namespace std;
 
@@ -83,6 +82,8 @@ public:
     void setSortChildren(bool sortChildren) { m_sortChildren = sortChildren; }
     PlatformManager* getPlatformManager() const { return m_pPlatformManager; }
     
+    void setVertices(vector<Vertex>& vertices);
+
 protected:
     
     Sprite* m_pParent;

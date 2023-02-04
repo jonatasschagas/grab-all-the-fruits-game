@@ -60,7 +60,8 @@
         "system_error": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "random": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/grab-all-the-fruits/osx"
 }
