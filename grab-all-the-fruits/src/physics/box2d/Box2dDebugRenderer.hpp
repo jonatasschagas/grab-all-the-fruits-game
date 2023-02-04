@@ -5,6 +5,7 @@
 #include <box2d/box2d.h>
 #include "platform/PlatformManager.h"
 #include "core/Vector2.h"
+#include "platform/DrawCall.h"
 
 class Box2dDebugRenderer : public b2Draw
 {
@@ -30,6 +31,10 @@ public:
     void updateOffset(const Vector2& rOffset);
 
 private:
+
+    Vector2 convertToVector2(const b2Vec2& rB2Vec2) const;
+    Color convertToColor(const b2Color& color) const;
+    Vertex toVertex(const b2Vec2& rB2Vec2, const b2Color& color) const;
 
     PlatformManager* m_pPlatformManager;
     Vector2 m_worldSize;

@@ -56,12 +56,14 @@ private:
     bool m_initialized;
     bool m_started;
     bool m_died;
+    bool m_debug;
     
     void initializeMembers()
     {
         m_pViewManager = nullptr;
         m_pDataCacheManager = nullptr;
         m_initialized = false;
+        m_debug = false;
         m_pWorld = nullptr;
         m_pTileMapSprite = nullptr;
         m_pPlayer = nullptr;

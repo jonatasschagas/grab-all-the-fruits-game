@@ -80,6 +80,8 @@ public:
     bool debug;
     bool colored;
     vector<Vertex> vertices;
+    vector<Vertex> lines;
+    Vertex point;
 };
 
 inline TextureSettings makeTextureSettings(const string& textureName, int tx, int ty, int tw, int th, float alpha=1.0f)

@@ -67,6 +67,10 @@ void GameView::receiveEvent(Event* pEvent)
         m_pPlayer->destroy();
         m_died = true;
     }   
+    else if (pEvent->getName().compare("debug_toggle") == 0)
+    {
+        m_debug = !m_debug;
+    }   
     else if (!m_died)
     {
         m_pPlayer->receiveEvent(pEvent);
@@ -100,18 +104,6 @@ void GameView::initGame()
     m_pTileMapSprite->setSize(screenSize);
     
     m_pMap = new Map(m_pWorld, m_pTileMapSprite);
-
-
-    /*Sprite* pTestSprite = new Sprite(pPlatformManager);
-    vector<Vertex> vertices;
-    vertices.push_back(Vertex(Vector2(10, 10), Color(255, 0, 0, 255)));
-    vertices.push_back(Vertex(Vector2(10, 15), Color(255, 255, 0, 255)));
-    vertices.push_back(Vertex(Vector2(15, 15), Color(255, 255, 255, 255)));
-    vertices.push_back(Vertex(Vector2(20, 15), Color(255, 255, 0, 255)));
-    vertices.push_back(Vertex(Vector2(20, 20), Color(255, 0, 0, 255)));
-    vertices.push_back(Vertex(Vector2(10, 10), Color(255, 0, 0, 255)));
-    pTestSprite->setVertices(vertices);
-    addChild(pTestSprite);*/
 }
 
 void GameView::render()
@@ -122,7 +114,11 @@ void GameView::render()
     }   
 
     Sprite::render();
-    m_pWorld->renderDebug(Vector2(m_pTileMapSprite->getXOffSet(), m_pTileMapSprite->getYOffSet()));
+    
+    if (m_debug)
+    {
+        m_pWorld->renderDebug(m_pTileMapSprite->getGamePosition());
+    }
 }
 
 void GameView::update(float delta)

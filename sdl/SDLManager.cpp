@@ -62,6 +62,18 @@ void SDLManager::renderTexture(const DrawCall& drawCall)
         renderPolygon(drawCall);
         return;
     }
+
+    if (drawCall.lines.size() > 0)
+    {
+        renderLines(drawCall);
+        return;
+    }
+
+    if (drawCall.point.position.x != 0 && drawCall.point.position.y != 0)
+    {
+        renderPoint(drawCall);
+        return;
+    }
     
     if (drawCall.debug)
     {
@@ -195,6 +207,35 @@ void SDLManager::renderPolygon(const DrawCall& drawCall)
     }
     
     SDL_RenderGeometry(m_pRenderer, pTexture, sdlVerts.data(), sdlVerts.size(), nullptr, 0 );
+}
+
+void SDLManager::renderLines(const DrawCall& drawCall)
+{
+    vector<Vertex> lines = drawCall.lines;
+
+    // scaling to the size of the world
+    for (int i = 0; i < lines.size(); i++)
+    {
+        lines[i].position.x = lines[i].position.x * m_scaleFactorX;
+        lines[i].position.y = lines[i].position.y * m_scaleFactorY;
+    }
+
+    vector<SDL_Point> sdlLines; 
+    for (int i = 0; i < lines.size() - 1; i++)
+    {
+        SDL_SetRenderDrawColor(m_pRenderer, lines[i].color.r, lines[i].color.g, lines[i].color.b, lines[i].color.a);
+        SDL_RenderDrawLine(m_pRenderer,lines[i].position.x, lines[i].position.y, lines[i + 1].position.x, lines[i + 1].position.y);
+    }    
+
+    SDL_RenderDrawLines(m_pRenderer, sdlLines.data(), sdlLines.size());
+}
+
+void SDLManager::renderPoint(const DrawCall& drawCall)
+{
+    float x = drawCall.point.position.x * m_scaleFactorX;
+    float y = drawCall.point.position.y * m_scaleFactorY;
+    
+    SDL_RenderDrawPoint(m_pRenderer, x, y);
 }
 
 void SDLManager::renderDebugQuad(float worldX, float worldY, float width, float height, RGBA rgba, bool topToDown, bool scale)

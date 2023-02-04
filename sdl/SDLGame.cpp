@@ -304,6 +304,12 @@ void SDLGame::handleInputOSX(SDL_Event& sdlEvent)
             event.setName("space_start");
             m_pGame->receiveEvent(&event);
         }
+
+        if(currentKeyStates[SDL_SCANCODE_D])
+        {
+            event.setName("debug_toggle");
+            m_pGame->receiveEvent(&event);
+        }
     }
     else if (sdlEvent.type == SDL_KEYUP)
     {
