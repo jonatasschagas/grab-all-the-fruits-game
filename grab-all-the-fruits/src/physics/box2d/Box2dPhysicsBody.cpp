@@ -175,3 +175,8 @@ void Box2dPhysicsBody::addSensor(const string& name, const Vector2& position, co
     
     m_pBox2DBody->CreateFixture(&fixtureDef);
 }
+
+void Box2dPhysicsBody::lockHorizontalMovement()
+{
+    m_pBox2DBody->SetLinearVelocity(b2Vec2(0, m_pBox2DBody->GetLinearVelocity().y));
+}

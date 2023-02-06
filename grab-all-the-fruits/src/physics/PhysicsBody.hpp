@@ -43,6 +43,8 @@ public:
     virtual void applyForce(const Vector2& rForce, const PhysicsForceType& forceType) = 0;
     virtual void applyInstantForce(const Vector2& rForce) = 0;
 
+    virtual void lockHorizontalMovement() = 0;
+
     virtual void setOnCollideListener(PhysicsOnCollideListener* pOnCollideListener) = 0;
 
     virtual void addSensor(const string& name, const Vector2& position, const Vector2& size) = 0;

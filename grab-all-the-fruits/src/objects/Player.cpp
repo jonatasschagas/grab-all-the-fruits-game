@@ -80,16 +80,11 @@ void Player::update(float delta)
 
     const Vector2 linearVel = m_pBody->getVelocity();
 
-    if (isGrounded() && linearVel.y > 0)
+    if (linearVel.y > 0 && !m_isDoubleJumping)
     {
         play("jump");
     }
-    else if (!isGrounded() && (m_numBackWallContacts > 0 || m_numFrontWallContacts > 0))
-    {
-        play("wall_jmp");
-        setFlip(m_numBackWallContacts > 0);
-    }
-    if (!isGrounded() && linearVel .y < 0) {
+    else if (!isGrounded() && linearVel .y < 0) {
         play("fall");
         setFlip(linearVel .x < 0);
     } 

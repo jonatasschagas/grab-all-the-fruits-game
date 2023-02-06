@@ -31,6 +31,8 @@ public:
 
     void addSensor(const string& name, const Vector2& position, const Vector2& size) override;
 
+    void lockHorizontalMovement() override;
+
     void destroy() override;
 
 private:
