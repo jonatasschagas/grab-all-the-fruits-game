@@ -4,7 +4,7 @@
 
 #include "core/TileMapSprite.hpp"
 #include "core/Vector2.h"
-#include "World.hpp"
+#include "logic/World.hpp"
 
 class Map
 {

@@ -153,7 +153,10 @@ endif()
 message("")
 
 # copy assets to build directory
-file(COPY ${GAME_ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+add_custom_target(copy_assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/../assets ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
+add_dependencies(game copy_assets)
 
 # ------- End Finds ------ #
 

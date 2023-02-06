@@ -35,26 +35,29 @@ public:
     void updateEditor();
 
 private:
-    
+
+    bool isGrounded() const;
+
     PlatformManager* m_pPlatformManager;
     PhysicsBody* m_pBody;
     string m_type;
 
-    bool m_isGrounded;
-    bool m_isDoubleJumping;
-    bool m_isTouchingFrontWall;
-    bool m_isTouchingBackWall;
+    int m_numGroundContacts;
+    int m_numFrontWallContacts;
+    int m_numBackWallContacts;
 
+    bool m_isDoubleJumping;
+    
     void initializeMembers()
     {
         m_pBody = nullptr;
         m_pPlatformManager = nullptr;
         m_type = "player";
 
-        m_isGrounded = false;
+        m_numGroundContacts = 0;
+        m_numFrontWallContacts = 0;
+        m_numBackWallContacts = 0;
         m_isDoubleJumping = false;
-        m_isTouchingFrontWall = false;
-        m_isTouchingBackWall = false;
     }
     
 };

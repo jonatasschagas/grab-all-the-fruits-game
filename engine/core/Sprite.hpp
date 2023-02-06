@@ -84,6 +84,8 @@ public:
     
     void setVertices(vector<Vertex>& vertices);
 
+    Sprite* getParent() const { return m_pParent; }
+
 protected:
     
     Sprite* m_pParent;

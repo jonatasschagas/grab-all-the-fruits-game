@@ -1,13 +1,15 @@
 #include "GameView.hpp"
 
 #include "logic/World.hpp"
-#include "logic/Map.hpp"
+#include "level/Map.hpp"
+#include "level/LevelBackground.hpp"
 #include "objects/Player.hpp"
 #include "objects/AnimatedObjectsFactory.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
 #include "core/TileMapSprite.hpp"
+#include "core/Vector2.h"
 #include "data/TileMapData.hpp"
 
 #ifdef __APPLE__
@@ -97,14 +99,20 @@ void GameView::initGame()
     //TODO: read assets path from the config file
     m_pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
+    // creating the background
+    // TODO: read background path from the config file, along with the texture size and file path
+    LevelBackground* pLevelBackground = new LevelBackground(Vector2(10, 10), pPlatformManager, "assets/levels/backgrounds/Brown.png", Vector2(64, 64));
+    pLevelBackground->setXY(0, 0);
+    addChild(pLevelBackground);
+    pLevelBackground->fillParent();
+
     //TODO: tile size should be read from the config file
     m_pTileMapSprite = new TileMapSprite(m_tileSizeInGameUnits, pPlatformManager, m_pAnimatedObjectsFactory);
     m_pTileMapSprite->loadMap(pTileMapData, "meta");
     m_pTileMapSprite->setXY(0, 0);
+    m_pTileMapSprite->setPivotAtCenter(true);
     addChild(m_pTileMapSprite);
-    
-    Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
-    m_pTileMapSprite->setSize(screenSize);
+    m_pTileMapSprite->fillParent();
     
     m_pMap = new Map(m_pWorld, m_pTileMapSprite);
 }
@@ -146,7 +154,10 @@ void GameView::updateEditor()
 {
     if (m_started)
     {
-        m_pPlayer->updateEditor();
+        if (m_debug)
+        {
+            m_pPlayer->updateEditor();
+        }
         return;
     }
     

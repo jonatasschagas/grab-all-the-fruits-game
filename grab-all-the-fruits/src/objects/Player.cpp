@@ -56,10 +56,9 @@ void Player::receiveEvent(Event* pEvent)
     else if (pEvent->getName().compare("space_start") == 0) {
         
         const Vector2 linearVel = m_pBody->getVelocity();
-        if (m_isGrounded) 
+        if (isGrounded()) 
         {
             m_pBody->applyForce(Vector2(0, PLAYER_JUMPING_FORCE), PhysicsForceType::PhysicsForceTypeImpulse);
-            play("jump");
         } 
         else if (!m_isDoubleJumping && linearVel.y > 0)
         {
@@ -81,16 +80,25 @@ void Player::update(float delta)
 
     const Vector2 linearVel = m_pBody->getVelocity();
 
-    if (!m_isGrounded && linearVel .y < 0) {
+    if (isGrounded() && linearVel.y > 0)
+    {
+        play("jump");
+    }
+    else if (!isGrounded() && (m_numBackWallContacts > 0 || m_numFrontWallContacts > 0))
+    {
+        play("wall_jmp");
+        setFlip(m_numBackWallContacts > 0);
+    }
+    if (!isGrounded() && linearVel .y < 0) {
         play("fall");
         setFlip(linearVel .x < 0);
     } 
-    else if (m_isGrounded && linearVel .x != 0)
+    else if (isGrounded() && linearVel .x != 0)
     {
         play("run");
         setFlip(linearVel .x < 0);
     }
-    else if (m_isGrounded)
+    else if (isGrounded())
     {
         const bool flipped = isFlipped();
         play("idle");
@@ -100,7 +108,7 @@ void Player::update(float delta)
     const Vector2 gamePosition = getGamePosition();
     setXY(gamePosition);
 
-    if (m_isGrounded)
+    if (isGrounded())
     {
         m_isDoubleJumping = false;
     }
@@ -126,26 +134,26 @@ void Player::onCollide(PhysicsBody* pOtherBody)
 void Player::onSensorTriggeredStart(const string& name) 
 {
     if (name.compare("bottom-sensor") == 0) {
-        m_isGrounded = true;
+        m_numGroundContacts++;
     }
     else if (name.compare("front-sensor") == 0) {
-        m_isTouchingFrontWall = true;
+        m_numFrontWallContacts++;
     }
     else if (name.compare("back-sensor") == 0) {
-        m_isTouchingBackWall = true;
+        m_numBackWallContacts++;
     }
 }
 
 void Player::onSensorTriggeredEnd(const string& name) 
 {
     if (name.compare("bottom-sensor") == 0) {
-        m_isGrounded = false;
+        m_numGroundContacts--;
     }
     else if (name.compare("front-sensor") == 0) {
-        m_isTouchingFrontWall = false;
+        m_numFrontWallContacts--;
     }
     else if (name.compare("back-sensor") == 0) {
-        m_isTouchingBackWall = false;
+        m_numBackWallContacts--;
     }
 }
 
@@ -155,11 +163,20 @@ void Player::updateEditor()
     
     ImGui::Begin("Player", nullptr);
     
-    ImGui::Text("Touching front wall: %s", (m_isTouchingFrontWall ? "true" : "false"));
-    ImGui::Text("Touching back wall: %s", (m_isTouchingBackWall ? "true" : "false"));
-    ImGui::Text("Is Grounded: %s", (m_isGrounded ? "true" : "false"));
+    ImGui::Text("Touching front wall: %s", (m_numFrontWallContacts > 0 ? "true" : "false"));
+    ImGui::Text("Touching back wall: %s", (m_numBackWallContacts > 0 ? "true" : "false"));
+    ImGui::Text("Is Grounded: %s", (m_numGroundContacts > 0 ? "true" : "false"));
+    ImGui::Text("Current Animation: %s", getCurrentAnimationName().c_str());
+    
+    const Vector2 linearVel = m_pBody->getVelocity();
+    ImGui::Text("Linear Velocity: %f,%f", linearVel.x, linearVel.y);
     
     ImGui::End();
 
     #endif
+}
+
+bool Player::isGrounded() const
+{
+    return m_numGroundContacts > 0;
 }

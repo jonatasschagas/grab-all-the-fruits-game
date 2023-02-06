@@ -4,6 +4,7 @@
 #include "SDL_mixer.h"
 #include "glm/glm.hpp"
 #include <glm/gtx/transform.hpp>
+#include <math.h>
 
 SDLManager* SDLManager::sm_pInstance = 0;
 
@@ -18,7 +19,7 @@ void SDLManager::init(SDL_Renderer* pRenderer, int screenWidth, int screenHeight
     
     m_screenWidthInGameUnits = 100;
     // the number of vertical units depends on the aspect ratio from the device
-    m_screenHeightInGameUnits = m_screenWidthInGameUnits / aspectRatio;
+    m_screenHeightInGameUnits = ceil(m_screenWidthInGameUnits / aspectRatio);
     
     m_scaleFactorX = (screenWidth * 1.0f) /m_screenWidthInGameUnits;
     m_scaleFactorY = (screenHeight * 1.0f) /m_screenHeightInGameUnits;
@@ -149,7 +150,7 @@ void SDLManager::renderTexture(const DrawCall& drawCall)
     
     // scaling to the size of the world
     worldX = worldX * m_scaleFactorX;
-    worldY = fmax((worldY * m_scaleFactorY) - height,0);
+    worldY = worldY * m_scaleFactorY;
     
     // applying alpha
     int alpha = drawCall.textureSettings.alpha * 255;
