@@ -28,3 +28,7 @@ void WaypointAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         stopAnimation();
     }
 }
+
+void WaypointAnimatedObject::onSensorTriggeredStart(const string& name) {}
+
+void WaypointAnimatedObject::onSensorTriggeredEnd(const string& name) {}

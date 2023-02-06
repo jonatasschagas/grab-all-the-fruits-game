@@ -109,6 +109,7 @@ Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vect
     PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 0, 0, 1.0f);
     Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager);
     pBody->setGameObject(pPlayer);
+    pBody->setOnCollideListener(pPlayer);
     return pPlayer;
 }
 

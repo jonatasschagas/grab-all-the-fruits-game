@@ -29,6 +29,8 @@ public:
     const string& getName() const { return m_name; }
 
     void onCollide(PhysicsBody* pPhysicsBody) override;
+    void onSensorTriggeredStart(const string& name) override;
+    void onSensorTriggeredEnd(const string& name) override;
 
 private:
 

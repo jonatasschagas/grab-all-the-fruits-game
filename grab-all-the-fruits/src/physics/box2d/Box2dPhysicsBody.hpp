@@ -29,6 +29,8 @@ public:
     void setOnCollideListener(PhysicsOnCollideListener* pOnCollideListener) override;
     PhysicsOnCollideListener* getOnCollideListener() const;
 
+    void addSensor(const string& name, const Vector2& position, const Vector2& size) override;
+
     void destroy() override;
 
 private:

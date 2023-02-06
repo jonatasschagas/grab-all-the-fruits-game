@@ -33,3 +33,7 @@ void SpikesObstacle::onCollide(PhysicsBody* pPhysicsBody)
         m_pEventListener->receiveEvent(&event);
     }
 }
+
+void SpikesObstacle::onSensorTriggeredStart(const string& name) {}
+
+void SpikesObstacle::onSensorTriggeredEnd(const string& name) {}

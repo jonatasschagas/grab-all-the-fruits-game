@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string>
 #include <functional>
+#include <map>
 #include "../core/Sprite.hpp"
 
 using namespace std;
@@ -31,6 +32,7 @@ public:
     const bool isAnimationFinished(const string& animationName) const;
     AnimationStateData* getCurrentAnimationState() const { return m_pCurrentAnimationStateData; };
     const string& getCurrentAnimationName() const;
+    const bool isPlaying(const string& animationName) const;
     float getProgressAnimation() const;
     
     bool isVisibleInParent(Sprite* pChild) const override;
@@ -39,7 +41,7 @@ public:
     void resumeAnimation() { m_stopAnimation = false; }
     bool isAnimationStopped() const { return m_stopAnimation; }
 
-    void setOnAnimationFinishedCallback(function<void()> callback) { m_onAnimationFinishedCallback = callback; }
+    void setOnAnimationFinishedCallback(const string& animationName, function<void()> callback) { m_animationFinishedCallbacks[animationName] = callback; }
 
 private:
     
@@ -56,8 +58,8 @@ private:
     float m_spriteTimeAccumulator;
     bool m_stopAnimation;
     
-    function<void()> m_onAnimationFinishedCallback;
-
+    map<string, function<void()>> m_animationFinishedCallbacks;
+     
     void initializeMembers()
     {
         m_pAnimatedSpriteData = nullptr;
@@ -67,6 +69,7 @@ private:
         m_spriteTimeAccumulator = 0.0f;
         m_currentAnimationStateIndex = 0;
         m_stopAnimation = false;
+        m_animationFinishedCallbacks.clear();
     }
     
 };

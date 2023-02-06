@@ -36,3 +36,7 @@ void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         destroy();
     }
 }
+
+void FruitAnimatedObject::onSensorTriggeredStart(const string& name) {}
+
+void FruitAnimatedObject::onSensorTriggeredEnd(const string& name) {}

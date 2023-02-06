@@ -65,6 +65,7 @@ PhysicsBody* Box2dPhysicsSystem::createDynamicBody(
     b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
     b2Body->CreateFixture(&fixtureDef);
     b2Body->SetGravityScale(gravityScale);
+    b2Body->SetSleepingAllowed(false);
     
     // do not rotate the body freely
     b2Body->SetFixedRotation(true);
@@ -137,13 +138,15 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
     Box2dPhysicsBody* pBodyA = nullptr;
     Box2dPhysicsBody* pBodyB = nullptr;
 
-    b2BodyUserData bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
+    b2Fixture* pFixtureA = contact->GetFixtureA();
+    b2BodyUserData bodyUserData = pFixtureA->GetBody()->GetUserData();
     if (bodyUserData.pointer)
     {
         pBodyA = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
     }
-        
-    bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
+
+    b2Fixture* pFixtureB = contact->GetFixtureB();
+    bodyUserData = pFixtureB->GetBody()->GetUserData();
     if (bodyUserData.pointer)
     {
         pBodyB = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
@@ -153,15 +156,59 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
     if (pOnCollideListener != nullptr)
     {
         pOnCollideListener->onCollide(pBodyB);
+        if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
+        {
+            string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
+            pOnCollideListener->onSensorTriggeredStart(*pName);
+        }
     }
 
     pOnCollideListener = pBodyB->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
         pOnCollideListener->onCollide(pBodyA);
+        if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
+        {
+            pOnCollideListener->onSensorTriggeredStart(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));
+        }
     }
 }
 
 void Box2dPhysicsSystem::EndContact(b2Contact* contact)
 {
+    Box2dPhysicsBody* pBodyA = nullptr;
+    Box2dPhysicsBody* pBodyB = nullptr;
+
+    b2Fixture* pFixtureA = contact->GetFixtureA();
+    b2BodyUserData bodyUserData = pFixtureA->GetBody()->GetUserData();
+    if (bodyUserData.pointer)
+    {
+        pBodyA = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
+    }
+
+    b2Fixture* pFixtureB = contact->GetFixtureB();
+    bodyUserData = pFixtureB->GetBody()->GetUserData();
+    if (bodyUserData.pointer)
+    {
+        pBodyB = reinterpret_cast<Box2dPhysicsBody*>(bodyUserData.pointer);
+    }
+
+    PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
+    if (pOnCollideListener != nullptr)
+    {
+        if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
+        {
+            string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
+            pOnCollideListener->onSensorTriggeredEnd(*pName);
+        }
+    }
+
+    pOnCollideListener = pBodyB->getOnCollideListener();
+    if (pOnCollideListener != nullptr)
+    {
+        if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
+        {
+            pOnCollideListener->onSensorTriggeredEnd(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));
+        }
+    }
 }

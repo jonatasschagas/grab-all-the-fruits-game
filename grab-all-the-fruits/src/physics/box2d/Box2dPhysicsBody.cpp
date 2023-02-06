@@ -62,7 +62,7 @@ const Vector2 Box2dPhysicsBody::getPhysicsSize() const
     }
     else
     {
-         b2AABB shapeAABB;
+        b2AABB shapeAABB;
         b2Transform t;
         pShape->ComputeAABB(&shapeAABB, t, 0);
         float bodyWidth = shapeAABB.upperBound.x - shapeAABB.lowerBound.x;
@@ -152,4 +152,26 @@ void Box2dPhysicsBody::destroy()
         b2World* pBox2DWorld = m_pBox2DBody->GetWorld();
         pBox2DWorld->DestroyBody(m_pBox2DBody);
     }
+}
+
+void Box2dPhysicsBody::addSensor(const string& name, const Vector2& position, const Vector2& size) 
+{
+    b2PolygonShape squareShape;
+    squareShape.SetAsBox(
+        (size.x * METERS_PER_PIXEL)/2, 
+        (size.y * METERS_PER_PIXEL)/2,
+        b2Vec2(
+            (position.x * METERS_PER_PIXEL), 
+            (position.y * METERS_PER_PIXEL)
+        ),
+        0
+    );
+    
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &squareShape;
+    fixtureDef.isSensor = true;
+    string* pName = new string(name);
+    fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(pName);
+    
+    m_pBox2DBody->CreateFixture(&fixtureDef);
 }

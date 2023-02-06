@@ -43,13 +43,16 @@ void AnimatedSprite::update(float delta)
         {
             if (m_pCurrentAnimationStateData->isPlayOnce())
             {
-                if (m_onAnimationFinishedCallback)
+                if (m_animationFinishedCallbacks.find(m_pCurrentAnimationStateData->getName()) != m_animationFinishedCallbacks.end())
                 {
-                    m_onAnimationFinishedCallback();
+                    function<void()> onAnimationFinishedCallback = m_animationFinishedCallbacks[m_pCurrentAnimationStateData->getName()];
+                    if (onAnimationFinishedCallback)
+                    {
+                        onAnimationFinishedCallback();
+                    }
                 }
                 return;
             }
-                
             m_currentAnimationStateIndex = 0;
         }
         
@@ -99,9 +102,11 @@ void AnimatedSprite:: play(const string& animationName, const bool flip)
     setFlip(flip);
 
     // animation is already playing
-    if (m_pCurrentAnimationStateData != nullptr && m_pCurrentAnimationStateData->getName().compare(animationName) == 0)
+    if (isPlaying(animationName))
+    {
         return;
-    
+    }
+        
     m_pCurrentAnimationStateData = m_pAnimatedSpriteData->getAnimation(animationName);
     m_spriteTimeAccumulator = 0;
     
@@ -180,4 +185,14 @@ bool AnimatedSprite::isAtLastSprite() const
 const string& AnimatedSprite::getCurrentAnimationName() const
 {
     return m_pCurrentAnimationStateData->getName();
+}
+
+const bool AnimatedSprite::isPlaying(const string& animationName) const
+{
+    if (m_pCurrentAnimationStateData == nullptr)
+    {
+        return false;
+    }
+    
+    return m_pCurrentAnimationStateData->getName().compare(animationName) == 0;
 }

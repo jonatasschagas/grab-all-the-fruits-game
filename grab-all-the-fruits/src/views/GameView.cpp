@@ -21,6 +21,9 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 
 GameView::~GameView()
 {
+    // remove the tilemap first
+    removeChildForced(m_pTileMapSprite);
+    
     delete m_pMap;
     delete m_pMainMenu;
     delete m_pWorld;
@@ -95,7 +98,7 @@ void GameView::initGame()
     m_pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
     //TODO: tile size should be read from the config file
-    m_pTileMapSprite = new TileMapSprite(Vector2(5, 5), pPlatformManager, m_pAnimatedObjectsFactory);
+    m_pTileMapSprite = new TileMapSprite(m_tileSizeInGameUnits, pPlatformManager, m_pAnimatedObjectsFactory);
     m_pTileMapSprite->loadMap(pTileMapData, "meta");
     m_pTileMapSprite->setXY(0, 0);
     addChild(m_pTileMapSprite);
@@ -143,6 +146,7 @@ void GameView::updateEditor()
 {
     if (m_started)
     {
+        m_pPlayer->updateEditor();
         return;
     }
     

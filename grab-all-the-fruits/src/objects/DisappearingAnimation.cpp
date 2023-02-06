@@ -10,7 +10,7 @@ DisappearingAnimation::DisappearingAnimation(
 {
     initializeMembers();
 
-    setOnAnimationFinishedCallback([this]() -> void { destroy(); });
+    setOnAnimationFinishedCallback("idle", [this]() -> void { destroy(); });
 }
 
 DisappearingAnimation::~DisappearingAnimation()

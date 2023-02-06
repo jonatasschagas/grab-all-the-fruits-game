@@ -5,6 +5,9 @@
 #include "core/Vector2.h"
 #include "PhysicsOnCollideListener.hpp"
 #include "objects/GameObject.hpp"
+#include <string>
+
+using namespace std;
 
 enum PhysicsBodyType
 {
@@ -41,6 +44,8 @@ public:
     virtual void applyInstantForce(const Vector2& rForce) = 0;
 
     virtual void setOnCollideListener(PhysicsOnCollideListener* pOnCollideListener) = 0;
+
+    virtual void addSensor(const string& name, const Vector2& position, const Vector2& size) = 0;
 
     virtual void destroy() = 0;
 
