@@ -51,7 +51,7 @@ private:
     
     void initializeMembers() { 
         m_pParam = nullptr; 
-        m_iData = 0;
+        m_iData = -1;
         m_target = "";
         m_inputCoordinates = Vector2(0, 0);
         m_eventName = "";

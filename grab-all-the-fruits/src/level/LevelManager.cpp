@@ -5,6 +5,7 @@
 #include "platform/PlatformManager.h"
 #include "data/TileMapData.hpp"
 #include "core/Vector2.h"
+#include "imgui/imgui.h"
 
 using namespace rapidjson;
 
@@ -69,7 +70,20 @@ void LevelManager::loadLevel(const int levelindex)
 
 void LevelManager::updateEditor()
 {
+    ImGui::Begin("Levels", nullptr, 
+    ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
+    for (int i = 0; i < m_levels.size(); i++)
+    {
+        if (ImGui::Button(m_levels[i].title.c_str()))
+        {
+            Event eventLoadLevel("load-level");
+            eventLoadLevel.setData(i);
+            m_pEventListener->receiveEvent(&eventLoadLevel);
+        }
+    }
+    
+    ImGui::End();
 }
 
 void LevelManager::loadLevelsData(const string& levelsFile)

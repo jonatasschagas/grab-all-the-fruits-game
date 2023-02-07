@@ -105,6 +105,12 @@ void GameView::receiveEvent(Event* pEvent)
         initGame();
         return;
     }   
+    else if (pEvent->getName().compare("load-level") == 0)
+    {
+        m_currentLevel = pEvent->getData();
+        initGame();
+        return;
+    }   
     
     if (!m_died)
     {
@@ -176,6 +182,7 @@ void GameView::updateEditor()
         if (m_debug)
         {
             m_pPlayer->updateEditor();
+            m_pLevelManager->updateEditor();
         }
 
         m_pHUD->renderIMGUI();

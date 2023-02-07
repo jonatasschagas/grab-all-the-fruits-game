@@ -3,9 +3,7 @@
 #include "utils/StringUtils.h"
 #include "objects/Player.hpp"
 
-#if IMGUI_ENABLED
 #include "imgui/imgui.h"
-#endif
 
 HUD::HUD(int screenWidth, int screenHeight, EventListener* pEventListener)
 {
