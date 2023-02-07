@@ -1,16 +1,14 @@
 #include "GameView.hpp"
 
 #include "logic/World.hpp"
-#include "level/Map.hpp"
-#include "level/LevelBackground.hpp"
 #include "objects/Player.hpp"
 #include "objects/AnimatedObjectsFactory.hpp"
 #include "view/ViewManager.hpp"
 #include "event/Event.hpp"
 #include "platform/PlatformManager.h"
-#include "core/TileMapSprite.hpp"
 #include "core/Vector2.h"
-#include "data/TileMapData.hpp"
+#include "core/Sprite.hpp"
+#include "logic/GameConfiguration.h"
 
 #ifdef __APPLE__
     #include <TargetConditionals.h>
@@ -23,10 +21,7 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 
 GameView::~GameView()
 {
-    // remove the tilemap first
-    removeChildForced(m_pTileMapSprite);
-    
-    delete m_pMap;
+    delete m_pLevelManager;
     delete m_pMainMenu;
     delete m_pWorld;
     
@@ -59,17 +54,21 @@ void GameView::receiveEvent(Event* pEvent)
     m_pWorld->receiveEvent(pEvent);
     if (pEvent->getName().compare("create-player") == 0)
     {
-        m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
-        m_pTileMapSprite->addChild(m_pPlayer);
+        m_playerStartPosition = pEvent->getInputCoordinates();
+        createPlayer(m_playerStartPosition);
     }
     else if (pEvent->getName().compare("fruit-collected") == 0)
     {
-        createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
     }
     else if (pEvent->getName().compare("player-died") == 0 && !m_died)
     {
-        createDisappearingAnimation(pEvent->getInputCoordinates(), m_tileSizeInGameUnits);
+        AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
         m_pPlayer->destroy();
+        pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
+            createPlayer(m_playerStartPosition);
+            pDisappearingAnimation->destroy();
+        });
         m_died = true;
     }   
     else if (pEvent->getName().compare("debug_toggle") == 0)
@@ -86,35 +85,14 @@ void GameView::initGame()
 {
     PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
     
-    /*LOADING MAP*/
-    //TODO: load map from file
-    TileMapData* pTileMapData = new TileMapData("assets/levels/level1.json", "assets/levels", "assets/levels");
+    m_pWorld = new World(pPlatformManager);
     
-    //TODO: tile size should be read from the config file 
-    m_tileSizeInGameUnits = Vector2(5, 5);
-    Vector2 mapSizeInGameUnits(pTileMapData->getWidth() * m_tileSizeInGameUnits.x, pTileMapData->getHeight() * m_tileSizeInGameUnits.y);
+    m_pAnimatedObjectsFactory = new AnimatedObjectsFactory(OBJECTS_PATH, pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
-    m_pWorld = new World(mapSizeInGameUnits, pPlatformManager);
-    
-    //TODO: read assets path from the config file
-    m_pAnimatedObjectsFactory = new AnimatedObjectsFactory("assets/objects", pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
+    m_pLevelManager = new LevelManager(LEVELS_FILE, static_cast<Sprite*>(this), m_pWorld, m_pAnimatedObjectsFactory);
 
-    // creating the background
-    // TODO: read background path from the config file, along with the texture size and file path
-    LevelBackground* pLevelBackground = new LevelBackground(Vector2(10, 10), pPlatformManager, "assets/levels/backgrounds/Brown.png", Vector2(64, 64));
-    pLevelBackground->setXY(0, 0);
-    addChild(pLevelBackground);
-    pLevelBackground->fillParent();
-
-    //TODO: tile size should be read from the config file
-    m_pTileMapSprite = new TileMapSprite(m_tileSizeInGameUnits, pPlatformManager, m_pAnimatedObjectsFactory);
-    m_pTileMapSprite->loadMap(pTileMapData, "meta");
-    m_pTileMapSprite->setXY(0, 0);
-    m_pTileMapSprite->setPivotAtCenter(true);
-    addChild(m_pTileMapSprite);
-    m_pTileMapSprite->fillParent();
-    
-    m_pMap = new Map(m_pWorld, m_pTileMapSprite);
+    //TODO: load level 0 if new game, load last level if continue
+    m_pLevelManager->loadLevel(0);
 }
 
 void GameView::render()
@@ -128,7 +106,7 @@ void GameView::render()
     
     if (m_debug)
     {
-        m_pWorld->renderDebug(m_pTileMapSprite->getGamePosition());
+        m_pWorld->renderDebug(m_pLevelManager->getTileMapPosition());
     }
 }
 
@@ -142,7 +120,7 @@ void GameView::update(float delta)
     {
         m_pPlayer->update(delta);
         Vector2 playerPosition = m_pPlayer->getGamePosition();
-        m_pMap->updateCameraPosition(playerPosition);
+        m_pLevelManager->updateCameraPosition(playerPosition);
     }
 }
 
@@ -176,9 +154,17 @@ void GameView::onClick(const string& rButtonName)
     }
 }
 
-void GameView::createDisappearingAnimation(const Vector2& position, const Vector2& size)
+AnimatedObject* GameView::createDisappearingAnimation(const Vector2& position, const Vector2& size)
 {
     AnimatedObject* pAnimatedObj = m_pAnimatedObjectsFactory->createDisappearingAnimation(position, size);
     pAnimatedObj->play("idle");
-    m_pTileMapSprite->addChild(pAnimatedObj);
+    m_pLevelManager->addSpriteToTileMap(static_cast<Sprite*>(pAnimatedObj));
+    return pAnimatedObj;
+}
+
+void GameView::createPlayer(const Vector2& position)
+{
+    m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(position, m_pLevelManager->getTileSize());
+    m_pLevelManager->addSpriteToTileMap(static_cast<Sprite*>(m_pPlayer));
+    m_died = false;   
 }

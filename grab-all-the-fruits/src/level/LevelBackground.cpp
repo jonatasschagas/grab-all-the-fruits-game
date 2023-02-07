@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-LevelBackground::LevelBackground(const Vector2& tileSizeInGameUnits, PlatformManager* pPlatformManager, const string& textureFileName, const Vector2& textureSize)
+LevelBackground::LevelBackground(const Vector2& backgroundTileSizeInGameUnits, PlatformManager* pPlatformManager, const string& textureFileName, const Vector2& textureSize)
     : Sprite(pPlatformManager)
 {
     initializeMembers();
@@ -12,9 +12,9 @@ LevelBackground::LevelBackground(const Vector2& tileSizeInGameUnits, PlatformMan
     loadTexture(textureFileName);
 
     const Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
-    int numTileHorizontally = screenSize.x / tileSizeInGameUnits.x;
-    int numTileVertically = ceil(screenSize.y / tileSizeInGameUnits.y);
-    float bgHeight = numTileVertically * tileSizeInGameUnits.y;
+    int numTileHorizontally = screenSize.x / backgroundTileSizeInGameUnits.x;
+    int numTileVertically = ceil(screenSize.y / backgroundTileSizeInGameUnits.y);
+    float bgHeight = numTileVertically * backgroundTileSizeInGameUnits.y;
     
     m_pBg1 = new Sprite(pPlatformManager);
     addChild(m_pBg1);
@@ -34,8 +34,8 @@ LevelBackground::LevelBackground(const Vector2& tileSizeInGameUnits, PlatformMan
             {
                 Sprite* pTile = new Sprite(pPlatformManager);
                 pTile->loadTexture(textureFileName);
-                pTile->setXY(i * tileSizeInGameUnits.x, j * tileSizeInGameUnits.y);
-                pTile->setSize(tileSizeInGameUnits);
+                pTile->setXY(i * backgroundTileSizeInGameUnits.x, j * backgroundTileSizeInGameUnits.y);
+                pTile->setSize(backgroundTileSizeInGameUnits);
                 pTile->setTextureCoordinates(0, 0, textureSize.x, textureSize.y);
                 
                 if (bg == 0)

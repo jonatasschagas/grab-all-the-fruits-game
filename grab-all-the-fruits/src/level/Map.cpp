@@ -73,6 +73,7 @@ const bool Map::isTileGround(const int& tileX, const int& tileY) const
     }
     else
     {
+        // capping the vertical offset to 100.f, so that the camera doesnt go underground.
         m_pTileMapSprite->setYOffSet(min(rCameraPosition.y - halfScreenVertical - m_pTileMapSprite->getTileSizeInGameUnits().y, 100.f));
     }
     

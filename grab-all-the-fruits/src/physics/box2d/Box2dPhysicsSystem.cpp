@@ -10,8 +10,8 @@ Box2dPhysicsSystem::Box2dPhysicsSystem(const Vector2& rWorldSize, PlatformManage
     m_worldSize(rWorldSize)
 {
     initializeMembers();
-
-    m_pDebugRenderer = new Box2dDebugRenderer(rWorldSize, pPlatformManager);
+    m_pPlatformManager = pPlatformManager;
+    m_pDebugRenderer = new Box2dDebugRenderer(m_worldSize, m_pPlatformManager);
 }
 
 Box2dPhysicsSystem::~Box2dPhysicsSystem()

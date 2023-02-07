@@ -83,6 +83,7 @@ void Player::update(float delta)
     if (linearVel.y > 0 && !m_isDoubleJumping)
     {
         play("jump");
+        setFlip(linearVel .x < 0);
     }
     else if (!isGrounded() && linearVel .y < 0) {
         play("fall");

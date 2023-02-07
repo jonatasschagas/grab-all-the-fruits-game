@@ -51,11 +51,13 @@ private:
     b2World* m_pBox2DWorld;
     Box2dDebugRenderer * m_pDebugRenderer;
     Vector2 m_worldSize;
+    PlatformManager* m_pPlatformManager;
 
     void initializeMembers()
     {
         m_pBox2DWorld = nullptr;
         m_pDebugRenderer = nullptr;
+        m_pPlatformManager = nullptr;
     }
 
 };

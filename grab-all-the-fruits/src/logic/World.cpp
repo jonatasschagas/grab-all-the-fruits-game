@@ -4,13 +4,11 @@
 #include "GameConfiguration.h"
 #include <string>
 
-World::World(const Vector2& worldSize, PlatformManager* pPlatformManager)
+World::World(PlatformManager* pPlatformManager)
 {
     initializeMembers();
 
-    m_pPhysicsSystem = new Box2dPhysicsSystem(worldSize, pPlatformManager);
-    Vector2 gravity(0.0f, GRAVITY);
-    m_pPhysicsSystem->initWorld(gravity);
+    m_pPlatformManager = pPlatformManager;
 }
 
 World::~World()
@@ -34,6 +32,13 @@ World::~World()
     
     initializeMembers();
 }
+
+void World::initWorld(const Vector2& mapSize)
+{
+    m_pPhysicsSystem = new Box2dPhysicsSystem(mapSize, m_pPlatformManager);
+    Vector2 gravity(0.0f, GRAVITY);
+    m_pPhysicsSystem->initWorld(gravity);
+}  
 
 void World::update(float delta)
 {

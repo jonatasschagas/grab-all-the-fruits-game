@@ -17,9 +17,11 @@ class World : public EventListener
 {
 public:
     
-    World(const Vector2& worldSize, PlatformManager* pPlatformManager);
+    World(PlatformManager* pPlatformManager);
     ~World();
     
+    void initWorld(const Vector2& mapSize);
+
     void update(float delta);
     void renderDebug(const Vector2& rOffset);
     void receiveEvent(Event* pEvent) override;
@@ -34,10 +36,12 @@ private:
     vector<PhysicsBody*> m_staticBodies;
     vector<PhysicsBody*> m_sensors;
     PhysicsSystem* m_pPhysicsSystem;
+    PlatformManager* m_pPlatformManager;
 
     void initializeMembers()
     {
         m_pPhysicsSystem = nullptr;
+        m_pPlatformManager = nullptr;
         m_dynamicBodies.clear();
         m_staticBodies.clear();
         m_sensors.clear();

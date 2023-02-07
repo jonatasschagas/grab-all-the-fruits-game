@@ -1,0 +1,23 @@
+{
+    "levelsFolder": "assets/levels/",
+    "tileSetsFolder": "assets/levels/",
+    "tileSize": {
+        "x": 5,
+        "y": 5
+    },
+    "levels": [
+        {
+            "title": "Hello World!",
+            "configFile": "assets/levels/level1.json",
+            "background": "assets/levels/backgrounds/Brown.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            }
+        }
+    ]
+}
