@@ -8,6 +8,7 @@
 #include "core/Sprite.hpp"
 #include "core/Vector2.h"
 #include "ui/MainMenu.hpp"
+#include "ui/HUD.hpp"
 #include "ui/ButtonClickListener.hpp"
 #include "view/View.h"
 #include "level/LevelManager.hpp"
@@ -51,6 +52,7 @@ private:
     Player* m_pPlayer;
     Vector2 m_playerStartPosition;
     MainMenu* m_pMainMenu;
+    HUD* m_pHUD;
     LevelManager* m_pLevelManager;
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory;
 
@@ -73,6 +75,7 @@ private:
         m_died = false;
         m_playerStartPosition.x = 0;
         m_playerStartPosition.y = 0;
+        m_pHUD = nullptr;
     }
     
 };

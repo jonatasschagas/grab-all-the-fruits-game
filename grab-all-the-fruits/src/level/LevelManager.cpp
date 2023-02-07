@@ -8,13 +8,14 @@
 
 using namespace rapidjson;
 
-LevelManager::LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory)
+LevelManager::LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory, EventListener* pEventListener)
 {
     initializeMembers();
 
     m_pStage = pStage;
     m_pWorld = pWorld;
     m_pAnimatedObjectsFactory = pAnimatedObjectsFactory;
+    m_pEventListener = pEventListener;
 
     loadLevelsData(levelsFile);
 }
@@ -59,6 +60,10 @@ void LevelManager::loadLevel(const int levelindex)
     m_pCurrentLevelTileMap->fillParent();
 
     m_pMap = new Map(m_pWorld, m_pCurrentLevelTileMap);
+
+    Event levelStartEvent("level-start");
+    levelStartEvent.setTarget(level.title);
+    m_pEventListener->receiveEvent(&levelStartEvent);
 }
 
 void LevelManager::updateEditor()

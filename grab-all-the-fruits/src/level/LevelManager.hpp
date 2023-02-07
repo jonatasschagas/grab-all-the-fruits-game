@@ -7,6 +7,7 @@
 #include "core/Sprite.hpp"
 #include "core/TileMapSprite.hpp"
 #include "core/Vector2.h"
+#include "event/EventListener.hpp"
 #include "LevelBackground.hpp"
 #include "Map.hpp"
 #include "logic/World.hpp"
@@ -26,7 +27,7 @@ struct LevelData
 class LevelManager
 {
 public:
-    LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory);
+    LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory, EventListener* pEventListener);
     ~LevelManager();
     
     void loadLevel(const int levelindex);
@@ -49,6 +50,7 @@ private:
     World* m_pWorld; // physics world
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory; // animated objects factory
     vector<LevelData> m_levels;
+    EventListener* m_pEventListener;
 
     Vector2 m_tileSize;
     string m_levelsFolder;
@@ -62,6 +64,7 @@ private:
         m_pWorld = nullptr;
         m_pMap = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
+        m_pEventListener = nullptr;
         m_levelsFolder = "";
         m_tilesetsFolder = "";
     }

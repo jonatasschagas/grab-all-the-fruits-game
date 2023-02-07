@@ -43,6 +43,8 @@ void GameView::initialize(ViewManager* pViewManager)
     m_pMainMenu = new MainMenu(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
     m_pMainMenu->setButtonClickListener(this);
 
+    m_pHUD = new HUD(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
+
     initGame();
     
     m_initialized = true;
@@ -52,6 +54,7 @@ void GameView::initialize(ViewManager* pViewManager)
 void GameView::receiveEvent(Event* pEvent)
 {
     m_pWorld->receiveEvent(pEvent);
+
     if (pEvent->getName().compare("create-player") == 0)
     {
         m_playerStartPosition = pEvent->getInputCoordinates();
@@ -59,7 +62,10 @@ void GameView::receiveEvent(Event* pEvent)
     }
     else if (pEvent->getName().compare("fruit-collected") == 0)
     {
-        createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
+        AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
+         pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
+            pDisappearingAnimation->destroy();
+        });
     }
     else if (pEvent->getName().compare("player-died") == 0 && !m_died)
     {
@@ -79,6 +85,8 @@ void GameView::receiveEvent(Event* pEvent)
     {
         m_pPlayer->receiveEvent(pEvent);
     }
+    
+    m_pHUD->receiveEvent(pEvent);
 }
 
 void GameView::initGame()
@@ -89,7 +97,7 @@ void GameView::initGame()
     
     m_pAnimatedObjectsFactory = new AnimatedObjectsFactory(OBJECTS_PATH, pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
-    m_pLevelManager = new LevelManager(LEVELS_FILE, static_cast<Sprite*>(this), m_pWorld, m_pAnimatedObjectsFactory);
+    m_pLevelManager = new LevelManager(LEVELS_FILE, static_cast<Sprite*>(this), m_pWorld, m_pAnimatedObjectsFactory, m_pViewManager);
 
     //TODO: load level 0 if new game, load last level if continue
     m_pLevelManager->loadLevel(0);
@@ -122,6 +130,8 @@ void GameView::update(float delta)
         Vector2 playerPosition = m_pPlayer->getGamePosition();
         m_pLevelManager->updateCameraPosition(playerPosition);
     }
+
+    m_pHUD->update(delta);
 }
 
 void GameView::readInput(int x, int y, bool pressed)
@@ -136,6 +146,9 @@ void GameView::updateEditor()
         {
             m_pPlayer->updateEditor();
         }
+
+        m_pHUD->renderIMGUI();
+        
         return;
     }
     

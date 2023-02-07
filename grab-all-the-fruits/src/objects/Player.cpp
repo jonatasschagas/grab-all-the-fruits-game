@@ -6,6 +6,7 @@
 #include "physics/PhysicsBody.hpp"
 #include "logic/GameConfiguration.h"
 #include "utils/StringUtils.h"
+#include <math.h>
 
 #if IMGUI_ENABLED
 #include "imgui/imgui.h"
@@ -89,7 +90,7 @@ void Player::update(float delta)
         play("fall");
         setFlip(linearVel .x < 0);
     } 
-    else if (isGrounded() && linearVel .x != 0)
+    else if (isGrounded() && abs(linearVel.x) > 0.5f)
     {
         play("run");
         setFlip(linearVel .x < 0);

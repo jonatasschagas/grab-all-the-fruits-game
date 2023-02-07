@@ -28,11 +28,9 @@ void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
     {
-        setVisible(false);
         Event event("fruit-collected");
         event.setInputCoordinates(getGamePosition());
         m_pEventListener->receiveEvent(&event);
-
         destroy();
     }
 }
