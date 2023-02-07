@@ -180,3 +180,8 @@ void Box2dPhysicsBody::lockHorizontalMovement()
 {
     m_pBox2DBody->SetLinearVelocity(b2Vec2(0, m_pBox2DBody->GetLinearVelocity().y));
 }
+
+void Box2dPhysicsBody::setVelocity(const Vector2& rVelocity)
+{
+    m_pBox2DBody->SetLinearVelocity(b2Vec2(rVelocity.x, rVelocity.y));
+}

@@ -18,7 +18,9 @@ public:
     const Vector2 getPhysicsSize() const override;
     const Vector2 getPhysicsPosition() const override;
     const Vector2 getVelocity() const override;
+    void setVelocity(const Vector2& rVelocity) override;
     void setGameObject(GameObject* pGameObject) override;
+    
     GameObject* getGameObject() const override;
 
     void updatePhysicsPosition(const Vector2& rGamePosition) override;

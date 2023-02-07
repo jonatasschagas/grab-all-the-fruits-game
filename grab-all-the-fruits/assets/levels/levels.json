@@ -17,7 +17,22 @@
             "backgroundTextureSize": {
                 "x": 64,
                 "y": 64
-            }
+            },
+            "numFruits": 24
+        },
+        {
+            "title": "Level 2",
+            "configFile": "assets/levels/level2.json",
+            "background": "assets/levels/backgrounds/Blue.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 6
         }
     ]
 }

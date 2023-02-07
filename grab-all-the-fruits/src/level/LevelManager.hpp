@@ -22,6 +22,7 @@ struct LevelData
     string background;
     Vector2 backgroundTileSize;
     Vector2 backgroundTextureSize;
+    int numFruits;
 };
 
 class LevelManager
@@ -39,6 +40,8 @@ public:
     const Vector2 getTileMapSize() const;
     Vector2 getTileMapPosition() const;
 
+    const bool hasCompletedLevel(const int numFruitsCollected) const;
+
 private:
 
     void loadLevelsData(const string& levelsFile);
@@ -51,6 +54,7 @@ private:
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory; // animated objects factory
     vector<LevelData> m_levels;
     EventListener* m_pEventListener;
+    int m_currentLevelIndex;
 
     Vector2 m_tileSize;
     string m_levelsFolder;
@@ -67,6 +71,7 @@ private:
         m_pEventListener = nullptr;
         m_levelsFolder = "";
         m_tilesetsFolder = "";
+        m_currentLevelIndex = 0;
     }
 
 };

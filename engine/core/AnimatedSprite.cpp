@@ -58,6 +58,7 @@ void AnimatedSprite::update(float delta)
         
         string currentSpriteName = spriteNames[m_currentAnimationStateIndex];
         m_pCurrentSpriteData = m_pSpritesheetData->getSpriteByName(currentSpriteName);
+        assert(m_pCurrentSpriteData != nullptr);
         m_spriteTimeAccumulator = 0.0f;
         
     }

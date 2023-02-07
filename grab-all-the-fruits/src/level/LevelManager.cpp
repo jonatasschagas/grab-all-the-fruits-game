@@ -36,7 +36,8 @@ void LevelManager::loadLevel(const int levelindex)
     delete m_pCurrentLevelBackground;
 
     PlatformManager* pPlatformManager = m_pStage->getPlatformManager();
-
+    
+    m_currentLevelIndex = levelindex;
     LevelData level = m_levels[levelindex];
 
     string levelConfigFile = m_levelsFolder + level.configFile;
@@ -95,6 +96,7 @@ void LevelManager::loadLevelsData(const string& levelsFile)
         level.backgroundTileSize.y = levelData["backgroundTileSize"]["y"].GetInt();
         level.backgroundTextureSize.x = levelData["backgroundTextureSize"]["x"].GetInt();
         level.backgroundTextureSize.y = levelData["backgroundTextureSize"]["y"].GetInt();
+        level.numFruits = levelData["numFruits"].GetInt();
         m_levels.push_back(level);
     }
 }
@@ -120,4 +122,9 @@ Vector2 LevelManager::getTileMapPosition() const
 void LevelManager::updateCameraPosition(const Vector2& rCameraPosition)
 {
     m_pMap->updateCameraPosition(rCameraPosition);
+}
+
+const bool LevelManager::hasCompletedLevel(const int numFruitsCollected) const
+{
+    return numFruitsCollected == m_levels[m_currentLevelIndex].numFruits;
 }

@@ -7,6 +7,7 @@
 #include "PhysicalAnimatedObject.hpp"
 #include "core/Vector2.h"
 #include "physics/PhysicsOnCollideListener.hpp"
+#include "event/EventListener.hpp"
 
 class PlatformManager;
 class PhysicsBody;
@@ -16,7 +17,7 @@ class Player : public EventListener, public PhysicalAnimatedObject, public Physi
 {
 public:
     
-    Player(PlatformManager* pPlatformManager, PhysicsBody* pBody, DataCacheManager& rDataCacheManager);
+    Player(PlatformManager* pPlatformManager, PhysicsBody* pBody, DataCacheManager& rDataCacheManager, EventListener* pEventListener);
     
     ~Player();
     
@@ -34,17 +35,21 @@ public:
 
     void updateEditor();
 
+    int getNumFruitsCollected() const { return m_numFruitsCollected; }
+
 private:
 
     bool isGrounded() const;
 
     PlatformManager* m_pPlatformManager;
     PhysicsBody* m_pBody;
+    EventListener* m_pEventListener;
     string m_type;
 
     int m_numGroundContacts;
     int m_numFrontWallContacts;
     int m_numBackWallContacts;
+    int m_numFruitsCollected;
 
     bool m_isDoubleJumping;
     
@@ -52,11 +57,13 @@ private:
     {
         m_pBody = nullptr;
         m_pPlatformManager = nullptr;
+        m_pEventListener = nullptr;
         m_type = "player";
 
         m_numGroundContacts = 0;
         m_numFrontWallContacts = 0;
         m_numBackWallContacts = 0;
+        m_numFruitsCollected = 0;
         m_isDoubleJumping = false;
     }
     

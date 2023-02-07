@@ -35,6 +35,7 @@ public:
     virtual const Vector2 getPhysicsSize() const = 0;
     virtual const Vector2 getPhysicsPosition() const = 0;
     virtual const Vector2 getVelocity() const = 0;
+    virtual void setVelocity(const Vector2& rVelocity) = 0;
 
     virtual void updatePhysicsPosition(const Vector2& rGamePosition) = 0;
     virtual void setGameObject(GameObject* pGameObject) = 0;

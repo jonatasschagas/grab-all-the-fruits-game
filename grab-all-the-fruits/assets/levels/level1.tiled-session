@@ -7,6 +7,14 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "level1.json": {
+            "scale": 1.5315,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 559.9085863532484,
+                "y": 394.05811296114916
+            }
+        },
         "main_tileset.json": {
             "scaleInDock": 1,
             "scaleInEditor": 1

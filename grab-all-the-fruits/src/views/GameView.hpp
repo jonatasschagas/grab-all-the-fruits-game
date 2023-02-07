@@ -55,6 +55,7 @@ private:
     HUD* m_pHUD;
     LevelManager* m_pLevelManager;
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory;
+    int m_currentLevel;
 
     bool m_initialized;
     bool m_started;
@@ -71,11 +72,13 @@ private:
         m_pPlayer = nullptr;
         m_pMainMenu = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
+        m_pLevelManager = nullptr;
         m_started = false;
         m_died = false;
         m_playerStartPosition.x = 0;
         m_playerStartPosition.y = 0;
         m_pHUD = nullptr;
+        m_currentLevel = 0;
     }
     
 };

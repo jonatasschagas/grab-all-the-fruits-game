@@ -1,0 +1,23 @@
+{
+    "spriteSheetConfig": "assets/objects/waypoints/end.json",
+    "spriteSheetImage": "assets/objects/waypoints/end.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "end_0.png",
+                "end_1.png",
+                "end_2.png",
+                "end_3.png",
+                "end_4.png",
+                "end_5.png",
+                "end_6.png",
+                "end_7.png",
+                "end_8.png",
+                "end_9.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

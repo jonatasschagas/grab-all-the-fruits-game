@@ -17,12 +17,22 @@
 Player::Player(
     PlatformManager* pPlatformManager, 
     PhysicsBody* pBody, 
-    DataCacheManager& rDataCacheManager) : PhysicalAnimatedObject(pPlatformManager, rDataCacheManager, pBody, "assets/characters/masked/masked_animation.json", "player") 
+    DataCacheManager& rDataCacheManager,
+    EventListener* pEventListener) : 
+    PhysicalAnimatedObject(
+        pPlatformManager, 
+        rDataCacheManager, 
+        pBody, 
+        "assets/characters/masked/masked_animation.json", 
+        "player"
+    ) 
 {
     initializeMembers();
 
     m_pBody = pBody;
     m_pPlatformManager = pPlatformManager;
+    m_pEventListener = pEventListener;
+
     setSize(m_pBody->getGameSize());
     play("idle");
 
@@ -68,6 +78,12 @@ void Player::receiveEvent(Event* pEvent)
             play("double-jump");
         }
     }
+    else if (pEvent->getName().compare("fruit-collected") == 0) {
+        m_numFruitsCollected++;
+        Event event("update-fruit-collected-hud");
+        event.setData(m_numFruitsCollected);
+        m_pEventListener->receiveEvent(&event);
+    }
 }
 
 void Player::update(float delta) 
@@ -80,6 +96,11 @@ void Player::update(float delta)
     }
 
     const Vector2 linearVel = m_pBody->getVelocity();
+    if (linearVel.y > PLAYER_JUMPING_FORCE)
+    {
+        // cap the jumping force
+        m_pBody->setVelocity(Vector2(linearVel.x, PLAYER_JUMPING_FORCE));
+    }
 
     if (linearVel.y > 0 && !m_isDoubleJumping)
     {

@@ -66,6 +66,7 @@ AnimatedObject* AnimatedObjectsFactory::createWaypoint(const string& objectName,
     WaypointAnimatedObject* pWaypoint = new WaypointAnimatedObject(
             m_pPlatformManager, 
             m_rDataCacheManager, 
+            m_pEventListener,
             animationFile, 
             objectName,
             objectType);
@@ -107,7 +108,7 @@ AnimatedObject* AnimatedObjectsFactory::createCollectable(const string& objectNa
 Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vector2& size)
 {
     PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 0, 0, 1.0f);
-    Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager);
+    Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager, m_pEventListener);
     pBody->setGameObject(pPlayer);
     pBody->setOnCollideListener(pPlayer);
     return pPlayer;

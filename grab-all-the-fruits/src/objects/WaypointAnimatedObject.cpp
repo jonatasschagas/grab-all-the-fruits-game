@@ -2,10 +2,12 @@
 
 #include "physics/PhysicsBody.hpp"
 #include "platform/PlatformManager.h"
+#include "event/Event.hpp"
 
 WaypointAnimatedObject::WaypointAnimatedObject(
     PlatformManager* pPlatformManager, 
     DataCacheManager& rDataCacheManager, 
+    EventListener* pEventListener,
     const string& animationFile, 
     const string& name,
     const string& type) : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, type), PhysicsOnCollideListener()
@@ -13,6 +15,7 @@ WaypointAnimatedObject::WaypointAnimatedObject(
     initializeMembers();
 
     m_name = name;
+    m_pEventListener = pEventListener;
 }
 
 WaypointAnimatedObject::~WaypointAnimatedObject()
@@ -25,7 +28,10 @@ void WaypointAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
     {
-        stopAnimation();
+        Event event("waypoint-reached");
+        event.setTarget(m_name);
+        event.setInputCoordinates(getGamePosition());
+        m_pEventListener->receiveEvent(&event);
     }
 }
 

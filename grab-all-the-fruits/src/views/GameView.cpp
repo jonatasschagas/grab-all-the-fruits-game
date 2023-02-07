@@ -43,7 +43,7 @@ void GameView::initialize(ViewManager* pViewManager)
     m_pMainMenu = new MainMenu(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
     m_pMainMenu->setButtonClickListener(this);
 
-    m_pHUD = new HUD(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
+    m_pHUD = new HUD(m_pViewManager->getPlatformManager()->getScreenWidth(), m_pViewManager->getPlatformManager()->getScreenHeight(), m_pViewManager);
 
     initGame();
     
@@ -71,26 +71,57 @@ void GameView::receiveEvent(Event* pEvent)
     {
         AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
         m_pPlayer->destroy();
+        delete m_pHUD;
         pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
             createPlayer(m_playerStartPosition);
             pDisappearingAnimation->destroy();
         });
         m_died = true;
     }   
+    else if (pEvent->getName().compare("waypoint-reached") == 0)
+    {
+        string waypointName = pEvent->getTarget();
+        if (waypointName.compare("end-level") == 0)
+        {
+            if (m_pLevelManager->hasCompletedLevel(m_pPlayer->getNumFruitsCollected()))
+            {
+                Event showEndLevelScreen("show-end-level-screen");
+                m_pViewManager->receiveEvent(&showEndLevelScreen);
+            }
+            else
+            {
+                Event showEndLevelScreen("show-end-level-screen-failed");
+                m_pViewManager->receiveEvent(&showEndLevelScreen);
+            }
+        }
+    }
     else if (pEvent->getName().compare("debug_toggle") == 0)
     {
         m_debug = !m_debug;
+    }
+    else if (pEvent->getName().compare("next-level") == 0)
+    {
+        m_currentLevel++;
+        initGame();
+        return;
     }   
-    else if (!m_died)
+    
+    if (!m_died)
     {
         m_pPlayer->receiveEvent(pEvent);
     }
-    
+
     m_pHUD->receiveEvent(pEvent);
 }
 
 void GameView::initGame()
 {
+    delete m_pLevelManager;
+    delete m_pWorld;
+    delete m_pAnimatedObjectsFactory;
+    
+    m_pHUD->reset();
+
     PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
     
     m_pWorld = new World(pPlatformManager);
@@ -100,7 +131,7 @@ void GameView::initGame()
     m_pLevelManager = new LevelManager(LEVELS_FILE, static_cast<Sprite*>(this), m_pWorld, m_pAnimatedObjectsFactory, m_pViewManager);
 
     //TODO: load level 0 if new game, load last level if continue
-    m_pLevelManager->loadLevel(0);
+    m_pLevelManager->loadLevel(m_currentLevel);
 }
 
 void GameView::render()

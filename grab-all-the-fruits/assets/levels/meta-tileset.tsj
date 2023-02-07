@@ -85,7 +85,7 @@
                 {
                  "name":"name",
                  "type":"string",
-                 "value":"checkpoint"
+                 "value":"end-level"
                 }, 
                 {
                  "name":"type",

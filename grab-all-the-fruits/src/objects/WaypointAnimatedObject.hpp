@@ -6,6 +6,7 @@
 #include "AnimatedObject.hpp"
 #include "physics/PhysicsOnCollideListener.hpp"
 #include "data/DataCacheManager.hpp"
+#include "event/EventListener.hpp"
 
 class PlatformManager;
 
@@ -15,7 +16,7 @@ class WaypointAnimatedObject : public AnimatedObject, public PhysicsOnCollideLis
 {
 public:
     
-    WaypointAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, const string& animationFile, const string& name, const string& type);
+    WaypointAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, EventListener* pEventListener, const string& animationFile, const string& name, const string& type);
     ~WaypointAnimatedObject();
 
     const string& getName() const { return m_name; }
@@ -27,10 +28,12 @@ public:
 private:
 
     string m_name;
+    EventListener* m_pEventListener;
 
     void initializeMembers()
     {
         m_name = "";
+        m_pEventListener = nullptr;
     }
 
 };
