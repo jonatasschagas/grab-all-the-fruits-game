@@ -37,6 +37,12 @@ public:
         float friction,
         float restituition) override;
 
+    PhysicsBody* createKinematicBody(
+        const Vector2& rGamePosition, 
+        const Vector2& rGameSize,
+        float friction,
+        float restituition) override;
+
     PhysicsBody* createSensor(
         const Vector2& rGamePosition, 
         const Vector2& rGameSize) override;

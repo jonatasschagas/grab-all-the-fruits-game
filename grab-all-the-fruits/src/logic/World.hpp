@@ -28,12 +28,14 @@ public:
     
     PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale);
     PhysicsBody* createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition);
+    PhysicsBody* createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition);
     PhysicsBody* createSensor(const Vector2& position, const Vector2& size);
 
 private:
 
     vector<PhysicsBody*> m_dynamicBodies;
     vector<PhysicsBody*> m_staticBodies;
+    vector<PhysicsBody*> m_kinematicBodies;
     vector<PhysicsBody*> m_sensors;
     PhysicsSystem* m_pPhysicsSystem;
     PlatformManager* m_pPlatformManager;
@@ -44,6 +46,7 @@ private:
         m_pPlatformManager = nullptr;
         m_dynamicBodies.clear();
         m_staticBodies.clear();
+        m_kinematicBodies.clear();
         m_sensors.clear();
     }
     

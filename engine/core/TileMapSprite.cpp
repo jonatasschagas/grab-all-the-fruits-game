@@ -285,15 +285,23 @@ void TileMapSprite::createMetaTile(int x, int y, Sprite* pSpriteLayer, TileMapLa
     Vector2 position(x * width, y * height);
     Vector2 size(width, height);
 
-    Sprite* pMetaTileSprite = m_pTileMapMetaTileFactory->createMetaTile(pTileConfig, position, size);
+    Sprite* pMetaTileSprite = m_pTileMapMetaTileFactory->createMetaTile(x, y, pTileConfig, position, size);
 
     if (pMetaTileSprite == nullptr)
     {
         return;
     }
     
-    pMetaTileSprite->setXY(position);
-    pMetaTileSprite->setSize(size);
+    if (pMetaTileSprite->getGamePosition() == Vector2::ZERO)
+    {
+        pMetaTileSprite->setXY(position);
+    }
+    
+    if (pMetaTileSprite->getSize() == Vector2::ZERO)
+    {
+        pMetaTileSprite->setSize(size);
+    }
+
     pMetaTileSprite->setPivotAtCenter(true);
     pMetaTileSprite->setTileMap(true);
     

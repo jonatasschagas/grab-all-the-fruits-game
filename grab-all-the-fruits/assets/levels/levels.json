@@ -7,7 +7,7 @@
     },
     "levels": [
         {
-            "title": "Hello World!",
+            "title": "It's time to GRAB SOME FRUITS!",
             "configFile": "assets/levels/level1.json",
             "background": "assets/levels/backgrounds/Brown.png",
             "backgroundTileSize": {
@@ -18,10 +18,11 @@
                 "x": 64,
                 "y": 64
             },
-            "numFruits": 24
+            "numFruits": 24,
+            "platforms": []
         },
         {
-            "title": "Level 2",
+            "title": "Moving Platforms",
             "configFile": "assets/levels/level2.json",
             "background": "assets/levels/backgrounds/Blue.png",
             "backgroundTileSize": {
@@ -32,7 +33,17 @@
                 "x": 64,
                 "y": 64
             },
-            "numFruits": 6
+            "numFruits": 6,
+            "platforms": [
+                {
+                    "widthInTiles": 2,
+                    "heightInTiles": 1,
+                    "tileX": 18,
+                    "tileY": 7,
+                    "targetTileX": 24,
+                    "targetTileY": 7
+                }
+            ]
         }
     ]
 }

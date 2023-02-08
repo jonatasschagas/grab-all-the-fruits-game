@@ -70,6 +70,11 @@ void LevelManager::loadLevel(const int levelindex)
 
 void LevelManager::updateEditor()
 {
+    if (!m_initialized)
+    {
+        return;
+    }
+
     ImGui::Begin("Levels", nullptr, 
     ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -111,8 +116,38 @@ void LevelManager::loadLevelsData(const string& levelsFile)
         level.backgroundTextureSize.x = levelData["backgroundTextureSize"]["x"].GetInt();
         level.backgroundTextureSize.y = levelData["backgroundTextureSize"]["y"].GetInt();
         level.numFruits = levelData["numFruits"].GetInt();
+
+        auto platforms = levelData["platforms"].GetArray();
+        for (int j = 0; j < platforms.Size(); j++)
+        {
+            auto platformData = platforms[j].GetObject();
+            Platform platform;
+            platform.tileX = platformData["tileX"].GetInt();
+            platform.tileY = platformData["tileY"].GetInt();
+            platform.targetTileX = platformData["targetTileX"].GetInt();
+            platform.targetTileY = platformData["targetTileY"].GetInt();
+            platform.widthInTiles = platformData["widthInTiles"].GetFloat();
+            platform.heightInTiles = platformData["heightInTiles"].GetFloat();
+            level.platforms.push_back(platform);
+        }
+
         m_levels.push_back(level);
     }
+
+    m_initialized = true;
+}
+
+const Platform* LevelManager::findPlatform(int tileX, int tileY) const
+{
+    for (int i = 0; i < m_levels[m_currentLevelIndex].platforms.size(); i++)
+    {
+        Platform platform = m_levels[m_currentLevelIndex].platforms[i];
+        if (platform.tileX == tileX && platform.tileY == tileY)
+        {
+            return &m_levels[m_currentLevelIndex].platforms[i];
+        }
+    }
+    return nullptr;
 }
 
 void LevelManager::addSpriteToTileMap(Sprite* pSprite)

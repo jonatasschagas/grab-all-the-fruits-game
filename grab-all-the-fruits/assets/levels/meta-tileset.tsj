@@ -141,7 +141,7 @@
                 {
                  "name":"name",
                  "type":"string",
-                 "value":"falling-platform"
+                 "value":"moving-platform"
                 }, 
                 {
                  "name":"type",

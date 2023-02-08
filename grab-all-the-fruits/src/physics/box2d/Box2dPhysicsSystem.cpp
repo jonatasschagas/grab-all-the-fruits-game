@@ -102,6 +102,34 @@ PhysicsBody* Box2dPhysicsSystem::createStaticBody(
     return pPhysicsBody;
 }
 
+PhysicsBody* Box2dPhysicsSystem::createKinematicBody(
+    const Vector2& rGamePosition, 
+    const Vector2& rGameSize,
+    float friction,
+    float restituition) 
+{
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_kinematicBody;
+    bodyDef.position = toPhysicsWorld(rGamePosition);
+
+    b2PolygonShape squareShape;
+    squareShape.SetAsBox(
+        (rGameSize.x * METERS_PER_PIXEL)/2, 
+        (rGameSize.y * METERS_PER_PIXEL)/2
+    );
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &squareShape;
+    fixtureDef.restitution = restituition; // how bouncy it is
+    fixtureDef.friction = friction; // how slippery it is
+    
+    b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
+    b2Body->CreateFixture(&fixtureDef);
+    
+    Box2dPhysicsBody* pPhysicsBody = new Box2dPhysicsBody(b2Body, PhysicsBodyType::PhysicsBodyTypeKinematic, m_worldSize);
+    return pPhysicsBody;
+}
+
 PhysicsBody* Box2dPhysicsSystem::createSensor(const Vector2& rGamePosition, const Vector2& rGameSize)
 {
     b2BodyDef bodyDef;

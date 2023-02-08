@@ -15,6 +15,16 @@
 
 using namespace std;
 
+struct Platform
+{
+    int tileX;
+    int tileY;
+    int targetTileX;
+    int targetTileY;
+    int widthInTiles;
+    int heightInTiles;
+};
+
 struct LevelData
 {
     string title;
@@ -23,6 +33,7 @@ struct LevelData
     Vector2 backgroundTileSize;
     Vector2 backgroundTextureSize;
     int numFruits;
+    vector<Platform> platforms;
 };
 
 class LevelManager
@@ -42,6 +53,8 @@ public:
 
     const bool hasCompletedLevel(const int numFruitsCollected) const;
 
+    const Platform* findPlatform(int tileX, int tileY) const;
+
 private:
 
     void loadLevelsData(const string& levelsFile);
@@ -60,6 +73,8 @@ private:
     string m_levelsFolder;
     string m_tilesetsFolder;
 
+    bool m_initialized;
+
     void initializeMembers()
     {
         m_pStage = nullptr;
@@ -72,6 +87,11 @@ private:
         m_levelsFolder = "";
         m_tilesetsFolder = "";
         m_currentLevelIndex = 0;
+        m_levels.clear();
+        m_initialized = false;
+
+        m_tileSize.x = 0;
+        m_tileSize.y = 0;
     }
 
 };

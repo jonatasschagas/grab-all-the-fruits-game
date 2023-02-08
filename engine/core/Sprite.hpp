@@ -43,7 +43,7 @@ public:
     const glm::vec2& getUntransformedCoordinates() const { return m_coords; };
     float getX() const { return m_coords.x; }
     float getY() const { return m_coords.y; }
-    const glm::vec2& getSize() const { return m_size; };
+    const Vector2 getSize() const { return Vector2(m_size.x, m_size.y); };
     float getTransformedX() const { return m_points[0].x; }
     float getTransformedY() const { return m_points[0].y; }
     Vector2 getScreenPosition() { return Vector2(getTransformedX(), getTransformedY()); }
@@ -146,6 +146,11 @@ private:
         m_centeredOnParentY = false;
         m_visible = true;
         m_debugSprite = false;
+
+        m_coords.x = 0;
+        m_coords.y = 0;
+        m_size.x = 0;
+        m_size.y = 0;
         
         m_coloredSprite = false;
         m_r = 0;

@@ -117,14 +117,20 @@ void GameView::receiveEvent(Event* pEvent)
         m_pPlayer->receiveEvent(pEvent);
     }
 
-    m_pHUD->receiveEvent(pEvent);
+    if (m_pHUD)
+    {
+        m_pHUD->receiveEvent(pEvent);
+    }
 }
 
 void GameView::initGame()
 {
     delete m_pLevelManager;
+    m_pLevelManager = nullptr;
     delete m_pWorld;
+    m_pWorld = nullptr;
     delete m_pAnimatedObjectsFactory;
+    m_pAnimatedObjectsFactory = nullptr;
     
     m_pHUD->reset();
 
@@ -135,6 +141,8 @@ void GameView::initGame()
     m_pAnimatedObjectsFactory = new AnimatedObjectsFactory(OBJECTS_PATH, pPlatformManager, *m_pDataCacheManager, m_pWorld, m_pViewManager);
 
     m_pLevelManager = new LevelManager(LEVELS_FILE, static_cast<Sprite*>(this), m_pWorld, m_pAnimatedObjectsFactory, m_pViewManager);
+
+    m_pAnimatedObjectsFactory->setLevelManager(m_pLevelManager);
 
     //TODO: load level 0 if new game, load last level if continue
     m_pLevelManager->loadLevel(m_currentLevel);

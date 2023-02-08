@@ -3,6 +3,8 @@
 #include "WaypointAnimatedObject.hpp"
 #include "FruitAnimatedObject.hpp"
 #include "obstacles/SpikesObstacle.hpp"
+#include "obstacles/MovingPlatform.hpp"
+#include "level/LevelManager.hpp"
 #include "DisappearingAnimation.hpp"
 #include "Player.hpp"
 #include "AnimatedObject.hpp"
@@ -25,7 +27,7 @@ AnimatedObjectsFactory::~AnimatedObjectsFactory()
     initializeMembers();
 }
 
-Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, const Vector2& position, const Vector2& size)
+Sprite* AnimatedObjectsFactory::createMetaTile(const int tileX, const int tileY, const TileConfig* pTileConfig, const Vector2& position, const Vector2& size)
 {
     const string& objectName = pTileConfig->getProperty("name");
     const string& objectType = pTileConfig->getProperty("type");
@@ -54,6 +56,10 @@ Sprite* AnimatedObjectsFactory::createMetaTile(const TileConfig* pTileConfig, co
     else if (objectType.compare("obstacle") == 0)
     {
         pAnimatedObject = createObstacle(objectName, objectType, position, size);
+    }  
+    else if (objectType.compare("platform") == 0)
+    {
+        pAnimatedObject = createPlatform(tileX, tileY, objectName, objectType, position, size);
     }  
     
     return pAnimatedObject;
@@ -107,7 +113,7 @@ AnimatedObject* AnimatedObjectsFactory::createCollectable(const string& objectNa
 
 Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vector2& size)
 {
-    PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 0, 0, 1.0f);
+    PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 1, 0, 1.0f);
     Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager, m_pEventListener);
     pBody->setGameObject(pPlayer);
     pBody->setOnCollideListener(pPlayer);
@@ -156,4 +162,54 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const string& objectName,
     {
         return nullptr;
     }
+}
+
+AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size)
+{
+    if (objectName.compare("moving-platform") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+
+        const Platform* pPlatform = m_pLevelManager->findPlatform(tileX, tileY);
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 initialPosition = position;
+        Vector2 finalPosition = Vector2(pPlatform->targetTileX * tileSize.x, pPlatform->targetTileY * tileSize.y);
+        Vector2 finalSize(pPlatform->widthInTiles * tileSize.x, pPlatform->heightInTiles * tileSize.y);
+
+        // wiring up to the physics engine
+        // needs friction to be 1 to avoid sliding
+        PhysicsBody* pKinematic = m_pWorld->createKinematicBody(position, finalSize, 10, 0);
+        
+        MovingPlatform* pMovingPlatform = new MovingPlatform(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pKinematic,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            initialPosition,
+            finalPosition
+        );
+
+        pKinematic->setGameObject(pMovingPlatform);
+        pKinematic->setOnCollideListener(pMovingPlatform);
+
+        pMovingPlatform->setXY(position.x, position.y);
+        pMovingPlatform->setSize(finalSize);
+        
+        pMovingPlatform->play("idle");
+
+        return pMovingPlatform;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+void AnimatedObjectsFactory::setLevelManager(LevelManager* pLevelManager)
+{
+    m_pLevelManager = pLevelManager;
 }

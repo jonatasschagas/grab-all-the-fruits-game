@@ -1,0 +1,17 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/moving_platform.json",
+    "spriteSheetImage": "assets/objects/obstacles/moving_platform.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "mov_platform_0.png",
+                "mov_platform_1.png",
+                "mov_platform_2.png",
+                "mov_platform_3.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

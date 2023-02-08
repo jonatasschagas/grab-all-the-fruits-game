@@ -23,6 +23,11 @@ World::~World()
         delete m_staticBodies[i];
     }
 
+    for (int i = 0; i < m_kinematicBodies.size(); i++)
+    {
+        delete m_kinematicBodies[i];
+    }
+
     for (int i = 0; i < m_sensors.size(); i++)
     {
         delete m_sensors[i];
@@ -60,6 +65,13 @@ PhysicsBody* World::createStaticBody(const Vector2& position, const Vector2& siz
 {
     PhysicsBody* pBody = m_pPhysicsSystem->createStaticBody(position, size, friction, restituition);
     m_staticBodies.push_back(pBody);
+    return pBody;
+}
+
+PhysicsBody* World::createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition)
+{
+    PhysicsBody* pBody = m_pPhysicsSystem->createKinematicBody(position, size, friction, restituition);
+    m_kinematicBodies.push_back(pBody);
     return pBody;
 }
 
