@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/apple.json",
+    "spriteSheetImage": "assets/objects/collectables/apple.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "apple_0.png",
+                "apple_1.png",
+                "apple_2.png",
+                "apple_3.png",
+                "apple_4.png",
+                "apple_5.png",
+                "apple_6.png",
+                "apple_7.png",
+                "apple_8.png",
+                "apple_9.png",
+                "apple_10.png",
+                "apple_11.png",
+                "apple_12.png",
+                "apple_13.png",
+                "apple_14.png",
+                "apple_15.png",
+                "apple_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

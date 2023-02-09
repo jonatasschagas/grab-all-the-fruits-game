@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/kiwi.json",
+    "spriteSheetImage": "assets/objects/collectables/kiwi.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "kiwi_0.png",
+                "kiwi_1.png",
+                "kiwi_2.png",
+                "kiwi_3.png",
+                "kiwi_4.png",
+                "kiwi_5.png",
+                "kiwi_6.png",
+                "kiwi_7.png",
+                "kiwi_8.png",
+                "kiwi_9.png",
+                "kiwi_10.png",
+                "kiwi_11.png",
+                "kiwi_12.png",
+                "kiwi_13.png",
+                "kiwi_14.png",
+                "kiwi_15.png",
+                "kiwi_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

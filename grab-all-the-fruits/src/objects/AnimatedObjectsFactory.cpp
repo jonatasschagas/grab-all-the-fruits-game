@@ -4,6 +4,7 @@
 #include "FruitAnimatedObject.hpp"
 #include "obstacles/StationaryObstacle.hpp"
 #include "obstacles/SawObstacle.hpp"
+#include "obstacles/FireObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
 #include "level/LevelManager.hpp"
 #include "DisappearingAnimation.hpp"
@@ -132,7 +133,7 @@ AnimatedObject* AnimatedObjectsFactory::createDisappearingAnimation(const Vector
 
 AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size, const TileConfig* pTileConfig)
 {
-    if (objectName.compare("spikes") == 0 || objectName.compare("fire") == 0 || objectName.compare("fan") == 0)
+    if (objectName.compare("spikes") == 0 || objectName.compare("fan") == 0)
     {
         string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
 
@@ -176,6 +177,58 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
         pObstacle->setSize(finalSize.x, finalSize.y);
         
         pObstacle->play("idle");
+
+        return pObstacle;
+    }
+    else if (objectName.compare("fire") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 finalSize(
+            stoi(pTileConfig->getProperty("tileWidth")) * tileSize.x, 
+            stoi(pTileConfig->getProperty("tileHeight")) * tileSize.y
+        );
+        
+        Vector2 offset = Vector2::ZERO;
+        
+        if (pTileConfig->getProperty("tileOffsetX").compare("") != 0)
+        {
+            offset.x = stof(pTileConfig->getProperty("tileOffsetX")) * tileSize.x;
+        }
+        
+        if (pTileConfig->getProperty("tileOffsetY").compare("") != 0)
+        {
+            offset.y = stof(pTileConfig->getProperty("tileOffsetY")) * tileSize.y;
+        }
+
+        Vector2 physicsPosition = position;
+        
+        Vector2 graphicsPosition = position;
+        graphicsPosition += offset;
+    
+        // wiring up to the physics engine
+        PhysicsBody* pBody = m_pWorld->createStaticBody(physicsPosition, tileSize, 0, 0);
+
+        FireObstacle* pObstacle = new FireObstacle(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pBody,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            50.0f,
+            finalSize
+        );
+
+        pBody->setGameObject(pObstacle);
+        pBody->setOnCollideListener(pObstacle);
+
+        pObstacle->setXY(graphicsPosition.x, graphicsPosition.y);
+        pObstacle->setSize(finalSize.x, finalSize.y);
+        
+        pObstacle->play("fire_on");
 
         return pObstacle;
     }

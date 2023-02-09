@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/pineapple.json",
+    "spriteSheetImage": "assets/objects/collectables/pineapple.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "pineapple_0.png",
+                "pineapple_1.png",
+                "pineapple_2.png",
+                "pineapple_3.png",
+                "pineapple_4.png",
+                "pineapple_5.png",
+                "pineapple_6.png",
+                "pineapple_7.png",
+                "pineapple_8.png",
+                "pineapple_9.png",
+                "pineapple_10.png",
+                "pineapple_11.png",
+                "pineapple_12.png",
+                "pineapple_13.png",
+                "pineapple_14.png",
+                "pineapple_15.png",
+                "pineapple_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

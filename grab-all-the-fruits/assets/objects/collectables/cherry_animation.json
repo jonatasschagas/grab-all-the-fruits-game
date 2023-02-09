@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/cherry.json",
+    "spriteSheetImage": "assets/objects/collectables/cherry.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "cherries_0.png",
+                "cherries_1.png",
+                "cherries_2.png",
+                "cherries_3.png",
+                "cherries_4.png",
+                "cherries_5.png",
+                "cherries_6.png",
+                "cherries_7.png",
+                "cherries_8.png",
+                "cherries_9.png",
+                "cherries_10.png",
+                "cherries_11.png",
+                "cherries_12.png",
+                "cherries_13.png",
+                "cherries_14.png",
+                "cherries_15.png",
+                "cherries_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

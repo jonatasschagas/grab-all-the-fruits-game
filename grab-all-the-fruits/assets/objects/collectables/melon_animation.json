@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/melon.json",
+    "spriteSheetImage": "assets/objects/collectables/melon.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "melon_0.png",
+                "melon_1.png",
+                "melon_2.png",
+                "melon_3.png",
+                "melon_4.png",
+                "melon_5.png",
+                "melon_6.png",
+                "melon_7.png",
+                "melon_8.png",
+                "melon_9.png",
+                "melon_10.png",
+                "melon_11.png",
+                "melon_12.png",
+                "melon_13.png",
+                "melon_14.png",
+                "melon_15.png",
+                "melon_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

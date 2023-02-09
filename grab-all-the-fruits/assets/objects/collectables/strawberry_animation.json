@@ -1,0 +1,30 @@
+{
+    "spriteSheetConfig": "assets/objects/collectables/strawberry.json",
+    "spriteSheetImage": "assets/objects/collectables/strawberry.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "strawberry_0.png",
+                "strawberry_1.png",
+                "strawberry_2.png",
+                "strawberry_3.png",
+                "strawberry_4.png",
+                "strawberry_5.png",
+                "strawberry_6.png",
+                "strawberry_7.png",
+                "strawberry_8.png",
+                "strawberry_9.png",
+                "strawberry_10.png",
+                "strawberry_11.png",
+                "strawberry_12.png",
+                "strawberry_13.png",
+                "strawberry_14.png",
+                "strawberry_15.png",
+                "strawberry_16.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
