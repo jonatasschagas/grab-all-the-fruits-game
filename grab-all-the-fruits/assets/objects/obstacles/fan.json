@@ -1,0 +1,30 @@
+[
+    {
+        "name": "fan_0.png",
+        "x": 0,
+        "y": 0,
+        "width": 24,
+        "height": 8
+    },
+    {
+        "name": "fan_1.png",
+        "x": 24,
+        "y": 0,
+        "width": 24,
+        "height": 8
+    },
+    {
+        "name": "fan_2.png",
+        "x": 48,
+        "y": 0,
+        "width": 24,
+        "height": 8
+    },
+    {
+        "name": "fan_3.png",
+        "x": 72,
+        "y": 0,
+        "width": 24,
+        "height": 8
+    }
+]

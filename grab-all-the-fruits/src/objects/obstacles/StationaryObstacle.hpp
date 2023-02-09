@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SpikesObstacle_H
-#define SpikesObstacle_H
+#ifndef StationaryObstacle_H
+#define StationaryObstacle_H
 
 #include <string>
 #include "objects/PhysicalAnimatedObject.hpp"
@@ -12,11 +12,11 @@ class PlatformManager;
 
 using namespace std;
 
-class SpikesObstacle : public PhysicalAnimatedObject, public PhysicsOnCollideListener
+class StationaryObstacle : public PhysicalAnimatedObject, public PhysicsOnCollideListener
 {
 public:
     
-    SpikesObstacle(
+    StationaryObstacle(
         PlatformManager* pPlatformManager, 
         DataCacheManager& rDataCacheManager, 
         PhysicsBody* pPhysicsBody,
@@ -24,7 +24,7 @@ public:
         const string& name, 
         const string& type, 
         EventListener* pEventListener);
-    ~SpikesObstacle();
+    ~StationaryObstacle();
 
     const string& getName() const { return m_name; }
 
@@ -45,4 +45,4 @@ private:
 
 };
 
-#endif //SpikesObstacle_H
+#endif //StationaryObstacle_H

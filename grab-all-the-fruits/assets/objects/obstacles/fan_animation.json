@@ -1,0 +1,17 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/fan.json",
+    "spriteSheetImage": "assets/objects/obstacles/fan.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "fan_0.png",
+                "fan_1.png",
+                "fan_2.png",
+                "fan_3.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

@@ -1,9 +1,9 @@
-#include "SpikesObstacle.hpp"
+#include "StationaryObstacle.hpp"
 
 #include "physics/PhysicsBody.hpp"
 #include "platform/PlatformManager.h"
 
-SpikesObstacle::SpikesObstacle(
+StationaryObstacle::StationaryObstacle(
     PlatformManager* pPlatformManager, 
     DataCacheManager& rDataCacheManager, 
     PhysicsBody* pPhysicsBody,
@@ -18,12 +18,12 @@ SpikesObstacle::SpikesObstacle(
     m_pEventListener = pEventListener;
 }
 
-SpikesObstacle::~SpikesObstacle()
+StationaryObstacle::~StationaryObstacle()
 {
     initializeMembers();
 }
 
-void SpikesObstacle::onCollide(PhysicsBody* pPhysicsBody)
+void StationaryObstacle::onCollide(PhysicsBody* pPhysicsBody)
 {
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
@@ -34,6 +34,6 @@ void SpikesObstacle::onCollide(PhysicsBody* pPhysicsBody)
     }
 }
 
-void SpikesObstacle::onSensorTriggeredStart(const string& name) {}
+void StationaryObstacle::onSensorTriggeredStart(const string& name) {}
 
-void SpikesObstacle::onSensorTriggeredEnd(const string& name) {}
+void StationaryObstacle::onSensorTriggeredEnd(const string& name) {}

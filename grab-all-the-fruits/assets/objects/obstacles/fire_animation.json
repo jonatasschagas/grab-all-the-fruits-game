@@ -1,0 +1,16 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/fire.json",
+    "spriteSheetImage": "assets/objects/obstacles/fire.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "fire_0.png",
+                "fire_1.png",
+                "fire_2.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

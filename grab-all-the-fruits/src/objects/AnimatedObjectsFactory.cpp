@@ -2,7 +2,7 @@
 
 #include "WaypointAnimatedObject.hpp"
 #include "FruitAnimatedObject.hpp"
-#include "obstacles/SpikesObstacle.hpp"
+#include "obstacles/StationaryObstacle.hpp"
 #include "obstacles/SawObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
 #include "level/LevelManager.hpp"
@@ -56,7 +56,7 @@ Sprite* AnimatedObjectsFactory::createMetaTile(const int tileX, const int tileY,
     }  
     else if (objectType.compare("obstacle") == 0)
     {
-        pAnimatedObject = createObstacle(tileX, tileY, objectName, objectType, position, size);
+        pAnimatedObject = createObstacle(tileX, tileY, objectName, objectType, position, size, pTileConfig);
     }  
     else if (objectType.compare("platform") == 0)
     {
@@ -130,16 +130,22 @@ AnimatedObject* AnimatedObjectsFactory::createDisappearingAnimation(const Vector
     return pAnimatedObject;
 }
 
-AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size)
+AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size, const TileConfig* pTileConfig)
 {
-    if (objectName.compare("spikes") == 0)
+    if (objectName.compare("spikes") == 0 || objectName.compare("fire") == 0 || objectName.compare("fan") == 0)
     {
         string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
 
-        // wiring up to the physics engine
-        PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 finalSize(
+            stoi(pTileConfig->getProperty("tileWidth")) * tileSize.x, 
+            stoi(pTileConfig->getProperty("tileHeight")) * tileSize.y
+        );
         
-        SpikesObstacle* pSpikes = new SpikesObstacle(
+        // wiring up to the physics engine
+        PhysicsBody* pSensor = m_pWorld->createSensor(position, finalSize);
+
+        StationaryObstacle* pObstacle = new StationaryObstacle(
             m_pPlatformManager, 
             m_rDataCacheManager, 
             pSensor,
@@ -149,15 +155,15 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
             m_pEventListener
         );
 
-        pSensor->setGameObject(pSpikes);
-        pSensor->setOnCollideListener(pSpikes);
+        pSensor->setGameObject(pObstacle);
+        pSensor->setOnCollideListener(pObstacle);
 
-        pSpikes->setXY(position.x, position.y);
-        pSpikes->setSize(size.x, size.y);
+        pObstacle->setXY(position.x, position.y);
+        pObstacle->setSize(finalSize.x, finalSize.y);
         
-        pSpikes->play("idle");
+        pObstacle->play("idle");
 
-        return pSpikes;
+        return pObstacle;
     }
     else if (objectName.compare("saw") == 0)
     {
