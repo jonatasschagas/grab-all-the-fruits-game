@@ -39,6 +39,8 @@ public:
 
     void onClick(const string& rButtonName) override;
     
+    void setCurrentLevel(int level);
+
 private:
     
     void initGame();
@@ -61,6 +63,7 @@ private:
     bool m_started;
     bool m_died;
     bool m_debug;
+    bool m_skipNextEditorUpdate;
     
     void initializeMembers()
     {
@@ -79,6 +82,7 @@ private:
         m_playerStartPosition.y = 0;
         m_pHUD = nullptr;
         m_currentLevel = 0;
+        m_skipNextEditorUpdate = false;
     }
     
 };

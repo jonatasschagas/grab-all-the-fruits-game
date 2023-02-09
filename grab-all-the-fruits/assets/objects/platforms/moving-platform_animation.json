@@ -1,6 +1,6 @@
 {
-    "spriteSheetConfig": "assets/objects/obstacles/moving_platform.json",
-    "spriteSheetImage": "assets/objects/obstacles/moving_platform.png",
+    "spriteSheetConfig": "assets/objects/platforms/moving_platform.json",
+    "spriteSheetImage": "assets/objects/platforms/moving_platform.png",
     "states": [
         {
             "name": "idle",

@@ -34,7 +34,7 @@ private:
 
     AnimatedObject* createWaypoint(const string& objectName, const string& objectType, Vector2 position, Vector2 size);
     AnimatedObject* createCollectable(const string& objectName, const string& objectType, Vector2 position, Vector2 size);
-    AnimatedObject* createObstacle(const string& objectName, const string& objectType, Vector2 position, Vector2 size);
+    AnimatedObject* createObstacle(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size);
     AnimatedObject* createPlatform(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size);
     
     string m_animatedObjectsPath;

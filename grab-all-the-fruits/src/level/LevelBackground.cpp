@@ -12,7 +12,7 @@ LevelBackground::LevelBackground(const Vector2& backgroundTileSizeInGameUnits, P
     loadTexture(textureFileName);
 
     const Vector2 screenSize = pPlatformManager->getScreenSizeInGameUnits();
-    int numTileHorizontally = screenSize.x / backgroundTileSizeInGameUnits.x;
+    int numTileHorizontally = ceil(screenSize.x / backgroundTileSizeInGameUnits.x) + 1;
     int numTileVertically = ceil(screenSize.y / backgroundTileSizeInGameUnits.y);
     float bgHeight = numTileVertically * backgroundTileSizeInGameUnits.y;
     

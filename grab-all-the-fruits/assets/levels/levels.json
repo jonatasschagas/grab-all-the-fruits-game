@@ -19,7 +19,8 @@
                 "y": 64
             },
             "numFruits": 24,
-            "platforms": []
+            "platforms": [],
+            "traps": []
         },
         {
             "title": "Moving Platforms",
@@ -33,7 +34,7 @@
                 "x": 64,
                 "y": 64
             },
-            "numFruits": 6,
+            "numFruits": 14,
             "platforms": [
                 {
                     "widthInTiles": 2,
@@ -42,6 +43,33 @@
                     "tileY": 7,
                     "targetTileX": 24,
                     "targetTileY": 7
+                }
+            ],
+            "traps": []
+        },
+        {
+            "title": "SAW BLADES!",
+            "configFile": "assets/levels/level3.json",
+            "background": "assets/levels/backgrounds/Yellow.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 13,
+            "platforms": [],
+            "traps": [
+                {
+                    "type": "saw",
+                    "widthInTiles": 2,
+                    "heightInTiles": 2,
+                    "tileX": 22,
+                    "tileY": 11,
+                    "targetTileX": 34,
+                    "targetTileY": 11
                 }
             ]
         }

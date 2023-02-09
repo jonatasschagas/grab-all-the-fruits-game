@@ -111,7 +111,7 @@ void Player::update(float delta)
         play("fall");
         setFlip(linearVel .x < 0);
     } 
-    else if (isGrounded() && abs(linearVel.x) > 0.5f)
+    else if (isGrounded() && abs(linearVel.x) > 0.85f) // setting to 0.85 so the player is still when standing on a moving platform.
     {
         play("run");
         setFlip(linearVel .x < 0);

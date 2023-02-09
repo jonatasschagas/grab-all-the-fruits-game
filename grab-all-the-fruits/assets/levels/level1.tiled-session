@@ -11,16 +11,24 @@
             "scale": 1.5315,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 857.6558929154423,
-                "y": 384.9167482859941
+                "x": 131.5703558602677,
+                "y": 350.9631080639896
             }
         },
         "level2.json": {
             "scale": 1.86,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 280.9139784946236,
-                "y": 61.55913978494624
+                "x": 563.1720430107526,
+                "y": 68.54838709677419
+            }
+        },
+        "level3.json": {
+            "scale": 0.7469374999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.9706300727973,
+                "y": 161.32541209940592
             }
         },
         "main_tileset.json": {
@@ -33,12 +41,12 @@
         }
     },
     "last.imagePath": "/Users/jonataschagas/Documents/cpp/2d-spritesheet-engine/grab-all-the-fruits/assets/levels",
-    "map.height": 10,
+    "map.height": 20,
     "map.lastUsedFormat": "json",
     "map.renderOrder": null,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 20,
+    "map.width": 50,
     "openFiles": [
     ],
     "project": "level1.tiled-project",

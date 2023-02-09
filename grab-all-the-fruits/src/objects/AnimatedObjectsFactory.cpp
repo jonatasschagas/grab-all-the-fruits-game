@@ -3,7 +3,8 @@
 #include "WaypointAnimatedObject.hpp"
 #include "FruitAnimatedObject.hpp"
 #include "obstacles/SpikesObstacle.hpp"
-#include "obstacles/MovingPlatform.hpp"
+#include "obstacles/SawObstacle.hpp"
+#include "platforms/MovingPlatform.hpp"
 #include "level/LevelManager.hpp"
 #include "DisappearingAnimation.hpp"
 #include "Player.hpp"
@@ -55,7 +56,7 @@ Sprite* AnimatedObjectsFactory::createMetaTile(const int tileX, const int tileY,
     }  
     else if (objectType.compare("obstacle") == 0)
     {
-        pAnimatedObject = createObstacle(objectName, objectType, position, size);
+        pAnimatedObject = createObstacle(tileX, tileY, objectName, objectType, position, size);
     }  
     else if (objectType.compare("platform") == 0)
     {
@@ -129,7 +130,7 @@ AnimatedObject* AnimatedObjectsFactory::createDisappearingAnimation(const Vector
     return pAnimatedObject;
 }
 
-AnimatedObject* AnimatedObjectsFactory::createObstacle(const string& objectName, const string& objectType, Vector2 position, Vector2 size)
+AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size)
 {
     if (objectName.compare("spikes") == 0)
     {
@@ -158,6 +159,43 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const string& objectName,
 
         return pSpikes;
     }
+    else if (objectName.compare("saw") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+
+        const Trap* pTrap = m_pLevelManager->findTrap(tileX, tileY);
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 initialPosition = position;
+        Vector2 finalPosition = Vector2(pTrap->targetTileX * tileSize.x, pTrap->targetTileY * tileSize.y);
+        Vector2 finalSize(pTrap->widthInTiles * tileSize.x, pTrap->heightInTiles * tileSize.y);
+
+        // wiring up to the physics engine
+        PhysicsBody* pKinematic = m_pWorld->createKinematicBody(position, finalSize, 0, 0);
+        
+        SawObstacle* pSaw = new SawObstacle(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pKinematic,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            initialPosition,
+            finalPosition
+        );
+
+        pKinematic->setGameObject(pSaw);
+        pKinematic->setOnCollideListener(pSaw);
+
+        pSaw->setXY(position.x - tileSize.x, position.y - tileSize.y);
+        pSaw->setPivotAtCenter(true);
+        pSaw->setSize(finalSize);
+        
+        pSaw->play("idle");
+
+        return pSaw;
+    }
     else
     {
         return nullptr;
@@ -168,7 +206,7 @@ AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const in
 {
     if (objectName.compare("moving-platform") == 0)
     {
-        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+        string animationFile = m_animatedObjectsPath + "/platforms/" + objectName + "_animation.json";
 
         const Platform* pPlatform = m_pLevelManager->findPlatform(tileX, tileY);
 

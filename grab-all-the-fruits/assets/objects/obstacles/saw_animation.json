@@ -1,0 +1,21 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/saw.json",
+    "spriteSheetImage": "assets/objects/obstacles/saw.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "saw_0.png",
+                "saw_1.png",
+                "saw_2.png",
+                "saw_3.png",
+                "saw_4.png",
+                "saw_5.png",
+                "saw_6.png",
+                "saw_7.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

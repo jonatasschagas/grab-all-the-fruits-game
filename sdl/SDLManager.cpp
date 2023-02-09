@@ -149,8 +149,8 @@ void SDLManager::renderTexture(const DrawCall& drawCall)
     }
     
     // scaling to the size of the world
-    worldX = worldX * m_scaleFactorX;
-    worldY = worldY * m_scaleFactorY;
+    worldX = worldX * m_scaleFactorX - width / 2;
+    worldY = worldY * m_scaleFactorY - height / 2;
     
     // applying alpha
     int alpha = drawCall.textureSettings.alpha * 255;

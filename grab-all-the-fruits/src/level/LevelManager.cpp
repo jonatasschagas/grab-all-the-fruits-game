@@ -7,6 +7,11 @@
 #include "core/Vector2.h"
 #include "imgui/imgui.h"
 
+vector<LevelData> LevelManager::sm_levels;
+Vector2 LevelManager::sm_tileSize = Vector2::ZERO;
+string LevelManager::sm_levelsFolder;
+string LevelManager::sm_tilesetsFolder;
+
 using namespace rapidjson;
 
 LevelManager::LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory, EventListener* pEventListener)
@@ -39,22 +44,22 @@ void LevelManager::loadLevel(const int levelindex)
     PlatformManager* pPlatformManager = m_pStage->getPlatformManager();
     
     m_currentLevelIndex = levelindex;
-    LevelData level = m_levels[levelindex];
+    LevelData level = sm_levels[levelindex];
 
-    string levelConfigFile = m_levelsFolder + level.configFile;
-    string levelBackgroundFile = m_levelsFolder + level.background;
-    string levelTilesetFile = m_tilesetsFolder + level.configFile;
+    string levelConfigFile = sm_levelsFolder + level.configFile;
+    string levelBackgroundFile = sm_levelsFolder + level.background;
+    string levelTilesetFile = sm_tilesetsFolder + level.configFile;
 
     m_pCurrentLevelBackground = new LevelBackground(level.backgroundTileSize, m_pStage->getPlatformManager(), level.background, level.backgroundTextureSize);
     m_pCurrentLevelBackground->setXY(0, 0);
     m_pStage->addChild(m_pCurrentLevelBackground);
     m_pCurrentLevelBackground->fillParent();
 
-    TileMapData* pTileMapData = new TileMapData(level.configFile, m_levelsFolder, m_tilesetsFolder);
-    Vector2 mapSize(pTileMapData->getWidth() * m_tileSize.x, pTileMapData->getHeight() * m_tileSize.y);
+    TileMapData* pTileMapData = new TileMapData(level.configFile, sm_levelsFolder, sm_tilesetsFolder);
+    Vector2 mapSize(pTileMapData->getWidth() * sm_tileSize.x, pTileMapData->getHeight() * sm_tileSize.y);
     m_pWorld->initWorld(mapSize);
 
-    m_pCurrentLevelTileMap = new TileMapSprite(m_tileSize, m_pStage->getPlatformManager(), m_pAnimatedObjectsFactory);
+    m_pCurrentLevelTileMap = new TileMapSprite(sm_tileSize, m_pStage->getPlatformManager(), m_pAnimatedObjectsFactory);
     m_pCurrentLevelTileMap->loadMap(pTileMapData, "meta");
     m_pCurrentLevelTileMap->setXY(0, 0);
     m_pCurrentLevelTileMap->setPivotAtCenter(true);
@@ -78,9 +83,9 @@ void LevelManager::updateEditor()
     ImGui::Begin("Levels", nullptr, 
     ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
-    for (int i = 0; i < m_levels.size(); i++)
+    for (int i = 0; i < sm_levels.size(); i++)
     {
-        if (ImGui::Button(m_levels[i].title.c_str()))
+        if (ImGui::Button(sm_levels[i].title.c_str()))
         {
             Event eventLoadLevel("load-level");
             eventLoadLevel.setData(i);
@@ -93,15 +98,20 @@ void LevelManager::updateEditor()
 
 void LevelManager::loadLevelsData(const string& levelsFile)
 {
+    if (sm_levels.size() > 0)
+    {
+        return;
+    }
+
     string configurationJSON = loadFile(levelsFile);
     
     Document configurationDocument;
     configurationDocument.Parse(configurationJSON.c_str());
     
-    m_tilesetsFolder = configurationDocument["tileSetsFolder"].GetString();
-    m_levelsFolder = configurationDocument["levelsFolder"].GetString();
-    m_tileSize.x = configurationDocument["tileSize"]["x"].GetInt();
-    m_tileSize.y = configurationDocument["tileSize"]["y"].GetInt();
+    sm_tilesetsFolder = configurationDocument["tileSetsFolder"].GetString();
+    sm_levelsFolder = configurationDocument["levelsFolder"].GetString();
+    sm_tileSize.x = configurationDocument["tileSize"]["x"].GetInt();
+    sm_tileSize.y = configurationDocument["tileSize"]["y"].GetInt();
 
     auto levelsData = configurationDocument["levels"].GetArray();
     for (int i = 0; i < levelsData.Size(); i++)
@@ -131,7 +141,22 @@ void LevelManager::loadLevelsData(const string& levelsFile)
             level.platforms.push_back(platform);
         }
 
-        m_levels.push_back(level);
+        auto traps = levelData["traps"].GetArray();
+        for (int j = 0; j < traps.Size(); j++)
+        {
+            auto trapData = traps[j].GetObject();
+            Trap trap;
+            trap.tileX = trapData["tileX"].GetInt();
+            trap.tileY = trapData["tileY"].GetInt();
+            trap.targetTileX = trapData["targetTileX"].GetInt();
+            trap.targetTileY = trapData["targetTileY"].GetInt();
+            trap.widthInTiles = trapData["widthInTiles"].GetFloat();
+            trap.heightInTiles = trapData["heightInTiles"].GetFloat();
+            trap.type = trapData["type"].GetString();
+            level.traps.push_back(trap);
+        }
+
+        sm_levels.push_back(level);
     }
 
     m_initialized = true;
@@ -139,12 +164,25 @@ void LevelManager::loadLevelsData(const string& levelsFile)
 
 const Platform* LevelManager::findPlatform(int tileX, int tileY) const
 {
-    for (int i = 0; i < m_levels[m_currentLevelIndex].platforms.size(); i++)
+    for (int i = 0; i < sm_levels[m_currentLevelIndex].platforms.size(); i++)
     {
-        Platform platform = m_levels[m_currentLevelIndex].platforms[i];
+        Platform platform = sm_levels[m_currentLevelIndex].platforms[i];
         if (platform.tileX == tileX && platform.tileY == tileY)
         {
-            return &m_levels[m_currentLevelIndex].platforms[i];
+            return &sm_levels[m_currentLevelIndex].platforms[i];
+        }
+    }
+    return nullptr;
+}
+
+const Trap* LevelManager::findTrap(int tileX, int tileY) const
+{
+    for (int i = 0; i < sm_levels[m_currentLevelIndex].traps.size(); i++)
+    {
+        Trap trap = sm_levels[m_currentLevelIndex].traps[i];
+        if (trap.tileX == tileX && trap.tileY == tileY)
+        {
+            return &sm_levels[m_currentLevelIndex].traps[i];
         }
     }
     return nullptr;
@@ -158,8 +196,8 @@ void LevelManager::addSpriteToTileMap(Sprite* pSprite)
 const Vector2 LevelManager::getTileMapSize() const
 {
     Vector2 tileMapSize;
-    tileMapSize.x = m_pCurrentLevelTileMap->getWidth() * m_tileSize.x;
-    tileMapSize.y = m_pCurrentLevelTileMap->getHeight() * m_tileSize.y;
+    tileMapSize.x = m_pCurrentLevelTileMap->getWidth() * sm_tileSize.x;
+    tileMapSize.y = m_pCurrentLevelTileMap->getHeight() * sm_tileSize.y;
     return tileMapSize;
 }
 
@@ -175,5 +213,5 @@ void LevelManager::updateCameraPosition(const Vector2& rCameraPosition)
 
 const bool LevelManager::hasCompletedLevel(const int numFruitsCollected) const
 {
-    return numFruitsCollected == m_levels[m_currentLevelIndex].numFruits;
+    return numFruitsCollected == sm_levels[m_currentLevelIndex].numFruits;
 }

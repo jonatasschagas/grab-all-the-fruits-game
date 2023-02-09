@@ -25,6 +25,17 @@ struct Platform
     int heightInTiles;
 };
 
+struct Trap
+{
+    int tileX;
+    int tileY;
+    int targetTileX;
+    int targetTileY;
+    int widthInTiles;
+    int heightInTiles;
+    string type;
+};
+
 struct LevelData
 {
     string title;
@@ -34,6 +45,7 @@ struct LevelData
     Vector2 backgroundTextureSize;
     int numFruits;
     vector<Platform> platforms;
+    vector<Trap> traps;
 };
 
 class LevelManager
@@ -47,13 +59,14 @@ public:
     void addSpriteToTileMap(Sprite* pSprite);
     void updateCameraPosition(const Vector2& rCameraPosition);
 
-    const Vector2& getTileSize() const { return m_tileSize; }
+    const Vector2& getTileSize() const { return sm_tileSize; }
     const Vector2 getTileMapSize() const;
     Vector2 getTileMapPosition() const;
 
     const bool hasCompletedLevel(const int numFruitsCollected) const;
 
     const Platform* findPlatform(int tileX, int tileY) const;
+    const Trap* findTrap(int tileX, int tileY) const;
 
 private:
 
@@ -65,13 +78,13 @@ private:
     Map* m_pMap; // map
     World* m_pWorld; // physics world
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory; // animated objects factory
-    vector<LevelData> m_levels;
     EventListener* m_pEventListener;
     int m_currentLevelIndex;
 
-    Vector2 m_tileSize;
-    string m_levelsFolder;
-    string m_tilesetsFolder;
+    static vector<LevelData> sm_levels;
+    static Vector2 sm_tileSize;
+    static string sm_levelsFolder;
+    static string sm_tilesetsFolder;
 
     bool m_initialized;
 
@@ -84,14 +97,8 @@ private:
         m_pMap = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
         m_pEventListener = nullptr;
-        m_levelsFolder = "";
-        m_tilesetsFolder = "";
         m_currentLevelIndex = 0;
-        m_levels.clear();
         m_initialized = false;
-
-        m_tileSize.x = 0;
-        m_tileSize.y = 0;
     }
 
 };

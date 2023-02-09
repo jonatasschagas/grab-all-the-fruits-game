@@ -71,7 +71,6 @@ void GameView::receiveEvent(Event* pEvent)
     {
         AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
         m_pPlayer->destroy();
-        delete m_pHUD;
         pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
             createPlayer(m_playerStartPosition);
             pDisappearingAnimation->destroy();
@@ -103,16 +102,18 @@ void GameView::receiveEvent(Event* pEvent)
     {
         m_currentLevel++;
         initGame();
+        m_skipNextEditorUpdate = true;
         return;
     }   
     else if (pEvent->getName().compare("load-level") == 0)
     {
         m_currentLevel = pEvent->getData();
         initGame();
+        m_skipNextEditorUpdate = true;
         return;
     }   
     
-    if (!m_died)
+    if (!m_died && m_pPlayer != nullptr)
     {
         m_pPlayer->receiveEvent(pEvent);
     }
@@ -125,13 +126,17 @@ void GameView::receiveEvent(Event* pEvent)
 
 void GameView::initGame()
 {
+    removeAllChildren();
+
     delete m_pLevelManager;
     m_pLevelManager = nullptr;
     delete m_pWorld;
     m_pWorld = nullptr;
     delete m_pAnimatedObjectsFactory;
     m_pAnimatedObjectsFactory = nullptr;
-    
+    m_pPlayer = nullptr;
+    m_debug = false;
+
     m_pHUD->reset();
 
     PlatformManager* pPlatformManager = m_pViewManager->getPlatformManager();
@@ -144,7 +149,6 @@ void GameView::initGame()
 
     m_pAnimatedObjectsFactory->setLevelManager(m_pLevelManager);
 
-    //TODO: load level 0 if new game, load last level if continue
     m_pLevelManager->loadLevel(m_currentLevel);
 }
 
@@ -169,7 +173,7 @@ void GameView::update(float delta)
     
     m_pWorld->update(delta);
 
-    if (!m_died)
+    if (!m_died && m_pPlayer != nullptr)
     {
         m_pPlayer->update(delta);
         Vector2 playerPosition = m_pPlayer->getGamePosition();
@@ -185,9 +189,15 @@ void GameView::readInput(int x, int y, bool pressed)
 
 void GameView::updateEditor()
 {
+    if (m_skipNextEditorUpdate)
+    {
+        m_skipNextEditorUpdate = false;
+        return;
+    }
+
     if (m_started)
     {
-        if (m_debug)
+        if (m_debug && m_pPlayer)
         {
             m_pPlayer->updateEditor();
             m_pLevelManager->updateEditor();
