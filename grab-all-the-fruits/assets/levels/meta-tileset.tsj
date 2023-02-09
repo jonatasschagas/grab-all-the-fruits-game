@@ -163,6 +163,11 @@
                  "value":"1"
                 }, 
                 {
+                 "name":"tileOffsetX",
+                 "type":"string",
+                 "value":"-0.05"
+                }, 
+                {
                  "name":"tileWidth",
                  "type":"string",
                  "value":"3"
@@ -185,6 +190,16 @@
                  "name":"tileHeight",
                  "type":"string",
                  "value":"2"
+                }, 
+                {
+                 "name":"tileOffsetX",
+                 "type":"string",
+                 "value":"0"
+                }, 
+                {
+                 "name":"tileOffsetY",
+                 "type":"string",
+                 "value":"-0.5"
                 }, 
                 {
                  "name":"tileWidth",

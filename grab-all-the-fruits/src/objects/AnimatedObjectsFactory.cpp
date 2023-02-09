@@ -142,6 +142,20 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
             stoi(pTileConfig->getProperty("tileHeight")) * tileSize.y
         );
         
+        Vector2 offset = Vector2::ZERO;
+        
+        if (pTileConfig->getProperty("tileOffsetX").compare("") != 0)
+        {
+            offset.x = stof(pTileConfig->getProperty("tileOffsetX")) * tileSize.x;
+        }
+        
+        if (pTileConfig->getProperty("tileOffsetY").compare("") != 0)
+        {
+            offset.y = stof(pTileConfig->getProperty("tileOffsetY")) * tileSize.y;
+        }
+
+        position += offset;
+    
         // wiring up to the physics engine
         PhysicsBody* pSensor = m_pWorld->createSensor(position, finalSize);
 
