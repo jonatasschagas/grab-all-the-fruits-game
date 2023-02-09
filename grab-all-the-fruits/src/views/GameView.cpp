@@ -82,7 +82,7 @@ void GameView::receiveEvent(Event* pEvent)
         string waypointName = pEvent->getTarget();
         if (waypointName.compare("end-level") == 0)
         {
-            if (m_pLevelManager->hasCompletedLevel(m_pPlayer->getNumFruitsCollected()))
+            if (m_pLevelManager->hasCompletedLevel())
             {
                 Event showEndLevelScreen("show-end-level-screen");
                 m_pViewManager->receiveEvent(&showEndLevelScreen);
@@ -118,9 +118,14 @@ void GameView::receiveEvent(Event* pEvent)
         m_pPlayer->receiveEvent(pEvent);
     }
 
-    if (m_pHUD)
+    if (m_pHUD != nullptr)
     {
         m_pHUD->receiveEvent(pEvent);
+    }
+
+    if (m_pLevelManager != nullptr)
+    {
+        m_pLevelManager->receiveEvent(pEvent);
     }
 }
 

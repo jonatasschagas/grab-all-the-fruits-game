@@ -48,10 +48,15 @@ struct LevelData
     vector<Trap> traps;
 };
 
-class LevelManager
+class LevelManager : public EventListener
 {
 public:
-    LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory, EventListener* pEventListener);
+    LevelManager(
+        const string& levelsFile, 
+        Sprite* pStage, 
+        World* pWorld, 
+        AnimatedObjectsFactory* pAnimatedObjectsFactory, 
+        EventListener* pEventListener);
     ~LevelManager();
     
     void loadLevel(const int levelindex);
@@ -59,11 +64,13 @@ public:
     void addSpriteToTileMap(Sprite* pSprite);
     void updateCameraPosition(const Vector2& rCameraPosition);
 
+    void receiveEvent(Event* pEvent) override;
+
     const Vector2& getTileSize() const { return sm_tileSize; }
     const Vector2 getTileMapSize() const;
     Vector2 getTileMapPosition() const;
 
-    const bool hasCompletedLevel(const int numFruitsCollected) const;
+    const bool hasCompletedLevel() const;
 
     const Platform* findPlatform(int tileX, int tileY) const;
     const Trap* findTrap(int tileX, int tileY) const;
@@ -80,6 +87,7 @@ private:
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory; // animated objects factory
     EventListener* m_pEventListener;
     int m_currentLevelIndex;
+    int m_numFruitsCollected;
 
     static vector<LevelData> sm_levels;
     static Vector2 sm_tileSize;
@@ -98,6 +106,7 @@ private:
         m_pAnimatedObjectsFactory = nullptr;
         m_pEventListener = nullptr;
         m_currentLevelIndex = 0;
+        m_numFruitsCollected = 0;
         m_initialized = false;
     }
 

@@ -78,12 +78,6 @@ void Player::receiveEvent(Event* pEvent)
             play("double-jump");
         }
     }
-    else if (pEvent->getName().compare("fruit-collected") == 0) {
-        m_numFruitsCollected++;
-        Event event("update-fruit-collected-hud");
-        event.setData(m_numFruitsCollected);
-        m_pEventListener->receiveEvent(&event);
-    }
 }
 
 void Player::update(float delta) 
@@ -138,16 +132,7 @@ const Vector2 Player::getGamePosition()
 }
 
 void Player::onCollide(PhysicsBody* pOtherBody)
-{
-    // TODO: compute here what to do...
-    /*
-    GameObject* pOtherGameObject = pOtherBody->getGameObject();
-    if (pOtherGameObject != nullptr)
-    {
-        const string& type = pOtherGameObject->getType();
-    }        
-    */
-}
+{}
 
 void Player::onSensorTriggeredStart(const string& name) 
 {

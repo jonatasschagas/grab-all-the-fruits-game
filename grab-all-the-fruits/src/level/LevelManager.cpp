@@ -14,7 +14,12 @@ string LevelManager::sm_tilesetsFolder;
 
 using namespace rapidjson;
 
-LevelManager::LevelManager(const string& levelsFile, Sprite* pStage, World* pWorld, AnimatedObjectsFactory* pAnimatedObjectsFactory, EventListener* pEventListener)
+LevelManager::LevelManager(
+    const string& levelsFile, 
+    Sprite* pStage, 
+    World* pWorld, 
+    AnimatedObjectsFactory* pAnimatedObjectsFactory, 
+    EventListener* pEventListener) : EventListener()
 {
     initializeMembers();
 
@@ -211,7 +216,17 @@ void LevelManager::updateCameraPosition(const Vector2& rCameraPosition)
     m_pMap->updateCameraPosition(rCameraPosition);
 }
 
-const bool LevelManager::hasCompletedLevel(const int numFruitsCollected) const
+const bool LevelManager::hasCompletedLevel() const
 {
-    return numFruitsCollected == sm_levels[m_currentLevelIndex].numFruits;
+    return m_numFruitsCollected == sm_levels[m_currentLevelIndex].numFruits;
+}
+
+void LevelManager::receiveEvent(Event* pEvent)
+{
+    if (pEvent->getName().compare("fruit-collected") == 0) {
+        m_numFruitsCollected++;
+        Event event("update-fruit-collected-hud");
+        event.setData(m_numFruitsCollected);
+        m_pEventListener->receiveEvent(&event);
+    }
 }

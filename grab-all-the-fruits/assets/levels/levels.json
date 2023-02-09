@@ -59,17 +59,26 @@
                 "x": 64,
                 "y": 64
             },
-            "numFruits": 13,
+            "numFruits": 15,
             "platforms": [],
             "traps": [
                 {
                     "type": "saw",
                     "widthInTiles": 2,
                     "heightInTiles": 2,
-                    "tileX": 22,
+                    "tileX": 23,
                     "tileY": 11,
-                    "targetTileX": 34,
+                    "targetTileX": 33,
                     "targetTileY": 11
+                },
+                {
+                    "type": "saw",
+                    "widthInTiles": 2,
+                    "heightInTiles": 2,
+                    "tileX": 33,
+                    "tileY": 8,
+                    "targetTileX": 23,
+                    "targetTileY": 8
                 }
             ]
         }

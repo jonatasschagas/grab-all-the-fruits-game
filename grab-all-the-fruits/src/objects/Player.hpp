@@ -35,8 +35,6 @@ public:
 
     void updateEditor();
 
-    int getNumFruitsCollected() const { return m_numFruitsCollected; }
-
 private:
 
     bool isGrounded() const;
@@ -49,8 +47,7 @@ private:
     int m_numGroundContacts;
     int m_numFrontWallContacts;
     int m_numBackWallContacts;
-    int m_numFruitsCollected;
-
+    
     bool m_isDoubleJumping;
     
     void initializeMembers()
@@ -63,7 +60,6 @@ private:
         m_numGroundContacts = 0;
         m_numFrontWallContacts = 0;
         m_numBackWallContacts = 0;
-        m_numFruitsCollected = 0;
         m_isDoubleJumping = false;
     }
     
