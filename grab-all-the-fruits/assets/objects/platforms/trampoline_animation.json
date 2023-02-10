@@ -1,0 +1,28 @@
+{
+    "spriteSheetConfig": "assets/objects/platforms/trampoline.json",
+    "spriteSheetImage": "assets/objects/platforms/trampoline.png",
+    "states": [
+        {
+            "name": "bounce",
+            "playOnce": true,
+            "sprites": [
+                "trampoline_0.png",
+                "trampoline_1.png",
+                "trampoline_2.png",
+                "trampoline_3.png",
+                "trampoline_4.png",
+                "trampoline_5.png",
+                "trampoline_6.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "trampoline_7.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

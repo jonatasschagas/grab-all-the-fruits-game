@@ -16,11 +16,11 @@
             }
         },
         "level2.json": {
-            "scale": 1.86,
-            "selectedLayer": 1,
+            "scale": 0.7915,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 144.89247311827955,
-                "y": 111.55913978494621
+                "x": 378.3954516740367,
+                "y": 243.2090966519267
             }
         },
         "level3.json": {
@@ -41,12 +41,12 @@
         }
     },
     "last.imagePath": "/Users/jonataschagas/Documents/cpp/2d-spritesheet-engine/grab-all-the-fruits/assets/levels",
-    "map.height": 20,
+    "map.height": 60,
     "map.lastUsedFormat": "json",
     "map.renderOrder": null,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 50,
+    "map.width": 20,
     "openFiles": [
     ],
     "project": "level1.tiled-project",

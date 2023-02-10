@@ -1,0 +1,58 @@
+[
+    {
+        "name": "trampoline_0.png",
+        "x": 0,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_1.png",
+        "x": 28,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_2.png",
+        "x": 56,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_3.png",
+        "x": 84,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_4.png",
+        "x": 112,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_5.png",
+        "x": 140,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_6.png",
+        "x": 168,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    },
+    {
+        "name": "trampoline_7.png",
+        "x": 196,
+        "y": 0,
+        "width": 28,
+        "height": 28
+    }
+]

@@ -20,7 +20,8 @@
             },
             "numFruits": 24,
             "platforms": [],
-            "traps": []
+            "traps": [],
+            "trampolines": []
         },
         {
             "title": "Platforms!",
@@ -68,7 +69,8 @@
                     "speed": 350
                 }
             ],
-            "traps": []
+            "traps": [],
+            "trampolines": []
         },
         {
             "title": "SAW BLADES!",
@@ -102,6 +104,40 @@
                     "tileY": 8,
                     "targetTileX": 23,
                     "targetTileY": 8
+                }
+            ],
+            "trampolines": []
+        },
+        {
+            "title": "Trampoline away!",
+            "configFile": "assets/levels/level4.json",
+            "background": "assets/levels/backgrounds/Purple.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 20,
+            "platforms": [],
+            "traps": [],
+            "trampolines": [
+                {
+                    "tileX": 8,
+                    "tileY": 29,
+                    "bounciness": 1
+                },
+                {
+                    "tileX": 13,
+                    "tileY": 21,
+                    "bounciness": 1
+                },
+                {
+                    "tileX": 8,
+                    "tileY": 14,
+                    "bounciness": 1
                 }
             ]
         }

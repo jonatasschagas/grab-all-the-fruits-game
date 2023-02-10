@@ -163,6 +163,17 @@ void LevelManager::loadLevelsData(const string& levelsFile)
             level.traps.push_back(trap);
         }
 
+        auto trampolines = levelData["trampolines"].GetArray();
+        for (int j = 0; j < trampolines.Size(); j++)
+        {
+            auto trampolineData = trampolines[j].GetObject();
+            Trampoline trampoline;
+            trampoline.tileX = trampolineData["tileX"].GetInt();
+            trampoline.tileY = trampolineData["tileY"].GetInt();
+            trampoline.bounciness = trampolineData["bounciness"].GetInt();
+            level.trampolines.push_back(trampoline);
+        }
+
         sm_levels.push_back(level);
     }
 
@@ -190,6 +201,19 @@ const Trap* LevelManager::findTrap(int tileX, int tileY) const
         if (trap.tileX == tileX && trap.tileY == tileY)
         {
             return &sm_levels[m_currentLevelIndex].traps[i];
+        }
+    }
+    return nullptr;
+}
+
+const Trampoline* LevelManager::findTrampoline(int tileX, int tileY) const
+{
+    for (int i = 0; i < sm_levels[m_currentLevelIndex].trampolines.size(); i++)
+    {
+        Trampoline trampoline = sm_levels[m_currentLevelIndex].trampolines[i];
+        if (trampoline.tileX == tileX && trampoline.tileY == tileY)
+        {
+            return &sm_levels[m_currentLevelIndex].trampolines[i];
         }
     }
     return nullptr;

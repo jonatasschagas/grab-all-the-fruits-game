@@ -15,6 +15,13 @@
 
 using namespace std;
 
+struct Trampoline
+{
+    int tileX;
+    int tileY;
+    int bounciness;
+};
+
 struct Platform
 {
     int tileX;
@@ -48,6 +55,7 @@ struct LevelData
     int numFruits;
     vector<Platform> platforms;
     vector<Trap> traps;
+    vector<Trampoline> trampolines;
 };
 
 class LevelManager : public EventListener
@@ -76,6 +84,7 @@ public:
 
     const Platform* findPlatform(int tileX, int tileY) const;
     const Trap* findTrap(int tileX, int tileY) const;
+    const Trampoline* findTrampoline(int tileX, int tileY) const;
 
 private:
 

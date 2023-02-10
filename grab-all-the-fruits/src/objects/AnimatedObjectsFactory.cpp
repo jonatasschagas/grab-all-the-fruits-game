@@ -7,6 +7,7 @@
 #include "obstacles/FireObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
 #include "platforms/TogglePlatform.hpp"
+#include "platforms/TrampolinePlatform.hpp"
 #include "level/LevelManager.hpp"
 #include "DisappearingAnimation.hpp"
 #include "Player.hpp"
@@ -116,7 +117,7 @@ AnimatedObject* AnimatedObjectsFactory::createCollectable(const string& objectNa
 
 Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vector2& size)
 {
-    PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 1, 1, 0, 1.0f);
+    PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 5, 1, 0, 1.0f);
     Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager, m_pEventListener);
     pBody->setGameObject(pPlayer);
     pBody->setOnCollideListener(pPlayer);
@@ -351,6 +352,45 @@ AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const in
         pTogglePlatform->setSize(finalSize);
         
         return pTogglePlatform;
+    }
+    else if (objectName.compare("trampoline") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/platforms/" + objectName + "_animation.json";
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+
+        const Trampoline* pTrampolineData = m_pLevelManager->findTrampoline(tileX, tileY);
+        
+        Vector2 graphicsPosition = position;
+        Vector2 physicsPosition = position;
+        physicsPosition.y += tileSize.y * 0.1f;
+
+        Vector2 graphicsSize = size;
+        Vector2 physicsSize = size;
+        physicsSize.y = tileSize.y * 0.2f;
+        
+        // wiring up to the physics engine
+        PhysicsBody* pBody = m_pWorld->createStaticBody(physicsPosition, physicsSize, 0, pTrampolineData->bounciness);
+
+        TrampolinePlatform* pTrampoline = new TrampolinePlatform(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pBody,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener
+        );
+
+        pBody->setGameObject(pTrampoline);
+        pBody->setOnCollideListener(pTrampoline);
+
+        pTrampoline->setXY(graphicsPosition.x, graphicsPosition.y);
+        pTrampoline->setSize(graphicsSize.x, graphicsSize.y);
+        
+        pTrampoline->play("idle");
+
+        return pTrampoline;
     }
     else
     {
