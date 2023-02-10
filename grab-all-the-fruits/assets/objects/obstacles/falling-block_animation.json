@@ -1,0 +1,14 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/falling-block.json",
+    "spriteSheetImage": "assets/objects/obstacles/falling-block.png",
+    "states": [
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "falling-block_0.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}
