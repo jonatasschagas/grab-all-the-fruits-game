@@ -294,7 +294,7 @@ void TileMapSprite::createMetaTile(int x, int y, Sprite* pSpriteLayer, TileMapLa
     
     if (pMetaTileSprite->getGamePosition() == Vector2::ZERO)
     {
-        pMetaTileSprite->setXY(position);
+        pMetaTileSprite->setPosition(position);
     }
     
     if (pMetaTileSprite->getSize() == Vector2::ZERO)

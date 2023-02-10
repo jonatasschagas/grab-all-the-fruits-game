@@ -118,7 +118,7 @@ void Player::update(float delta)
     }
     
     const Vector2 gamePosition = getGamePosition();
-    setXY(gamePosition);
+    setPosition(gamePosition);
 
     if (isGrounded())
     {
@@ -131,7 +131,7 @@ const Vector2 Player::getGamePosition()
     return m_pBody->getGamePosition(); 
 }
 
-void Player::onSensorTriggeredStart(const string& name) 
+void Player::onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) 
 {
     if (name.compare("bottom-sensor") == 0) {
         m_numGroundContacts++;
@@ -144,7 +144,7 @@ void Player::onSensorTriggeredStart(const string& name)
     }
 }
 
-void Player::onSensorTriggeredEnd(const string& name) 
+void Player::onSensorTriggeredEnd(const string& name, PhysicsBody* pOtherBody) 
 {
     if (name.compare("bottom-sensor") == 0) {
         m_numGroundContacts--;

@@ -78,7 +78,7 @@ void TogglePlatform::update(const float delta)
     }
 
     const Vector2 gamePosition = m_pPhysicsBody->getGamePosition();
-    setXY(gamePosition);
+    setPosition(gamePosition);
 }
 
 void TogglePlatform::onCollideStart(PhysicsBody* pPhysicsBody)

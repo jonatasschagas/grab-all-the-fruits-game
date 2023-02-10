@@ -58,7 +58,7 @@ void FireObstacle::update(const float delta)
     }
 }
 
-void FireObstacle::onSensorTriggeredStart(const string& name)
+void FireObstacle::onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody)
 {
     if (name.compare("fire") == 0 && m_fireOn)
     {

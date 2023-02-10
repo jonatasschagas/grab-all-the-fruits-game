@@ -28,8 +28,8 @@ public:
 
     const Vector2 getGamePosition();
 
-    void onSensorTriggeredStart(const string& name) override;
-    void onSensorTriggeredEnd(const string& name) override;    
+    void onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) override;
+    void onSensorTriggeredEnd(const string& name, PhysicsBody* pOtherBody) override;    
 
     void updateEditor();
 

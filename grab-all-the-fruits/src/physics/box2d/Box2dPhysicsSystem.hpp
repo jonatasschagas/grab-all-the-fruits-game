@@ -29,19 +29,22 @@ public:
         float weight,
         float friction,
         float restituition,
-        float gravityScale) override;
+        float gravityScale,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Circle) override;
 
     PhysicsBody* createStaticBody(
         const Vector2& rGamePosition, 
         const Vector2& rGameSize,
         float friction,
-        float restituition) override;
+        float restituition,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Box) override;
 
     PhysicsBody* createKinematicBody(
         const Vector2& rGamePosition, 
         const Vector2& rGameSize,
         float friction,
-        float restituition) override;
+        float restituition,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Box) override;
 
     PhysicsBody* createSensor(
         const Vector2& rGamePosition, 
@@ -53,6 +56,8 @@ public:
 private:
 
     b2Vec2 toPhysicsWorld(const Vector2& rGamePosition) const;
+    b2PolygonShape createBoxShape(const Vector2& rGameSize) const;
+    b2CircleShape createCircleShape(const Vector2& rGameSize) const;
 
     b2World* m_pBox2DWorld;
     Box2dDebugRenderer * m_pDebugRenderer;

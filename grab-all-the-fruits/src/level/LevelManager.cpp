@@ -174,6 +174,18 @@ void LevelManager::loadLevelsData(const string& levelsFile)
             level.trampolines.push_back(trampoline);
         }
 
+        auto fallingBlocks = levelData["fallingBlocks"].GetArray();
+        for (int j = 0; j < fallingBlocks.Size(); j++)
+        {
+            auto fallingBlockData = fallingBlocks[j].GetObject();
+            FallingBlock fallingBlock;
+            fallingBlock.tileX = fallingBlockData["tileX"].GetInt();
+            fallingBlock.tileY = fallingBlockData["tileY"].GetInt();
+            fallingBlock.distanceToGroundInTiles = fallingBlockData["distanceToGroundInTiles"].GetFloat();
+            fallingBlock.weight = fallingBlockData["weight"].GetFloat();
+            level.fallingBlocks.push_back(fallingBlock);
+        }
+
         sm_levels.push_back(level);
     }
 
@@ -214,6 +226,19 @@ const Trampoline* LevelManager::findTrampoline(int tileX, int tileY) const
         if (trampoline.tileX == tileX && trampoline.tileY == tileY)
         {
             return &sm_levels[m_currentLevelIndex].trampolines[i];
+        }
+    }
+    return nullptr;
+}
+
+const FallingBlock* LevelManager::findFallingBlock(int tileX, int tileY) const
+{
+    for (int i = 0; i < sm_levels[m_currentLevelIndex].fallingBlocks.size(); i++)
+    {
+        FallingBlock fallingBlock = sm_levels[m_currentLevelIndex].fallingBlocks[i];
+        if (fallingBlock.tileX == tileX && fallingBlock.tileY == tileY)
+        {
+            return &sm_levels[m_currentLevelIndex].fallingBlocks[i];
         }
     }
     return nullptr;

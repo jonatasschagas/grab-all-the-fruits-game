@@ -55,22 +55,22 @@ void World::renderDebug(const Vector2& rOffset)
     m_pPhysicsSystem->renderDebug(rOffset);
 }
 
-PhysicsBody* World::createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale)
+PhysicsBody* World::createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale, PhysicsShape physicsShape)
 {
-    PhysicsBody* pBody = m_pPhysicsSystem->createDynamicBody(position, size, weight, friction, restituition, gravityScale);
+    PhysicsBody* pBody = m_pPhysicsSystem->createDynamicBody(position, size, weight, friction, restituition, gravityScale, physicsShape);
     m_dynamicBodies.push_back(pBody);
     return pBody;
 }
-PhysicsBody* World::createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition)
+PhysicsBody* World::createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition, PhysicsShape physicsShape)
 {
-    PhysicsBody* pBody = m_pPhysicsSystem->createStaticBody(position, size, friction, restituition);
+    PhysicsBody* pBody = m_pPhysicsSystem->createStaticBody(position, size, friction, restituition, physicsShape);
     m_staticBodies.push_back(pBody);
     return pBody;
 }
 
-PhysicsBody* World::createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition)
+PhysicsBody* World::createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition, PhysicsShape physicsShape)
 {
-    PhysicsBody* pBody = m_pPhysicsSystem->createKinematicBody(position, size, friction, restituition);
+    PhysicsBody* pBody = m_pPhysicsSystem->createKinematicBody(position, size, friction, restituition, physicsShape);
     m_kinematicBodies.push_back(pBody);
     return pBody;
 }

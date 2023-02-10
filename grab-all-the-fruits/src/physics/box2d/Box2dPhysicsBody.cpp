@@ -186,7 +186,12 @@ void Box2dPhysicsBody::setVelocity(const Vector2& rVelocity)
     m_pBox2DBody->SetLinearVelocity(b2Vec2(rVelocity.x, rVelocity.y));
 }
 
-void Box2dPhysicsBody::setGravity(const Vector2& rGravity)
+void Box2dPhysicsBody::setGravityScale(const float gScale)
 {
-    m_pBox2DBody->SetGravityScale(-rGravity.y);
+    m_pBox2DBody->SetGravityScale(gScale);
+}
+
+void Box2dPhysicsBody::setAwake(const bool awake)
+{
+    m_pBox2DBody->SetAwake(awake);
 }

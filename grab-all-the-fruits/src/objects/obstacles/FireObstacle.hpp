@@ -32,7 +32,7 @@ public:
 
     void update(const float delta) override;
 
-    void onSensorTriggeredStart(const string& name) override;
+    void onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) override;
 
 private:
 

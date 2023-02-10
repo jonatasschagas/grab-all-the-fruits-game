@@ -68,7 +68,7 @@ void SawObstacle::update(const float delta)
     m_pPhysicsBody->setVelocity(direction * delta * SAW_SPEED);
 
     const Vector2 gamePosition = m_pPhysicsBody->getGamePosition();
-    setXY(gamePosition);
+    setPosition(gamePosition);
 }
 
 void SawObstacle::onCollideStart(PhysicsBody* pPhysicsBody)

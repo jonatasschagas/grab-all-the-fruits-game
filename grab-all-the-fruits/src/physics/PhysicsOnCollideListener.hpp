@@ -15,8 +15,8 @@ public:
     virtual void onCollideStart(PhysicsBody* pOtherBody) {}
     virtual void onCollideEnd(PhysicsBody* pOtherBody) {}
 
-    virtual void onSensorTriggeredStart(const string& name) {}
-    virtual void onSensorTriggeredEnd(const string& name) {}
+    virtual void onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) {}
+    virtual void onSensorTriggeredEnd(const string& name, PhysicsBody* pOtherBody) {}
 
 };
 

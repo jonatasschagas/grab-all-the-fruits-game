@@ -5,6 +5,7 @@
 #include "obstacles/StationaryObstacle.hpp"
 #include "obstacles/SawObstacle.hpp"
 #include "obstacles/FireObstacle.hpp"
+#include "obstacles/FallingBlockObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
 #include "platforms/TogglePlatform.hpp"
 #include "platforms/TrampolinePlatform.hpp"
@@ -231,6 +232,41 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
         pObstacle->setSize(finalSize.x, finalSize.y);
         
         pObstacle->play("fire_on");
+
+        return pObstacle;
+    }
+    else if (objectName.compare("falling-block") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+
+        const FallingBlock* pFallingBlock = m_pLevelManager->findFallingBlock(tileX, tileY);
+
+        Vector2 physicsSize = size;
+        Vector2 graphicsSize = size * 1.3f;
+
+        // wiring up to the physics engine
+        PhysicsBody* pBody = m_pWorld->createDynamicBody(position, physicsSize, pFallingBlock->weight, 0, 0, 0, PhysicsShape::PhysicsShape_Box);
+
+        FallingBlockObstacle* pObstacle = new FallingBlockObstacle(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pBody,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            size,
+            m_pLevelManager->getTileSize(),
+            pFallingBlock->distanceToGroundInTiles
+        );
+
+        pBody->setGameObject(pObstacle);
+        pBody->setOnCollideListener(pObstacle);
+
+        pObstacle->setXY(position.x, position.y);
+        pObstacle->setSize(graphicsSize);
+        
+        pObstacle->play("idle");
 
         return pObstacle;
     }

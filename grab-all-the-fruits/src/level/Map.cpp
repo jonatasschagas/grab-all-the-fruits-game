@@ -3,6 +3,7 @@
 #include <math.h>
 #include "utils/MathUtils.h"
 #include "utils/StringUtils.h"
+#include "objects/GroundObject.hpp"
 
  Map::Map(World* pWorld, TileMapSprite* pTileMapSprite)
  {
@@ -26,12 +27,13 @@ void Map::createMapInPhysicsWorld()
         {
             if (isTileGround(tileX, tileY))
             {
-                m_pWorld->createStaticBody(
+                PhysicsBody* pBody = m_pWorld->createStaticBody(
                     Vector2(tileX * m_pTileMapSprite->getTileSizeInGameUnits().x, tileY * m_pTileMapSprite->getTileSizeInGameUnits().y),
                     Vector2(m_pTileMapSprite->getTileSizeInGameUnits().x, m_pTileMapSprite->getTileSizeInGameUnits().y),
                     0.f, // friction
                     0.f // restitution
                 );
+                pBody->setGameObject(new GroundObject());
             }
         }
     }

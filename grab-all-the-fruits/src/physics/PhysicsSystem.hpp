@@ -5,6 +5,12 @@
 #include "core/Vector2.h"
 #include "PhysicsBody.hpp"
 
+enum PhysicsShape
+{
+    PhysicsShape_Box,
+    PhysicsShape_Circle
+};
+
 class PhysicsSystem 
 {
 public:
@@ -21,19 +27,22 @@ public:
         float weight,
         float friction,
         float restituition,
-        float gravityScale) = 0;
+        float gravityScale,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Circle) = 0;
 
     virtual PhysicsBody* createStaticBody(
         const Vector2& rGamePosition, 
         const Vector2& rGameSize,
         float friction,
-        float restituition) = 0;
+        float restituition,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Box) = 0;
     
     virtual PhysicsBody* createKinematicBody(
         const Vector2& rGamePosition, 
         const Vector2& rGameSize,
         float friction,
-        float restituition) = 0;
+        float restituition,
+        const PhysicsShape& physicsShape=PhysicsShape::PhysicsShape_Box) = 0;
 
     virtual PhysicsBody* createSensor(
         const Vector2& rGamePosition, 

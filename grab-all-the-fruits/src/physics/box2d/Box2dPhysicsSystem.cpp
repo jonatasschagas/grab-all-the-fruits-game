@@ -47,21 +47,29 @@ PhysicsBody* Box2dPhysicsSystem::createDynamicBody(
     float weight,
     float friction,
     float restituition,
-    float gravityScale)
+    float gravityScale,
+    const PhysicsShape& physicsShape)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position = toPhysicsWorld(rGamePosition);
 
-    b2CircleShape circleShape;
-    circleShape.m_radius = (rGameSize.x * METERS_PER_PIXEL)/2.0f;
-
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &circleShape;
+    if (physicsShape == PhysicsShape_Circle)
+    {
+        b2CircleShape circleShape = createCircleShape(rGameSize);
+        fixtureDef.shape = &circleShape;
+    }
+    else
+    {
+        b2PolygonShape squareShape = createBoxShape(rGameSize);
+        fixtureDef.shape = &squareShape;
+    }
+    
     fixtureDef.density = weight;
     fixtureDef.friction = friction;
     fixtureDef.restitution = restituition;
-    
+
     b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
     b2Body->CreateFixture(&fixtureDef);
     b2Body->SetGravityScale(gravityScale);
@@ -78,22 +86,26 @@ PhysicsBody* Box2dPhysicsSystem::createStaticBody(
     const Vector2& rGamePosition, 
     const Vector2& rGameSize,
     float friction,
-    float restituition)
+    float restituition,
+    const PhysicsShape& physicsShape)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
     bodyDef.position = toPhysicsWorld(rGamePosition);
 
-    b2PolygonShape squareShape;
-    squareShape.SetAsBox(
-        (rGameSize.x * METERS_PER_PIXEL)/2, 
-        (rGameSize.y * METERS_PER_PIXEL)/2
-    );
-
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &squareShape;
-    fixtureDef.restitution = restituition; // how bouncy it is
-    fixtureDef.friction = friction; // how slippery it is
+    if (physicsShape == PhysicsShape_Circle)
+    {
+        b2CircleShape circleShape = createCircleShape(rGameSize);
+        fixtureDef.shape = &circleShape;
+    }
+    else
+    {
+        b2PolygonShape squareShape = createBoxShape(rGameSize);
+        fixtureDef.shape = &squareShape;
+    }
+    fixtureDef.friction = friction;
+    fixtureDef.restitution = restituition; // bounciness
     
     b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
     b2Body->CreateFixture(&fixtureDef);
@@ -106,22 +118,26 @@ PhysicsBody* Box2dPhysicsSystem::createKinematicBody(
     const Vector2& rGamePosition, 
     const Vector2& rGameSize,
     float friction,
-    float restituition) 
+    float restituition,
+    const PhysicsShape& physicsShape) 
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_kinematicBody;
     bodyDef.position = toPhysicsWorld(rGamePosition);
 
-    b2PolygonShape squareShape;
-    squareShape.SetAsBox(
-        (rGameSize.x * METERS_PER_PIXEL)/2, 
-        (rGameSize.y * METERS_PER_PIXEL)/2
-    );
-
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &squareShape;
-    fixtureDef.restitution = restituition; // how bouncy it is
-    fixtureDef.friction = friction; // how slippery it is
+    if (physicsShape == PhysicsShape_Circle)
+    {
+        b2CircleShape circleShape = createCircleShape(rGameSize);
+        fixtureDef.shape = &circleShape;
+    }
+    else
+    {
+        b2PolygonShape squareShape = createBoxShape(rGameSize);
+        fixtureDef.shape = &squareShape;
+    }
+    fixtureDef.friction = friction;
+    fixtureDef.restitution = restituition; // bounciness
     
     b2Body* b2Body = m_pBox2DWorld->CreateBody(&bodyDef);
     b2Body->CreateFixture(&fixtureDef);
@@ -136,11 +152,7 @@ PhysicsBody* Box2dPhysicsSystem::createSensor(const Vector2& rGamePosition, cons
     bodyDef.type = b2_staticBody;
     bodyDef.position = toPhysicsWorld(rGamePosition);
 
-    b2PolygonShape squareShape;
-    squareShape.SetAsBox(
-        (rGameSize.x * METERS_PER_PIXEL)/2, 
-        (rGameSize.y * METERS_PER_PIXEL)/2
-    );
+    b2PolygonShape squareShape = createBoxShape(rGameSize);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &squareShape;
@@ -183,21 +195,27 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
     PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollideStart(pBodyB);
         if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
         {
             string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
-            pOnCollideListener->onSensorTriggeredStart(*pName);
+            pOnCollideListener->onSensorTriggeredStart(*pName, pBodyB);
+        }
+        else
+        {
+            pOnCollideListener->onCollideStart(pBodyB);
         }
     }
 
     pOnCollideListener = pBodyB->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollideStart(pBodyA);
         if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
         {
-            pOnCollideListener->onSensorTriggeredStart(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));
+            pOnCollideListener->onSensorTriggeredStart(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer), pBodyA);
+        }
+        else
+        {
+            pOnCollideListener->onCollideStart(pBodyA);
         }
     }
 }
@@ -224,21 +242,44 @@ void Box2dPhysicsSystem::EndContact(b2Contact* contact)
     PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollideEnd(pBodyB);
         if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
         {
             string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
-            pOnCollideListener->onSensorTriggeredEnd(*pName);
+            pOnCollideListener->onSensorTriggeredEnd(*pName, pBodyB);
+        }
+        else
+        {
+            pOnCollideListener->onCollideEnd(pBodyB);
         }
     }
 
     pOnCollideListener = pBodyB->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollideEnd(pBodyA);
         if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
         {
-            pOnCollideListener->onSensorTriggeredEnd(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));
+            pOnCollideListener->onSensorTriggeredEnd(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer), pBodyA);
+        }
+        else
+        {
+            pOnCollideListener->onCollideEnd(pBodyA);
         }
     }
+}
+
+b2PolygonShape Box2dPhysicsSystem::createBoxShape(const Vector2& rGameSize) const
+{
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(
+        (rGameSize.x * METERS_PER_PIXEL)/2, 
+        (rGameSize.y * METERS_PER_PIXEL)/2
+    );
+    return boxShape;
+}
+
+b2CircleShape Box2dPhysicsSystem::createCircleShape(const Vector2& rGameSize) const
+{
+    b2CircleShape circleShape;
+    circleShape.m_radius = (rGameSize.x * METERS_PER_PIXEL)/2;
+    return circleShape;
 }

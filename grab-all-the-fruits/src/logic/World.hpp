@@ -26,9 +26,9 @@ public:
     void renderDebug(const Vector2& rOffset);
     void receiveEvent(Event* pEvent) override;
     
-    PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale);
-    PhysicsBody* createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition);
-    PhysicsBody* createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition);
+    PhysicsBody* createDynamicBody(const Vector2& position, const Vector2& size, float weight, float friction, float restituition, float gravityScale, PhysicsShape physicsShape=PhysicsShape::PhysicsShape_Circle);
+    PhysicsBody* createStaticBody(const Vector2& position, const Vector2& size, float friction, float restituition, PhysicsShape physicsShape=PhysicsShape::PhysicsShape_Box);
+    PhysicsBody* createKinematicBody(const Vector2& position, const Vector2& size, float friction, float restituition, PhysicsShape physicsShape=PhysicsShape::PhysicsShape_Box);
     PhysicsBody* createSensor(const Vector2& position, const Vector2& size);
 
 private:

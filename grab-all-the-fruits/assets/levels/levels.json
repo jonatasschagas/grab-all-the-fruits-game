@@ -21,7 +21,8 @@
             "numFruits": 24,
             "platforms": [],
             "traps": [],
-            "trampolines": []
+            "trampolines": [],
+            "fallingBlocks": []
         },
         {
             "title": "Platforms!",
@@ -70,7 +71,8 @@
                 }
             ],
             "traps": [],
-            "trampolines": []
+            "trampolines": [],
+            "fallingBlocks": []
         },
         {
             "title": "SAW BLADES!",
@@ -101,12 +103,13 @@
                     "widthInTiles": 2,
                     "heightInTiles": 2,
                     "tileX": 33,
-                    "tileY": 8,
+                    "tileY": 5,
                     "targetTileX": 23,
-                    "targetTileY": 8
+                    "targetTileY": 4
                 }
             ],
-            "trampolines": []
+            "trampolines": [],
+            "fallingBlocks": []
         },
         {
             "title": "Trampoline away!",
@@ -125,7 +128,7 @@
             "traps": [],
             "trampolines": [
                 {
-                    "tileX": 8,
+                    "tileX": 5,
                     "tileY": 29,
                     "bounciness": 1
                 },
@@ -135,9 +138,77 @@
                     "bounciness": 1
                 },
                 {
-                    "tileX": 8,
+                    "tileX": 5,
                     "tileY": 14,
                     "bounciness": 1
+                }
+            ],
+            "fallingBlocks": []
+        },
+        {
+            "title": "Never look back! (falling blocks)",
+            "configFile": "assets/levels/falling-blocks.json",
+            "background": "assets/levels/backgrounds/Pink.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 12,
+            "platforms": [],
+            "traps": [],
+            "trampolines": [],
+            "fallingBlocks": [
+                {
+                    "tileX": 5,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 10,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 14,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 18,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 22,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 26,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 31,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
+                },
+                {
+                    "tileX": 35,
+                    "tileY": 7,
+                    "distanceToGroundInTiles": 5,
+                    "weight": 1000
                 }
             ]
         }

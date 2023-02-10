@@ -50,7 +50,9 @@ public:
 
     virtual void addSensor(const string& name, const Vector2& position, const Vector2& size) = 0;
 
-    virtual void setGravity(const Vector2& rGravity) = 0;
+    virtual void setGravityScale(const float gScale) = 0;
+
+    virtual void setAwake(const bool awake) = 0;
 
     virtual void destroy() = 0;
 
