@@ -131,9 +131,6 @@ const Vector2 Player::getGamePosition()
     return m_pBody->getGamePosition(); 
 }
 
-void Player::onCollide(PhysicsBody* pOtherBody)
-{}
-
 void Player::onSensorTriggeredStart(const string& name) 
 {
     if (name.compare("bottom-sensor") == 0) {

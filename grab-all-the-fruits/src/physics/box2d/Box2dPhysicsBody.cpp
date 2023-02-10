@@ -185,3 +185,8 @@ void Box2dPhysicsBody::setVelocity(const Vector2& rVelocity)
 {
     m_pBox2DBody->SetLinearVelocity(b2Vec2(rVelocity.x, rVelocity.y));
 }
+
+void Box2dPhysicsBody::setGravity(const Vector2& rGravity)
+{
+    m_pBox2DBody->SetGravityScale(-rGravity.y);
+}

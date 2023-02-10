@@ -23,7 +23,7 @@
             "traps": []
         },
         {
-            "title": "Moving Platforms",
+            "title": "Platforms!",
             "configFile": "assets/levels/level2.json",
             "background": "assets/levels/backgrounds/Blue.png",
             "backgroundTileSize": {
@@ -34,15 +34,38 @@
                 "x": 64,
                 "y": 64
             },
-            "numFruits": 14,
+            "numFruits": 18,
             "platforms": [
                 {
+                    "type": "toggle-platform",
                     "widthInTiles": 2,
                     "heightInTiles": 1,
                     "tileX": 18,
                     "tileY": 7,
                     "targetTileX": 24,
-                    "targetTileY": 7
+                    "targetTileY": 7,
+                    "speed": 50
+                },
+                {
+                    "type": "moving-platform-wood",
+                    "widthInTiles": 2,
+                    "heightInTiles": 0.3,
+                    "tileX": 39,
+                    "tileY": 7,
+                    "targetTileX": 46,
+                    "targetTileY": 7,
+                    "speed": 350
+                }
+                ,
+                {
+                    "type": "moving-platform-iron",
+                    "widthInTiles": 2,
+                    "heightInTiles": 0.3,
+                    "tileX": 58,
+                    "tileY": 7,
+                    "targetTileX": 65,
+                    "targetTileY": 7,
+                    "speed": 350
                 }
             ],
             "traps": []

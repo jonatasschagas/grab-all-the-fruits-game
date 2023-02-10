@@ -9,7 +9,8 @@ MovingPlatform::MovingPlatform(
         const string& type, 
         EventListener* pEventListener,
         const Vector2& initialPosition,
-        const Vector2& finalPosition) : PhysicalAnimatedObject(
+        const Vector2& finalPosition,
+        const float movingSpeed) : PhysicalAnimatedObject(
             pPlatformManager, 
             rDataCacheManager, 
             pPhysicsBody, 
@@ -23,7 +24,9 @@ MovingPlatform::MovingPlatform(
     m_initialPosition = initialPosition;
     m_finalPosition = finalPosition;
     m_pPhysicsBody = pPhysicsBody;
+    m_movingSpeed = movingSpeed;
 }
+
 MovingPlatform::~MovingPlatform()
 {
     initializeMembers();
@@ -61,23 +64,8 @@ void MovingPlatform::update(const float delta)
         m_finalPosition = temp;
     }
 
-    m_pPhysicsBody->setVelocity(direction * delta * MOVING_PLATFORM_SPEED);
+    m_pPhysicsBody->setVelocity(direction * delta * m_movingSpeed);
 
     const Vector2 gamePosition = m_pPhysicsBody->getGamePosition();
     setXY(gamePosition);
-}
-
-void MovingPlatform::onCollide(PhysicsBody* pPhysicsBody)
-{
-
-}
-
-void MovingPlatform::onSensorTriggeredStart(const string& name)
-{
-
-}
-
-void MovingPlatform::onSensorTriggeredEnd(const string& name) 
-{
-
 }

@@ -183,7 +183,7 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
     PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollide(pBodyB);
+        pOnCollideListener->onCollideStart(pBodyB);
         if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
         {
             string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
@@ -194,7 +194,7 @@ void Box2dPhysicsSystem::BeginContact(b2Contact* contact)
     pOnCollideListener = pBodyB->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
-        pOnCollideListener->onCollide(pBodyA);
+        pOnCollideListener->onCollideStart(pBodyA);
         if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
         {
             pOnCollideListener->onSensorTriggeredStart(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));
@@ -224,6 +224,7 @@ void Box2dPhysicsSystem::EndContact(b2Contact* contact)
     PhysicsOnCollideListener* pOnCollideListener = pBodyA->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
+        pOnCollideListener->onCollideEnd(pBodyB);
         if (pFixtureA->IsSensor() && pFixtureA->GetUserData().pointer)
         {
             string* pName = reinterpret_cast<string*>(pFixtureA->GetUserData().pointer);
@@ -234,6 +235,7 @@ void Box2dPhysicsSystem::EndContact(b2Contact* contact)
     pOnCollideListener = pBodyB->getOnCollideListener();
     if (pOnCollideListener != nullptr)
     {
+        pOnCollideListener->onCollideEnd(pBodyA);
         if (pFixtureB->IsSensor() && pFixtureB->GetUserData().pointer)
         {
             pOnCollideListener->onSensorTriggeredEnd(reinterpret_cast<char*>(pFixtureB->GetUserData().pointer));

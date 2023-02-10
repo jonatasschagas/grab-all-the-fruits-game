@@ -35,6 +35,8 @@ public:
 
     void lockHorizontalMovement() override;
 
+    void setGravity(const Vector2& rGravity) override;
+
     void destroy() override;
 
 private:

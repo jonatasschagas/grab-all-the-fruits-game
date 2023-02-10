@@ -23,7 +23,7 @@ FruitAnimatedObject::~FruitAnimatedObject()
     initializeMembers();
 }
 
-void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
+void FruitAnimatedObject::onCollideStart(PhysicsBody* pPhysicsBody)
 {
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0 && !m_isCollected)
@@ -35,7 +35,3 @@ void FruitAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         destroy();
     }
 }
-
-void FruitAnimatedObject::onSensorTriggeredStart(const string& name) {}
-
-void FruitAnimatedObject::onSensorTriggeredEnd(const string& name) {}

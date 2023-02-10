@@ -21,8 +21,10 @@ struct Platform
     int tileY;
     int targetTileX;
     int targetTileY;
-    int widthInTiles;
-    int heightInTiles;
+    float widthInTiles;
+    float heightInTiles;
+    float speed;
+    string type;
 };
 
 struct Trap
@@ -31,8 +33,8 @@ struct Trap
     int tileY;
     int targetTileX;
     int targetTileY;
-    int widthInTiles;
-    int heightInTiles;
+    float widthInTiles;
+    float heightInTiles;
     string type;
 };
 

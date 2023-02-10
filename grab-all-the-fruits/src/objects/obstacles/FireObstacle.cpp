@@ -58,11 +58,6 @@ void FireObstacle::update(const float delta)
     }
 }
 
-void FireObstacle::onCollide(PhysicsBody* pPhysicsBody)
-{
-
-}
-
 void FireObstacle::onSensorTriggeredStart(const string& name)
 {
     if (name.compare("fire") == 0 && m_fireOn)
@@ -71,9 +66,4 @@ void FireObstacle::onSensorTriggeredStart(const string& name)
         event.setInputCoordinates(getGamePosition());
         m_pEventListener->receiveEvent(&event);
     }
-}
-
-void FireObstacle::onSensorTriggeredEnd(const string& name) 
-{
-
 }

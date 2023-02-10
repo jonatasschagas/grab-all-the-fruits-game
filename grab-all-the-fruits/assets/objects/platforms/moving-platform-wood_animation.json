@@ -1,0 +1,21 @@
+{
+    "spriteSheetConfig": "assets/objects/platforms/moving-platform-wood.json",
+    "spriteSheetImage": "assets/objects/platforms/moving-platform-wood.png",
+    "states": [
+        {
+            "name": "moving",
+            "playOnce": false,
+            "sprites": [
+                "wood_0.png",
+                "wood_1.png",
+                "wood_2.png",
+                "wood_3.png",
+                "wood_4.png",
+                "wood_5.png",
+                "wood_6.png",
+                "wood_7.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

@@ -23,7 +23,7 @@ StationaryObstacle::~StationaryObstacle()
     initializeMembers();
 }
 
-void StationaryObstacle::onCollide(PhysicsBody* pPhysicsBody)
+void StationaryObstacle::onCollideStart(PhysicsBody* pPhysicsBody)
 {
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
@@ -33,7 +33,3 @@ void StationaryObstacle::onCollide(PhysicsBody* pPhysicsBody)
         m_pEventListener->receiveEvent(&event);
     }
 }
-
-void StationaryObstacle::onSensorTriggeredStart(const string& name) {}
-
-void StationaryObstacle::onSensorTriggeredEnd(const string& name) {}

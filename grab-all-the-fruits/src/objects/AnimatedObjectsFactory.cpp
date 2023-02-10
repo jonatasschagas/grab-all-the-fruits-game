@@ -6,6 +6,7 @@
 #include "obstacles/SawObstacle.hpp"
 #include "obstacles/FireObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
+#include "platforms/TogglePlatform.hpp"
 #include "level/LevelManager.hpp"
 #include "DisappearingAnimation.hpp"
 #include "Player.hpp"
@@ -277,7 +278,7 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
 
 AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const int tileY, const string& objectName, const string& objectType, Vector2 position, Vector2 size)
 {
-    if (objectName.compare("moving-platform") == 0)
+    if (objectName.compare("moving-platform-wood") == 0 || objectName.compare("moving-platform-iron") == 0)
     {
         string animationFile = m_animatedObjectsPath + "/platforms/" + objectName + "_animation.json";
 
@@ -301,7 +302,8 @@ AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const in
             objectType,
             m_pEventListener,
             initialPosition,
-            finalPosition
+            finalPosition,
+            pPlatform->speed
         );
 
         pKinematic->setGameObject(pMovingPlatform);
@@ -310,9 +312,45 @@ AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const in
         pMovingPlatform->setXY(position.x, position.y);
         pMovingPlatform->setSize(finalSize);
         
-        pMovingPlatform->play("idle");
+        pMovingPlatform->play("moving");
 
         return pMovingPlatform;
+    }
+    else if (objectName.compare("toggle-platform") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/platforms/" + objectName + "_animation.json";
+
+        const Platform* pPlatform = m_pLevelManager->findPlatform(tileX, tileY);
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 initialPosition = position;
+        Vector2 finalPosition = Vector2(pPlatform->targetTileX * tileSize.x, pPlatform->targetTileY * tileSize.y);
+        Vector2 finalSize(pPlatform->widthInTiles * tileSize.x, pPlatform->heightInTiles * tileSize.y);
+
+        // wiring up to the physics engine
+        // needs friction to be 1 to avoid sliding
+        PhysicsBody* pKinematic = m_pWorld->createKinematicBody(position, finalSize, 10, 0);
+        
+        TogglePlatform* pTogglePlatform = new TogglePlatform(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pKinematic,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            initialPosition,
+            finalPosition,
+            pPlatform->speed
+        );
+
+        pKinematic->setGameObject(pTogglePlatform);
+        pKinematic->setOnCollideListener(pTogglePlatform);
+
+        pTogglePlatform->setXY(position.x, position.y);
+        pTogglePlatform->setSize(finalSize);
+        
+        return pTogglePlatform;
     }
     else
     {

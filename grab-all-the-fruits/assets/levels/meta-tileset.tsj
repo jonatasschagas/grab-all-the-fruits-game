@@ -141,7 +141,7 @@
                 {
                  "name":"name",
                  "type":"string",
-                 "value":"moving-platform"
+                 "value":"toggle-platform"
                 }, 
                 {
                  "name":"type",
@@ -274,7 +274,7 @@
                 {
                  "name":"name",
                  "type":"string",
-                 "value":"platform-wood"
+                 "value":"moving-platform-wood"
                 }, 
                 {
                  "name":"type",
@@ -288,7 +288,7 @@
                 {
                  "name":"name",
                  "type":"string",
-                 "value":"platform-iron"
+                 "value":"moving-platform-iron"
                 }, 
                 {
                  "name":"type",

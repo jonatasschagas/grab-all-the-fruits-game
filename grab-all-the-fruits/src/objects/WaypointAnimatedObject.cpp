@@ -23,7 +23,7 @@ WaypointAnimatedObject::~WaypointAnimatedObject()
     initializeMembers();
 }
 
-void WaypointAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
+void WaypointAnimatedObject::onCollideStart(PhysicsBody* pPhysicsBody)
 {
     GameObject* pGameObject = pPhysicsBody->getGameObject();
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
@@ -34,7 +34,3 @@ void WaypointAnimatedObject::onCollide(PhysicsBody* pPhysicsBody)
         m_pEventListener->receiveEvent(&event);
     }
 }
-
-void WaypointAnimatedObject::onSensorTriggeredStart(const string& name) {}
-
-void WaypointAnimatedObject::onSensorTriggeredEnd(const string& name) {}

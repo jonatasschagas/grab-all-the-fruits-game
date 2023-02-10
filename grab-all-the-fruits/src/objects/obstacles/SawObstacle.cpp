@@ -71,7 +71,7 @@ void SawObstacle::update(const float delta)
     setXY(gamePosition);
 }
 
-void SawObstacle::onCollide(PhysicsBody* pPhysicsBody)
+void SawObstacle::onCollideStart(PhysicsBody* pPhysicsBody)
 {
     if (pPhysicsBody->getGameObject()->getType().compare("player") == 0)
     {
@@ -79,14 +79,4 @@ void SawObstacle::onCollide(PhysicsBody* pPhysicsBody)
         event.setInputCoordinates(pPhysicsBody->getGamePosition());
         m_pEventListener->receiveEvent(&event);
     }
-}
-
-void SawObstacle::onSensorTriggeredStart(const string& name)
-{
-
-}
-
-void SawObstacle::onSensorTriggeredEnd(const string& name)
-{
-
 }

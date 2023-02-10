@@ -12,10 +12,11 @@ class PhysicsOnCollideListener
 {
 public:
 
-    virtual void onCollide(PhysicsBody* pOtherBody) = 0;
+    virtual void onCollideStart(PhysicsBody* pOtherBody) {}
+    virtual void onCollideEnd(PhysicsBody* pOtherBody) {}
 
-    virtual void onSensorTriggeredStart(const string& name) = 0;
-    virtual void onSensorTriggeredEnd(const string& name) = 0;
+    virtual void onSensorTriggeredStart(const string& name) {}
+    virtual void onSensorTriggeredEnd(const string& name) {}
 
 };
 

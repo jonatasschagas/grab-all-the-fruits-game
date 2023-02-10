@@ -1,0 +1,21 @@
+{
+    "spriteSheetConfig": "assets/objects/platforms/moving-platform-iron.json",
+    "spriteSheetImage": "assets/objects/platforms/moving-platform-iron.png",
+    "states": [
+        {
+            "name": "moving",
+            "playOnce": false,
+            "sprites": [
+                "iron_0.png",
+                "iron_1.png",
+                "iron_2.png",
+                "iron_3.png",
+                "iron_4.png",
+                "iron_5.png",
+                "iron_6.png",
+                "iron_7.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

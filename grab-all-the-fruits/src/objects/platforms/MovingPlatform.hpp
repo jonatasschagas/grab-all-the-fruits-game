@@ -12,8 +12,6 @@ class PlatformManager;
 
 using namespace std;
 
-const float MOVING_PLATFORM_SPEED = 150.f;
-
 class MovingPlatform : public PhysicalAnimatedObject, public PhysicsOnCollideListener
 {
 public:
@@ -27,16 +25,13 @@ public:
         const string& type, 
         EventListener* pEventListener,
         const Vector2& initialPosition,
-        const Vector2& finalPosition);
+        const Vector2& finalPosition,
+        const float movingSpeed);
     ~MovingPlatform();
 
     const string& getName() const { return m_name; }
 
     void update(const float delta) override;
-
-    void onCollide(PhysicsBody* pPhysicsBody) override;
-    void onSensorTriggeredStart(const string& name) override;
-    void onSensorTriggeredEnd(const string& name) override;
 
 private:
 
@@ -45,6 +40,7 @@ private:
     Vector2 m_initialPosition;
     Vector2 m_finalPosition;
     PhysicsBody* m_pPhysicsBody;
+    float m_movingSpeed;
 
     void initializeMembers()
     {
@@ -55,6 +51,7 @@ private:
         m_initialPosition.y = 0;
         m_finalPosition.x = 0;
         m_finalPosition.y = 0;
+        m_movingSpeed = 0;
     }
 
 };

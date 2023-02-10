@@ -1,0 +1,25 @@
+{
+    "spriteSheetConfig": "assets/objects/platforms/toggle_platform.json",
+    "spriteSheetImage": "assets/objects/platforms/toggle_platform.png",
+    "states": [
+        {
+            "name": "moving",
+            "playOnce": false,
+            "sprites": [
+                "toggle_0.png",
+                "toggle_1.png",
+                "toggle_2.png",
+                "toggle_3.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "stop",
+            "playOnce": false,
+            "sprites": [
+                "toggle_0.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

@@ -143,6 +143,8 @@ void LevelManager::loadLevelsData(const string& levelsFile)
             platform.targetTileY = platformData["targetTileY"].GetInt();
             platform.widthInTiles = platformData["widthInTiles"].GetFloat();
             platform.heightInTiles = platformData["heightInTiles"].GetFloat();
+            platform.type = platformData["type"].GetString();
+            platform.speed = platformData["speed"].GetFloat();
             level.platforms.push_back(platform);
         }
 

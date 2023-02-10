@@ -32,9 +32,7 @@ public:
 
     void update(const float delta) override;
 
-    void onCollide(PhysicsBody* pPhysicsBody) override;
     void onSensorTriggeredStart(const string& name) override;
-    void onSensorTriggeredEnd(const string& name) override;
 
 private:
 

@@ -24,8 +24,6 @@ public:
     void receiveEvent(Event* pEvent) override;
     void update(float delta) override;
 
-    void onCollide(PhysicsBody* pOtherBody) override;
-    
     const string& getType() const override { return m_type; }
 
     const Vector2 getGamePosition();

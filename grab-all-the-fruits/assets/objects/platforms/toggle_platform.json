@@ -1,27 +1,27 @@
 [
     {
-        "name": "mov_platform_0.png",
+        "name": "toggle_0.png",
         "x": 0,
         "y": 0,
         "width": 32,
         "height": 10
     },
     {
-        "name": "mov_platform_1.png",
+        "name": "toggle_1.png",
         "x": 32,
         "y": 0,
         "width": 32,
         "height": 10
     },
     {
-        "name": "mov_platform_2.png",
+        "name": "toggle_2.png",
         "x": 64,
         "y": 0,
         "width": 32,
         "height": 10
     },
     {
-        "name": "mov_platform_3.png",
+        "name": "toggle_3.png",
         "x": 96,
         "y": 0,
         "width": 32,
