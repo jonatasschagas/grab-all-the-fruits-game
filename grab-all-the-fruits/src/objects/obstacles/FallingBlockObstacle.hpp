@@ -34,6 +34,8 @@ public:
     
     void update(const float delta) override;
 
+    const bool hasFallen() const { return m_hasFallen; }
+
 private:
 
     EventListener* m_pEventListener;

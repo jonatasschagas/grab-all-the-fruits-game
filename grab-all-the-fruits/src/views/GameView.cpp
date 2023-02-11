@@ -186,6 +186,7 @@ void GameView::update(float delta)
     }
 
     m_pHUD->update(delta);
+    m_pLevelManager->update(delta);
 }
 
 void GameView::readInput(int x, int y, bool pressed)

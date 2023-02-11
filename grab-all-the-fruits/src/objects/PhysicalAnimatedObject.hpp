@@ -12,7 +12,7 @@ class PhysicalAnimatedObject : public AnimatedObject
 {
 public:
     
-    PhysicalAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, PhysicsBody* pPhysicsBody, const string& animationFile, const string& type);
+    PhysicalAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, PhysicsBody* pPhysicsBody, const string& animationFile, const string& type, const string& name);
     ~PhysicalAnimatedObject();
 
 private:

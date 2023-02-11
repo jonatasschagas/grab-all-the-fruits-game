@@ -29,8 +29,6 @@ public:
         const float movingSpeed);
     ~MovingPlatform();
 
-    const string& getName() const { return m_name; }
-
     void update(const float delta) override;
 
 private:

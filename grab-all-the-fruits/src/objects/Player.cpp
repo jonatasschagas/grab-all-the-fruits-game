@@ -24,6 +24,7 @@ Player::Player(
         rDataCacheManager, 
         pBody, 
         "assets/characters/masked/masked_animation.json", 
+        "player",
         "player"
     ) 
 {

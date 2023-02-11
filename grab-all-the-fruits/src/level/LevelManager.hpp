@@ -83,6 +83,8 @@ public:
     void addSpriteToTileMap(Sprite* pSprite);
     void updateCameraPosition(const Vector2& rCameraPosition);
 
+    void update(float deltaTime);
+
     void receiveEvent(Event* pEvent) override;
 
     const Vector2& getTileSize() const { return sm_tileSize; }
@@ -115,8 +117,6 @@ private:
     static string sm_levelsFolder;
     static string sm_tilesetsFolder;
 
-    bool m_initialized;
-
     void initializeMembers()
     {
         m_pStage = nullptr;
@@ -128,7 +128,6 @@ private:
         m_pEventListener = nullptr;
         m_currentLevelIndex = 0;
         m_numFruitsCollected = 0;
-        m_initialized = false;
     }
 
 };

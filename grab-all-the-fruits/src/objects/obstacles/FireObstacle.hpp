@@ -28,8 +28,6 @@ public:
         const Vector2& size);
     ~FireObstacle();
 
-    const string& getName() const { return m_name; }
-
     void update(const float delta) override;
 
     void onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) override;

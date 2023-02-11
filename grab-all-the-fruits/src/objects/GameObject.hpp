@@ -14,6 +14,8 @@ public:
     ~GameObject() {};
     
     virtual const string& getType() const = 0;
+    virtual const string& getName() const = 0;
+    
 };
 
 #endif /* GameObject_hpp */

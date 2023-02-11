@@ -10,7 +10,14 @@ TrampolinePlatform::TrampolinePlatform(
     const string& animationFile, 
     const string& name,
     const string& type,
-    EventListener* pEventListener) : PhysicalAnimatedObject(pPlatformManager, rDataCacheManager, pPhysicsBody, animationFile, type), PhysicsOnCollideListener()
+    EventListener* pEventListener) : 
+    PhysicalAnimatedObject(
+        pPlatformManager, 
+        rDataCacheManager, 
+        pPhysicsBody, 
+        animationFile, 
+        type,
+        name), PhysicsOnCollideListener()
 {
     initializeMembers();
 

@@ -5,7 +5,14 @@ PhysicalAnimatedObject::PhysicalAnimatedObject(
     DataCacheManager& rDataCacheManager, 
     PhysicsBody* pPhysicsBody, 
     const string& animationFile, 
-    const string& type) : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, type)
+    const string& type,
+    const string& name) : 
+    AnimatedObject(
+        pPlatformManager, 
+        rDataCacheManager, 
+        animationFile, 
+        type, 
+        name)
 {
     initializeMembers();
     

@@ -71,20 +71,20 @@ void LevelManager::loadLevel(const int levelindex)
     m_pStage->addChild(m_pCurrentLevelTileMap);
     m_pCurrentLevelTileMap->fillParent();
 
-    m_pMap = new Map(m_pWorld, m_pCurrentLevelTileMap);
+    m_pMap = new Map(m_pWorld, m_pCurrentLevelTileMap, m_pEventListener);
 
     Event levelStartEvent("level-start");
     levelStartEvent.setTarget(level.title);
     m_pEventListener->receiveEvent(&levelStartEvent);
 }
 
+void LevelManager::update(float deltaTime)
+{
+    m_pMap->updateCameraShake(deltaTime);
+}
+
 void LevelManager::updateEditor()
 {
-    if (!m_initialized)
-    {
-        return;
-    }
-
     ImGui::Begin("Levels", nullptr, 
     ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
 
@@ -188,8 +188,6 @@ void LevelManager::loadLevelsData(const string& levelsFile)
 
         sm_levels.push_back(level);
     }
-
-    m_initialized = true;
 }
 
 const Platform* LevelManager::findPlatform(int tileX, int tileY) const
@@ -279,5 +277,9 @@ void LevelManager::receiveEvent(Event* pEvent)
         Event event("update-fruit-collected-hud");
         event.setData(m_numFruitsCollected);
         m_pEventListener->receiveEvent(&event);
+    }
+    else if (pEvent->getName().compare("ground-collide") == 0) {
+        float intensity = pEvent->getFloatData();
+        m_pMap->shakeCamera(intensity);
     }
 }

@@ -16,7 +16,8 @@ FallingBlockObstacle::FallingBlockObstacle(
             rDataCacheManager, 
             pPhysicsBody, 
             animationFile, 
-            type), 
+            type,
+            name), 
         PhysicsOnCollideListener()
 {
     initializeMembers();

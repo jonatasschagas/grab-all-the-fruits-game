@@ -6,7 +6,13 @@ DisappearingAnimation::DisappearingAnimation(
     PlatformManager* pPlatformManager, 
     DataCacheManager& rDataCacheManager,
     const string& animationFile)
-    : AnimatedObject(pPlatformManager, rDataCacheManager, animationFile, "disappearing-animation")
+    : AnimatedObject(
+        pPlatformManager, 
+        rDataCacheManager, 
+        animationFile, 
+        "animation", 
+        "disappearing-animation"
+    )
 {
     initializeMembers();
 

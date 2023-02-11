@@ -4,12 +4,14 @@
 #include "utils/MathUtils.h"
 #include "utils/StringUtils.h"
 #include "objects/GroundObject.hpp"
+#include "utils/PerlinNoise.h"
 
- Map::Map(World* pWorld, TileMapSprite* pTileMapSprite)
+ Map::Map(World* pWorld, TileMapSprite* pTileMapSprite, EventListener* pEventListener)
  {
     initializeMembers();
     m_pTileMapSprite = pTileMapSprite;
     m_pWorld = pWorld;
+    m_pEventListener = pEventListener;
 
     createMapInPhysicsWorld();
  }
@@ -33,7 +35,9 @@ void Map::createMapInPhysicsWorld()
                     0.f, // friction
                     0.f // restitution
                 );
-                pBody->setGameObject(new GroundObject());
+                GroundObject* pGround = new GroundObject(m_pEventListener);
+                pBody->setGameObject(pGround);
+                pBody->setOnCollideListener(pGround);
             }
         }
     }
@@ -56,27 +60,70 @@ const bool Map::isTileGround(const int& tileX, const int& tileY) const
     const int halfScreenVertical = screenSizeY/2;
     float levelMaxX = worldUnitsX - halfScreenHorizontal;
     
+    float xOffSet = 0;
+    float yOffSet = 0;
     if (rCameraPosition.x < halfScreenHorizontal)
     {
-        m_pTileMapSprite->setXOffSet(0);
+        xOffSet = 0;
     }
     else if (rCameraPosition.x > levelMaxX)
     {
-        m_pTileMapSprite->setXOffSet(levelMaxX - halfScreenHorizontal);
+        xOffSet = levelMaxX - halfScreenHorizontal;
     }
     else
     {
-        m_pTileMapSprite->setXOffSet(rCameraPosition.x - halfScreenHorizontal);
+        xOffSet = rCameraPosition.x - halfScreenHorizontal;
     }
     
     if (rCameraPosition.y < halfScreenVertical)
     {
-        m_pTileMapSprite->setYOffSet(0);
+        yOffSet = 0;
     }
     else
     {
         // capping the vertical offset to 100.f, so that the camera doesnt go underground.
-        m_pTileMapSprite->setYOffSet(min(rCameraPosition.y - halfScreenVertical - m_pTileMapSprite->getTileSizeInGameUnits().y, 100.f));
+        yOffSet = min(rCameraPosition.y - halfScreenVertical - m_pTileMapSprite->getTileSizeInGameUnits().y, 100.f);
     }
     
+    float targetX = xOffSet + m_cameraShakeOffsetX;
+    float targetY = yOffSet + m_cameraShakeOffsetY;
+
+    m_pTileMapSprite->setXOffSet(targetX);
+    m_pTileMapSprite->setYOffSet(targetY);
  }
+
+void Map::updateCameraShake(float deltaTime)
+{
+    if (!m_cameraShaking)
+        return;
+    
+    float maxAngle = .1f;
+    float maxOffset = 0.5f;
+    float seed = getRandomFloat(1, 10);
+    
+    m_cameraShakeAngle = maxAngle * m_cameraShakeIntensity * perlin::noise(seed, deltaTime);
+    m_cameraShakeOffsetX = maxOffset * m_cameraShakeIntensity * perlin::noise(seed + 1, deltaTime);
+    m_cameraShakeOffsetY = maxOffset * m_cameraShakeIntensity * perlin::noise(seed + 2, deltaTime);
+    m_cameraShakeAccumulator += deltaTime;
+    
+    //TODO: parameterize this
+    if (m_cameraShakeAccumulator > 1.5f)
+    {
+        m_cameraShaking = false;
+        m_cameraShakeAngle = 0;
+        m_cameraShakeOffsetX = 0;
+        m_cameraShakeOffsetY = 0;
+        m_cameraShakeAccumulator = 0;
+    }
+}
+
+void Map::shakeCamera(float intensity)
+{
+    if (intensity < 0)
+    {
+        intensity = getRandomFloat(5, 10);
+    }
+
+    m_cameraShaking = true;
+    m_cameraShakeIntensity = intensity;
+}

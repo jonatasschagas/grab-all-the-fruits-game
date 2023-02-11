@@ -16,7 +16,8 @@ StationaryObstacle::StationaryObstacle(
             rDataCacheManager, 
             pPhysicsBody, 
             animationFile, 
-            type), 
+            type,
+            name), 
         PhysicsOnCollideListener()
 {
     initializeMembers();

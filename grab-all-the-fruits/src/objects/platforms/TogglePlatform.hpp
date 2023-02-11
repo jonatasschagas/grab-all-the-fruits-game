@@ -31,8 +31,6 @@ public:
         const float movingSpeed);
     ~TogglePlatform();
 
-    const string& getName() const { return m_name; }
-
     void update(const float delta) override;
 
     void onCollideStart(PhysicsBody* pPhysicsBody) override;

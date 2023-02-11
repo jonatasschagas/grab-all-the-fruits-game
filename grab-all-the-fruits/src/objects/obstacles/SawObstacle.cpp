@@ -17,7 +17,8 @@ SawObstacle::SawObstacle(
             rDataCacheManager, 
             pPhysicsBody, 
             animationFile, 
-            type), PhysicsOnCollideListener()
+            type,
+            name), PhysicsOnCollideListener()
 {
     initializeMembers();
 
