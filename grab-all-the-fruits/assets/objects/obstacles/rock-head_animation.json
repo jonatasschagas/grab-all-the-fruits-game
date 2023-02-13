@@ -1,0 +1,69 @@
+{
+    "spriteSheetConfig": "assets/objects/obstacles/rock-head.json",
+    "spriteSheetImage": "assets/objects/obstacles/rock-head.png",
+    "states": [
+        {
+            "name": "blink",
+            "playOnce": false,
+            "sprites": [
+                "blink_0.png",
+                "blink_1.png",
+                "blink_2.png",
+                "blink_3.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "bottom",
+            "playOnce": true,
+            "sprites": [
+                "bottom_0.png",
+                "bottom_1.png",
+                "bottom_2.png",
+                "bottom_3.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "idle",
+            "playOnce": false,
+            "sprites": [
+                "idle.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "left",
+            "playOnce": false,
+            "sprites": [
+                "left_0.png",
+                "left_1.png",
+                "left_2.png",
+                "left_3.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "right",
+            "playOnce": false,
+            "sprites": [
+                "right_0.png",
+                "right_1.png",
+                "right_2.png",
+                "right_3.png"
+            ],
+            "timePerSprite": 0.5
+        },
+        {
+            "name": "top",
+            "playOnce": false,
+            "sprites": [
+                "top_0.png",
+                "top_1.png",
+                "top_2.png",
+                "top_3.png"
+            ],
+            "timePerSprite": 0.5
+        }
+    ]
+}

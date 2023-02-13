@@ -26,8 +26,6 @@ public:
         EventListener* pEventListener);
     ~StationaryObstacle();
 
-    const string& getName() const { return m_name; }
-
     void onCollideStart(PhysicsBody* pPhysicsBody) override;
     
 private:

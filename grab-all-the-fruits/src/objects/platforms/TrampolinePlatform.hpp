@@ -30,12 +30,10 @@ public:
     
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
     }
 

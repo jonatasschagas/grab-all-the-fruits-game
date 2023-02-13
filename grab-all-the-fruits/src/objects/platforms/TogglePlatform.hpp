@@ -38,7 +38,6 @@ public:
 
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
     Vector2 m_initialPosition;
     Vector2 m_finalPosition;
@@ -48,7 +47,6 @@ private:
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
         m_pPhysicsBody = nullptr;
         m_initialPosition.x = 0;

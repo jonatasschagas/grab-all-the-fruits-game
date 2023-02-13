@@ -50,6 +50,9 @@ struct Trap
     int targetTileY;
     float widthInTiles;
     float heightInTiles;
+    float speed;
+    float crushTime;
+    float idleTime;
     string type;
 };
 

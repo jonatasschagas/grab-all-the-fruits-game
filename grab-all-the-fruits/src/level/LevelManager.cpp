@@ -153,13 +153,31 @@ void LevelManager::loadLevelsData(const string& levelsFile)
         {
             auto trapData = traps[j].GetObject();
             Trap trap;
+            
             trap.tileX = trapData["tileX"].GetInt();
             trap.tileY = trapData["tileY"].GetInt();
-            trap.targetTileX = trapData["targetTileX"].GetInt();
-            trap.targetTileY = trapData["targetTileY"].GetInt();
+            
+            if (trapData.HasMember("targetTileX") && trapData.HasMember("targetTileY"))
+            {
+                trap.targetTileX = trapData["targetTileX"].GetInt();
+                trap.targetTileY = trapData["targetTileY"].GetInt();
+            }
+            
             trap.widthInTiles = trapData["widthInTiles"].GetFloat();
             trap.heightInTiles = trapData["heightInTiles"].GetFloat();
             trap.type = trapData["type"].GetString();
+            
+            if (trapData.HasMember("speed"))
+            {
+                trap.speed = trapData["speed"].GetFloat();
+            }
+            
+            if (trapData.HasMember("idleTime") && trapData.HasMember("crushTime"))
+            {
+                trap.idleTime = trapData["idleTime"].GetFloat();
+                trap.crushTime = trapData["crushTime"].GetFloat();
+            }
+            
             level.traps.push_back(trap);
         }
 

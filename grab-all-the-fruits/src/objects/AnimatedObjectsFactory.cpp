@@ -6,6 +6,7 @@
 #include "obstacles/SawObstacle.hpp"
 #include "obstacles/FireObstacle.hpp"
 #include "obstacles/FallingBlockObstacle.hpp"
+#include "obstacles/RockHeadObstacle.hpp"
 #include "platforms/MovingPlatform.hpp"
 #include "platforms/TogglePlatform.hpp"
 #include "platforms/TrampolinePlatform.hpp"
@@ -306,6 +307,39 @@ AnimatedObject* AnimatedObjectsFactory::createObstacle(const int tileX, const in
         pSaw->play("idle");
 
         return pSaw;
+    }
+    else if (objectName.compare("rock-head") == 0)
+    {
+        string animationFile = m_animatedObjectsPath + "/obstacles/" + objectName + "_animation.json";
+    
+        const Trap* pTrap = m_pLevelManager->findTrap(tileX, tileY);
+
+        Vector2 tileSize = m_pLevelManager->getTileSize();
+        Vector2 finalSize(pTrap->widthInTiles * tileSize.x, pTrap->heightInTiles * tileSize.y);
+
+        // wiring up to the physics engine
+        PhysicsBody* pDynamicBody = m_pWorld->createDynamicBody(position, finalSize, 10000, 0, 0, 1, PhysicsShape::PhysicsShape_Box);
+        
+        RockHeadObstacle* pRockHead = new RockHeadObstacle(
+            m_pPlatformManager, 
+            m_rDataCacheManager, 
+            pDynamicBody,
+            animationFile, 
+            objectName,
+            objectType,
+            m_pEventListener,
+            position,
+            pTrap->idleTime,
+            pTrap->crushTime
+        );
+
+        pDynamicBody->setGameObject(pRockHead);
+        pDynamicBody->setOnCollideListener(pRockHead);
+
+        pRockHead->setXY(position.x, position.y);
+        pRockHead->setSize(finalSize * 1.3f);
+        
+        return pRockHead;
     }
     else
     {

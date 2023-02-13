@@ -31,15 +31,12 @@ public:
         const Vector2& finalPosition);
     ~SawObstacle();
 
-    const string& getName() const { return m_name; }
-
     void update(const float delta) override;
 
     void onCollideStart(PhysicsBody* pPhysicsBody) override;
 
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
     Vector2 m_initialPosition;
     Vector2 m_finalPosition;
@@ -47,7 +44,6 @@ private:
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
         m_initialPosition = Vector2::ZERO;
         m_finalPosition = Vector2::ZERO;

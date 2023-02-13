@@ -30,13 +30,11 @@ public:
 
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
     bool m_isCollected;
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
         m_isCollected = false;
     }

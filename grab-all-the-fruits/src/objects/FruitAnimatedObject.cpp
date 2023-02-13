@@ -23,7 +23,6 @@ FruitAnimatedObject::FruitAnimatedObject(
 {
     initializeMembers();
 
-    m_name = name;
     m_pEventListener = pEventListener;
 }
 

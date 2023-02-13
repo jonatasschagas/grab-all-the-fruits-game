@@ -19,18 +19,14 @@ public:
     WaypointAnimatedObject(PlatformManager* pPlatformManager, DataCacheManager& rDataCacheManager, EventListener* pEventListener, const string& animationFile, const string& name, const string& type);
     ~WaypointAnimatedObject();
 
-    const string& getName() const { return m_name; }
-
     void onCollideStart(PhysicsBody* pPhysicsBody) override;
 
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
     }
 

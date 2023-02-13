@@ -211,6 +211,43 @@
                     "weight": 1000
                 }
             ]
+        },
+        {
+            "title": "Rock Head!",
+            "configFile": "assets/levels/rock-head.json",
+            "background": "assets/levels/backgrounds/Gray.png",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 15,
+            "platforms": [],
+            "traps": [
+                {
+                    "type": "rock-head",
+                    "widthInTiles": 2,
+                    "heightInTiles": 2,
+                    "tileX": 10,
+                    "tileY": 20,
+                    "crushTime": 10,
+                    "idleTime": 2
+                },
+                {
+                    "type": "rock-head",
+                    "widthInTiles": 2,
+                    "heightInTiles": 2,
+                    "tileX": 29,
+                    "tileY": 20,
+                    "crushTime": 10,
+                    "idleTime": 20
+                }
+            ],
+            "trampolines": [],
+            "fallingBlocks": []
         }
     ]
 }

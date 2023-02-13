@@ -21,7 +21,6 @@ WaypointAnimatedObject::WaypointAnimatedObject(
 {
     initializeMembers();
 
-    m_name = name;
     m_pEventListener = pEventListener;
 }
 
@@ -36,7 +35,7 @@ void WaypointAnimatedObject::onCollideStart(PhysicsBody* pPhysicsBody)
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
     {
         Event event("waypoint-reached");
-        event.setTarget(m_name);
+        event.setTarget(getName());
         event.setInputCoordinates(getGamePosition());
         m_pEventListener->receiveEvent(&event);
     }

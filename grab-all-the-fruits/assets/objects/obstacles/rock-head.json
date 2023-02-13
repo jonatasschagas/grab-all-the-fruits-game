@@ -1,0 +1,149 @@
+[
+    {
+        "name": "blink_0.png",
+        "x": 0,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "blink_1.png",
+        "x": 42,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "blink_2.png",
+        "x": 84,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "blink_3.png",
+        "x": 126,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "bottom_0.png",
+        "x": 168,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "bottom_1.png",
+        "x": 210,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "bottom_2.png",
+        "x": 252,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "bottom_3.png",
+        "x": 294,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "idle.png",
+        "x": 336,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "left_0.png",
+        "x": 378,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "left_1.png",
+        "x": 420,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "left_2.png",
+        "x": 462,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "left_3.png",
+        "x": 504,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "right_0.png",
+        "x": 546,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "right_1.png",
+        "x": 588,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "right_2.png",
+        "x": 630,
+        "y": 0,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "right_3.png",
+        "x": 0,
+        "y": 42,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "top_0.png",
+        "x": 42,
+        "y": 42,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "top_1.png",
+        "x": 84,
+        "y": 42,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "top_2.png",
+        "x": 126,
+        "y": 42,
+        "width": 42,
+        "height": 42
+    },
+    {
+        "name": "top_3.png",
+        "x": 168,
+        "y": 42,
+        "width": 42,
+        "height": 42
+    }
+]

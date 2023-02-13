@@ -34,7 +34,6 @@ public:
 
 private:
 
-    string m_name;
     EventListener* m_pEventListener;
     PhysicsBody* m_pPhysicsBody;
     float m_fireInterval;
@@ -43,7 +42,6 @@ private:
 
     void initializeMembers()
     {
-        m_name = "";
         m_pEventListener = nullptr;
         m_pPhysicsBody = nullptr;
         m_fireInterval = 0;

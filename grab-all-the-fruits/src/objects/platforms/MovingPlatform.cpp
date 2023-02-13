@@ -20,7 +20,6 @@ MovingPlatform::MovingPlatform(
 {
     initializeMembers();
 
-    m_name = name;
     m_pEventListener = pEventListener;
     m_initialPosition = initialPosition;
     m_finalPosition = finalPosition;

@@ -7,6 +7,14 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "falling-blocks.json": {
+            "scale": 0.9336718749999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 253.30097899757345,
+                "y": 254.37201907790137
+            }
+        },
         "level1.json": {
             "scale": 1.5315,
             "selectedLayer": 3,

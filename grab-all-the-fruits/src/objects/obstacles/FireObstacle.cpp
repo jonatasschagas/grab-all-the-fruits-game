@@ -22,7 +22,6 @@ FireObstacle::FireObstacle(
 {
     initializeMembers();
 
-    m_name = name;
     m_pEventListener = pEventListener;
     m_fireInterval = fireInterval;
     m_fireTimer = 0;

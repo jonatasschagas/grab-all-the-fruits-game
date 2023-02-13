@@ -21,7 +21,6 @@ TrampolinePlatform::TrampolinePlatform(
 {
     initializeMembers();
 
-    m_name = name;
     m_pEventListener = pEventListener;
 }
 
