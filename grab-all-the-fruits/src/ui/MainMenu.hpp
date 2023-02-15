@@ -21,6 +21,7 @@ private:
     bool m_showCredits;
     int m_screenWidth;
     int m_screenHeight;
+    float m_creditsScrollY;
 
     void initializeMembers()
     {
@@ -28,6 +29,7 @@ private:
         m_showCredits = false;
         m_screenWidth = 0;
         m_screenHeight = 0;
+        m_creditsScrollY = 0;
     }
 
 };

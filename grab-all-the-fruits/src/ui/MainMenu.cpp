@@ -24,15 +24,15 @@ void MainMenu::update()
 
         ImGui::Begin("Credits", nullptr, 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | 
-        ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoScrollbar);
     
-        ImGui::Text("Credits");
-        ImGui::Text("Game by: @jonatasschagas");
+        ImGui::Text("CREDITS:");
+        ImGui::Text("Game by: Jonatas Chagas @jonatasschagas");
         //ImGui::Text("Music by: @josephgattuso");
         ImGui::Text("Art by: https://pixelfrog-assets.itch.io/");
-        ImGui::Text("Programming by: @jonatasschagas");
+        ImGui::Text("Programming by: Jonatas Chagas @jonatasschagas");
         //ImGui::Text("Sound effects by: @josephgattuso");
         ImGui::Text("Built with:");
         ImGui::Text(" - SDL2");
@@ -49,9 +49,18 @@ void MainMenu::update()
         ImGui::Text(" - Antti Mattila -> (Friend and mentor)");
         ImGui::Text(" - Patrick Corander -> (The first person to teach me how games work)");
         
+        ImGui::SetScrollY(ImGui::GetScrollMaxY());
+        ImGui::SetScrollY(m_creditsScrollY);
+        
+        if (ImGui::GetScrollY() < ImGui::GetScrollMaxY())
+        {
+            m_creditsScrollY += 0.1f;
+        }
+        
         if (ImGui::Button("Back")) 
         {
             m_showCredits = false;
+            m_creditsScrollY = 0;
         }
 
         ImGui::End();

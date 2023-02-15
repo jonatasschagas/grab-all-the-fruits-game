@@ -38,7 +38,7 @@ void MainMenuView::initialize(ViewManager* pViewManager)
 
     Vector2 tileSize(5,5);
     
-    m_pBackground = new LevelBackground(tileSize, pPlatformManager, "assets/levels/backgrounds/Blue.png", Vector2(64, 64));
+    m_pBackground = new LevelBackground(tileSize, pPlatformManager, "assets/levels/backgrounds/Blue.png", Vector2(32, 32));
     m_pBackground->setXY(0, 0);
     addChild(m_pBackground);
 
@@ -70,12 +70,13 @@ void MainMenuView::initialize(ViewManager* pViewManager)
         "assets/characters/virtual-guy/virtual-guy_animation.json",
     };
     
+    const float offsetX = 35;
     for (int i = 0; i < characters.size(); i++)
     {
         AnimatedSprite* pCharacter = new AnimatedSprite(pPlatformManager, *m_pDataCacheManager, characters[i]);
         addChild(pCharacter);
         pCharacter->setSize(tileSize);
-        pCharacter->setX(tileSize.x * (i + 1));
+        pCharacter->setX(offsetX + tileSize.x * (i + 1));
         pCharacter->setY(screenSizeInGameUnits.y - 1.5 * tileSize.y);
         pCharacter->play("run");
     }
@@ -83,7 +84,7 @@ void MainMenuView::initialize(ViewManager* pViewManager)
     Sprite* pLogo = new Sprite(pPlatformManager);
     addChild(pLogo);
     pLogo->loadTexture("assets/logo/logo1.png");
-    pLogo->setXY(50, 18);
+    pLogo->setXY(50, 16);
     pLogo->setSize(60, 45);
     pLogo->setTextureCoordinates(0, 0, 1024, 728);
 }
