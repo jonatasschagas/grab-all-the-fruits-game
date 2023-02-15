@@ -158,6 +158,11 @@ private:
         m_b = 0;
         m_a = 0;
         m_sortChildren = false;
+
+        m_textureCoordinates.x = 0;
+        m_textureCoordinates.y = 0;
+        m_textureCoordinates.z = 0;
+        m_textureCoordinates.w = 0;
 	}
 
 };

@@ -33,6 +33,9 @@ void TileMapSprite::update(float delta)
 {
     Sprite::update(delta);
 
+    if (m_disableCamera)
+        return;
+        
     float x = getTransformedX();
     float y = getTransformedY();
     float targetX = -m_xOffSet;
@@ -44,6 +47,11 @@ void TileMapSprite::update(float delta)
     y = (.8 * y) + (.2 * targetY);
 
     setXY(x,y);
+}
+
+void TileMapSprite::setDisableCamera(bool disableCamera)
+{
+    m_disableCamera = disableCamera;
 }
 
 void TileMapSprite::render()

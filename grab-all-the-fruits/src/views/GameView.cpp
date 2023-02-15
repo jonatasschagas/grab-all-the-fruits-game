@@ -22,7 +22,6 @@ GameView::GameView(PlatformManager* pPlatformManager) : View(pPlatformManager)
 GameView::~GameView()
 {
     delete m_pLevelManager;
-    delete m_pMainMenu;
     delete m_pWorld;
     
     initializeMembers();
@@ -40,9 +39,6 @@ void GameView::initialize(ViewManager* pViewManager)
     setXY(0, 0);
     setPivotAtCenter(true);
    
-    m_pMainMenu = new MainMenu(pPlatformManager->getScreenWidth(), pPlatformManager->getScreenHeight());
-    m_pMainMenu->setButtonClickListener(this);
-
     m_pHUD = new HUD(m_pViewManager->getPlatformManager()->getScreenWidth(), m_pViewManager->getPlatformManager()->getScreenHeight(), m_pViewManager);
 
     initGame();
@@ -159,11 +155,6 @@ void GameView::initGame()
 
 void GameView::render()
 {
-    if (!m_started)
-    {
-        return;
-    }   
-
     Sprite::render();
     
     if (m_debug)
@@ -201,32 +192,17 @@ void GameView::updateEditor()
         return;
     }
 
-    if (m_started)
+    if (m_debug && m_pPlayer)
     {
-        if (m_debug && m_pPlayer)
-        {
-            m_pPlayer->updateEditor();
-            m_pLevelManager->updateEditor();
-        }
-
-        m_pHUD->renderIMGUI();
-        
-        return;
+        m_pPlayer->updateEditor();
+        m_pLevelManager->updateEditor();
     }
-    
-    m_pMainMenu->update();
+
+    m_pHUD->renderIMGUI();
 }
 
 void GameView::onClick(const string& rButtonName)
 {
-    if (strcmp(rButtonName.c_str(), "new_game") != 0)
-    {
-        m_started = true;
-    }
-    else if (strcmp(rButtonName.c_str(), "continue") != 0)
-    {
-        m_started = true;
-    }
 }
 
 AnimatedObject* GameView::createDisappearingAnimation(const Vector2& position, const Vector2& size)
@@ -239,7 +215,7 @@ AnimatedObject* GameView::createDisappearingAnimation(const Vector2& position, c
 
 void GameView::createPlayer(const Vector2& position)
 {
-    m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(position, m_pLevelManager->getTileSize());
+    m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(m_pLevelManager->getCurrentCharacter() ,position, m_pLevelManager->getTileSize());
     m_pLevelManager->addSpriteToTileMap(static_cast<Sprite*>(m_pPlayer));
     m_died = false;   
 }

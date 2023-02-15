@@ -15,6 +15,7 @@
 #include <string>
 
 Player::Player(
+    const string& character,
     PlatformManager* pPlatformManager, 
     PhysicsBody* pBody, 
     DataCacheManager& rDataCacheManager,
@@ -23,7 +24,7 @@ Player::Player(
         pPlatformManager, 
         rDataCacheManager, 
         pBody, 
-        "assets/characters/masked/masked_animation.json", 
+        character, 
         "player",
         "player"
     ) 

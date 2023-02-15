@@ -24,7 +24,7 @@ public:
     
     Sprite* createMetaTile(const int tileX, const int tileY, const TileConfig* pTileConfig, const Vector2& position, const Vector2& size) override;
     
-    Player* createPlayer(const Vector2& position, const Vector2& size);
+    Player* createPlayer(const string& character, const Vector2& position, const Vector2& size);
 
     AnimatedObject* createDisappearingAnimation(const Vector2& position, const Vector2& size);
     

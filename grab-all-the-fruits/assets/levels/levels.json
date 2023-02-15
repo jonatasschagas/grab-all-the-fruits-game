@@ -7,6 +7,7 @@
     },
     "levels": [
         {
+            "character": "assets/characters/masked/masked_animation.json",
             "title": "It's time to GRAB SOME FRUITS!",
             "configFile": "assets/levels/level1.json",
             "background": "assets/levels/backgrounds/Brown.png",
@@ -25,6 +26,7 @@
             "fallingBlocks": []
         },
         {
+            "character": "assets/characters/ninja-frog/ninja-frog_animation.json",
             "title": "Platforms!",
             "configFile": "assets/levels/level2.json",
             "background": "assets/levels/backgrounds/Blue.png",
@@ -75,6 +77,7 @@
             "fallingBlocks": []
         },
         {
+            "character": "assets/characters/virtual-guy/virtual-guy_animation.json",
             "title": "SAW BLADES!",
             "configFile": "assets/levels/level3.json",
             "background": "assets/levels/backgrounds/Yellow.png",
@@ -103,15 +106,16 @@
                     "widthInTiles": 2,
                     "heightInTiles": 2,
                     "tileX": 33,
-                    "tileY": 5,
+                    "tileY": 8,
                     "targetTileX": 23,
-                    "targetTileY": 4
+                    "targetTileY": 8
                 }
             ],
             "trampolines": [],
             "fallingBlocks": []
         },
         {
+            "character": "assets/characters/pink-man/pink-man_animation.json",
             "title": "Trampoline away!",
             "configFile": "assets/levels/level4.json",
             "background": "assets/levels/backgrounds/Purple.png",
@@ -128,7 +132,7 @@
             "traps": [],
             "trampolines": [
                 {
-                    "tileX": 5,
+                    "tileX": 8,
                     "tileY": 29,
                     "bounciness": 1
                 },
@@ -138,7 +142,7 @@
                     "bounciness": 1
                 },
                 {
-                    "tileX": 5,
+                    "tileX": 8,
                     "tileY": 14,
                     "bounciness": 1
                 }
@@ -146,6 +150,7 @@
             "fallingBlocks": []
         },
         {
+            "character": "assets/characters/virtual-guy/virtual-guy_animation.json",
             "title": "Never look back! (falling blocks)",
             "configFile": "assets/levels/falling-blocks.json",
             "background": "assets/levels/backgrounds/Pink.png",
@@ -213,6 +218,7 @@
             ]
         },
         {
+            "character": "assets/characters/virtual-guy/virtual-guy_animation.json",
             "title": "Rock Head!",
             "configFile": "assets/levels/rock-head.json",
             "background": "assets/levels/backgrounds/Gray.png",

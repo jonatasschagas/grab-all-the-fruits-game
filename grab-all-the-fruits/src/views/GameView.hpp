@@ -7,7 +7,6 @@
 #include "data/DataCacheManager.hpp"
 #include "core/Sprite.hpp"
 #include "core/Vector2.h"
-#include "ui/MainMenu.hpp"
 #include "ui/HUD.hpp"
 #include "ui/ButtonClickListener.hpp"
 #include "view/View.h"
@@ -53,14 +52,12 @@ private:
     World* m_pWorld;
     Player* m_pPlayer;
     Vector2 m_playerStartPosition;
-    MainMenu* m_pMainMenu;
     HUD* m_pHUD;
     LevelManager* m_pLevelManager;
     AnimatedObjectsFactory* m_pAnimatedObjectsFactory;
     int m_currentLevel;
 
     bool m_initialized;
-    bool m_started;
     bool m_died;
     bool m_debug;
     bool m_skipNextEditorUpdate;
@@ -73,10 +70,8 @@ private:
         m_debug = false;
         m_pWorld = nullptr;
         m_pPlayer = nullptr;
-        m_pMainMenu = nullptr;
         m_pAnimatedObjectsFactory = nullptr;
         m_pLevelManager = nullptr;
-        m_started = false;
         m_died = false;
         m_playerStartPosition.x = 0;
         m_playerStartPosition.y = 0;

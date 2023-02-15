@@ -68,6 +68,7 @@ struct LevelData
     vector<Trap> traps;
     vector<Trampoline> trampolines;
     vector<FallingBlock> fallingBlocks;
+    string character;
 };
 
 class LevelManager : public EventListener
@@ -101,6 +102,12 @@ public:
     const Trampoline* findTrampoline(int tileX, int tileY) const;
     const FallingBlock* findFallingBlock(int tileX, int tileY) const;
 
+    const string& getCurrentCharacter() const;
+
+    static Vector2 sm_tileSize;    
+    static string sm_levelsFolder;
+    static string sm_tilesetsFolder;
+
 private:
 
     void loadLevelsData(const string& levelsFile);
@@ -116,10 +123,7 @@ private:
     int m_numFruitsCollected;
 
     static vector<LevelData> sm_levels;
-    static Vector2 sm_tileSize;
-    static string sm_levelsFolder;
-    static string sm_tilesetsFolder;
-
+    
     void initializeMembers()
     {
         m_pStage = nullptr;

@@ -117,10 +117,10 @@ AnimatedObject* AnimatedObjectsFactory::createCollectable(const string& objectNa
     return pFruit;
 }
 
-Player* AnimatedObjectsFactory::createPlayer(const Vector2& position, const Vector2& size)
+Player* AnimatedObjectsFactory::createPlayer(const string& character, const Vector2& position, const Vector2& size)
 {
     PhysicsBody* pBody = m_pWorld->createDynamicBody(position, size, 5, 1, 0, 1.0f);
-    Player* pPlayer = new Player(m_pPlatformManager, pBody, m_rDataCacheManager, m_pEventListener);
+    Player* pPlayer = new Player(character, m_pPlatformManager, pBody, m_rDataCacheManager, m_pEventListener);
     pBody->setGameObject(pPlayer);
     pBody->setOnCollideListener(pPlayer);
     return pPlayer;

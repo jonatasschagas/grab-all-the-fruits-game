@@ -64,7 +64,8 @@
         "random": "cpp",
         "cmath": "cpp",
         "iostream": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "array": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/grab-all-the-fruits/osx"
 }

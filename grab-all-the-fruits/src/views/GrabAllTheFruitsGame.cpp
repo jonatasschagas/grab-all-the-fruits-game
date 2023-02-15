@@ -1,7 +1,9 @@
 #include "GrabAllTheFruitsGame.hpp"
 
 #include "view/ViewManager.hpp"
+#include "views/MainMenuView.hpp"
 #include "views/GameView.hpp"
+#include "imgui/imgui.h"
 
 GrabAllTheFruitsGame::GrabAllTheFruitsGame()
 {
@@ -16,6 +18,15 @@ GrabAllTheFruitsGame::~GrabAllTheFruitsGame()
     initializeMembers();
 }
 
+void GrabAllTheFruitsGame::initImGui()
+{
+    ImGuiIO& io = ImGui::GetIO();
+    //credits to: https://www.1001freefonts.com/hand-of-gamedevdan.font
+    io.Fonts->AddFontFromFileTTF("assets/fonts/Hand_Of_GameDevDan.ttf", 18);
+    io.Fonts->AddFontFromFileTTF("assets/fonts/Hand_Of_GameDevDan.ttf", 36);
+    io.Fonts->Build();
+}
+
 void GrabAllTheFruitsGame::initialize(PlatformManager* pManager)
 {
     m_pPlatformManager = pManager;
@@ -25,8 +36,12 @@ void GrabAllTheFruitsGame::initialize(PlatformManager* pManager)
     m_pViewManager->initialize(pManager, m_pDataCacheManager);
 
     GameView* pGameView = new GameView(m_pPlatformManager);
-    m_pViewManager->addView("main", pGameView);
-    m_pViewManager->switchView("main");
+    m_pViewManager->addView("game", pGameView);
+    
+    MainMenuView* pMainMenuView = new MainMenuView(m_pPlatformManager);
+    m_pViewManager->addView("main-menu", pMainMenuView);
+    
+    m_pViewManager->switchView("main-menu");
 }
 
 void GrabAllTheFruitsGame::receiveEvent(Event* pEvent)

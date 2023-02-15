@@ -138,13 +138,14 @@ bool SDLGame::init()
         }
         
         // IMGUI stuff
-        #ifdef IMGUI_ENABLED
         SDL_GLContext gl_context = SDL_GL_CreateContext(m_pWindow);
         ImGui::CreateContext();
+        
+        m_pGame->initImGui();
+
         ImGuiSDL::Initialize(m_pRenderer, m_pScreenRect->w, m_pScreenRect->h);
         ImGui_ImplSDL2_InitForOpenGL(m_pWindow, gl_context);
-        #endif
-
+        
         SDLManager* pManager = SDLManager::getInstance();
         // initializing the SDLManager -> its used in the gameobject classes to do the rendering
         pManager->init(m_pRenderer, m_pScreenRect->w, m_pScreenRect->h);
@@ -197,10 +198,8 @@ int SDLGame::run()
                     return 0;
                 }
                 
-                #ifdef IMGUI_ENABLED
                 // IMGUI, capture clicks and keyboard strokes
                 ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
-                #endif
                 
                 handleInput(sdlEvent);
             }
@@ -228,7 +227,6 @@ int SDLGame::run()
             // RENDERING
             m_pGame->render();
             
-            #ifdef IMGUI_ENABLED
             // IMGUI
             ImGui_ImplSDL2_NewFrame(m_pWindow);
             ImGui::NewFrame();
@@ -241,8 +239,7 @@ int SDLGame::run()
             
             ImGui::Render();
             ImGuiSDL::Render(ImGui::GetDrawData());
-            #endif
-
+            
             //Update screen
             SDL_RenderPresent(m_pRenderer);
             

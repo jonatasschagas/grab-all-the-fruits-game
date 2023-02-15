@@ -18,6 +18,7 @@ public:
     ~GrabAllTheFruitsGame();
     
     void initialize(PlatformManager* pManager) override;
+    void initImGui() override;
     void receiveEvent(Event* pEvent) override;
     void update(const float deltaTime) override;
     void updateEditor(const float deltaTime) override;

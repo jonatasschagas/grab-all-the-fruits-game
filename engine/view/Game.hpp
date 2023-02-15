@@ -10,6 +10,7 @@ public:
 
     virtual ~Game(){};
     
+    virtual void initImGui() {};
 	virtual void initialize(PlatformManager* pManager) = 0;
     virtual void receiveEvent(Event* pEvent) = 0;
     virtual void update(const float deltaTime) = 0;

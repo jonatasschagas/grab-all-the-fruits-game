@@ -1,8 +1,6 @@
 #include "MainMenu.hpp"
 
-#if IMGUI_ENABLED
 #include "imgui/imgui.h"
-#endif
 
 MainMenu::MainMenu(const int screenWidth, const int screenHeight)
 {
@@ -19,12 +17,11 @@ MainMenu::~MainMenu()
 
 void MainMenu::update()
 {
-    #if IMGUI_ENABLED
-    // center the window
-    ImGui::SetNextWindowPos(ImVec2(m_screenWidth * 0.5f, m_screenHeight * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
-
     if (m_showCredits)
     {
+        // window in the center
+        ImGui::SetNextWindowPos(ImVec2(m_screenWidth * 0.5f, m_screenHeight * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
+
         ImGui::Begin("Credits", nullptr, 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
@@ -61,29 +58,33 @@ void MainMenu::update()
     }
     else
     {
+        
+        // window on the right side
+        ImGui::SetNextWindowPos(ImVec2(m_screenWidth * 0.9f, m_screenHeight * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
+
         ImGui::Begin("Grab All The Fruits!", nullptr, 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | 
         ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
-    
-        if (ImGui::Button("New Game")) 
+
+        ImGui::SetWindowSize(ImVec2(200, 200));
+
+        if (ImGui::Button("New Game", ImVec2(100, 50))) 
         {
             m_pButtonClickListener->onClick("new_game");
         }
-        else if (ImGui::Button("Continue")) 
+        else if (ImGui::Button("Continue", ImVec2(100, 50))) 
         {
             m_pButtonClickListener->onClick("continue");
         }
-        else if (ImGui::Button("Credits")) 
+        else if (ImGui::Button("Credits", ImVec2(100, 50))) 
         {
             m_showCredits = true;
         }        
         
         ImGui::End();
     }
-
-#endif
 }
 
 void MainMenu::setButtonClickListener(ButtonClickListener* pButtonClickListener)

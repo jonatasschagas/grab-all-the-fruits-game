@@ -52,6 +52,8 @@ public:
 
     void setTileMapMetaTileFactory(TileMapMetaTileFactory* pTileMapMetaTileFactory);
 
+    void setDisableCamera(bool disableCamera);
+
 private:
     
     void unloadMap();
@@ -67,6 +69,7 @@ private:
     Vector2 m_mapSizeInGameUnits;
     float m_xOffSet;
     float m_yOffSet;
+    bool m_disableCamera;
 
     TileMapMetaTileFactory* m_pTileMapMetaTileFactory; //optional
     
@@ -83,6 +86,7 @@ private:
         m_mapSizeInGameUnits.x = 0;
         m_mapSizeInGameUnits.y = 0;
         m_curretMapMetaLayerName = "";
+        m_disableCamera = false;
     }
     
 };

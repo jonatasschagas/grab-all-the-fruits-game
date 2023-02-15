@@ -17,7 +17,7 @@ class Player : public EventListener, public PhysicalAnimatedObject, public Physi
 {
 public:
     
-    Player(PlatformManager* pPlatformManager, PhysicsBody* pBody, DataCacheManager& rDataCacheManager, EventListener* pEventListener);
+    Player(const string& character, PlatformManager* pPlatformManager, PhysicsBody* pBody, DataCacheManager& rDataCacheManager, EventListener* pEventListener);
     
     ~Player();
     

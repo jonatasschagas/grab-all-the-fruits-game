@@ -61,6 +61,7 @@ void LevelManager::loadLevel(const int levelindex)
     m_pCurrentLevelBackground->fillParent();
 
     TileMapData* pTileMapData = new TileMapData(level.configFile, sm_levelsFolder, sm_tilesetsFolder);
+    
     Vector2 mapSize(pTileMapData->getWidth() * sm_tileSize.x, pTileMapData->getHeight() * sm_tileSize.y);
     m_pWorld->initWorld(mapSize);
 
@@ -131,6 +132,7 @@ void LevelManager::loadLevelsData(const string& levelsFile)
         level.backgroundTextureSize.x = levelData["backgroundTextureSize"]["x"].GetInt();
         level.backgroundTextureSize.y = levelData["backgroundTextureSize"]["y"].GetInt();
         level.numFruits = levelData["numFruits"].GetInt();
+        level.character = levelData["character"].GetString();
 
         auto platforms = levelData["platforms"].GetArray();
         for (int j = 0; j < platforms.Size(); j++)
@@ -290,14 +292,21 @@ const bool LevelManager::hasCompletedLevel() const
 
 void LevelManager::receiveEvent(Event* pEvent)
 {
-    if (pEvent->getName().compare("fruit-collected") == 0) {
+    if (pEvent->getName().compare("fruit-collected") == 0) 
+    {
         m_numFruitsCollected++;
         Event event("update-fruit-collected-hud");
         event.setData(m_numFruitsCollected);
         m_pEventListener->receiveEvent(&event);
     }
-    else if (pEvent->getName().compare("ground-collide") == 0) {
+    else if (pEvent->getName().compare("ground-collide") == 0) 
+    {
         float intensity = pEvent->getFloatData();
         m_pMap->shakeCamera(intensity);
     }
+}
+
+const string& LevelManager::getCurrentCharacter() const
+{
+    return sm_levels[m_currentLevelIndex].character;
 }
