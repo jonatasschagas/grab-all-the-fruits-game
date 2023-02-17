@@ -83,6 +83,10 @@ AnimatedObject* AnimatedObjectsFactory::createWaypoint(const string& objectName,
             objectName,
             objectType);
     
+    // double the size of the waypoints
+    size *= 2;
+    pWaypoint->setSize(size);
+
     // wiring up to the physics engine
     PhysicsBody* pSensor = m_pWorld->createSensor(position, size);
     pSensor->setGameObject(pWaypoint);
@@ -380,7 +384,7 @@ AnimatedObject* AnimatedObjectsFactory::createPlatform(const int tileX, const in
         pKinematic->setGameObject(pMovingPlatform);
         pKinematic->setOnCollideListener(pMovingPlatform);
 
-        pMovingPlatform->setXY(position.x, position.y);
+        pMovingPlatform->setXY(position.x, position.y - 0.5f);
         pMovingPlatform->setSize(finalSize);
         
         pMovingPlatform->play("moving");

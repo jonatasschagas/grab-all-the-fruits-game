@@ -27,7 +27,7 @@ public:
     const string& getType() const override { return m_type; }
 
     const Vector2 getGamePosition();
-
+    
     void onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody) override;
     void onSensorTriggeredEnd(const string& name, PhysicsBody* pOtherBody) override;    
 
@@ -47,6 +47,7 @@ private:
     int m_numBackWallContacts;
     
     bool m_isDoubleJumping;
+    bool m_isOnMovingPlatform;
     
     void initializeMembers()
     {
@@ -59,6 +60,7 @@ private:
         m_numFrontWallContacts = 0;
         m_numBackWallContacts = 0;
         m_isDoubleJumping = false;
+        m_isOnMovingPlatform = false;
     }
     
 };

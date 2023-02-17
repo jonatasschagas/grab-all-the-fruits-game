@@ -54,13 +54,13 @@ Player::~Player() {}
     
 void Player::receiveEvent(Event* pEvent) 
 {
-    if (pEvent->getName().compare("right_start") == 0) {
+    if (pEvent->getName().compare("right_start") == 0 && !m_isOnMovingPlatform) {
         m_pBody->applyInstantForce(Vector2(PLAYER_RUNNING_SPEED, 0));
     } 
     else if (pEvent->getName().compare("right_stop") == 0) {
         m_pBody->applyInstantForce(Vector2(0, 0));
     } 
-    else if (pEvent->getName().compare("left_start") == 0) {
+    else if (pEvent->getName().compare("left_start") == 0  && !m_isOnMovingPlatform) {
         m_pBody->applyInstantForce(Vector2(-PLAYER_RUNNING_SPEED, 0));
     } 
     else if (pEvent->getName().compare("left_stop") == 0) {
@@ -68,6 +68,7 @@ void Player::receiveEvent(Event* pEvent)
     } 
     else if (pEvent->getName().compare("space_start") == 0) {        
         const Vector2 linearVel = m_pBody->getVelocity();
+        m_isOnMovingPlatform = false;
         if (isGrounded()) 
         {
             m_pBody->applyForce(Vector2(0, PLAYER_JUMPING_FORCE), PhysicsForceType::PhysicsForceTypeImpulse);
@@ -108,12 +109,12 @@ void Player::update(float delta)
         play("fall");
         setFlip(linearVel .x < 0);
     } 
-    else if (isGrounded() && abs(linearVel.x) > 0.85f) // setting to 0.85 so the player is still when standing on a moving platform.
+    else if (isGrounded() && abs(linearVel.x) > 0 && !m_isOnMovingPlatform) // setting to 0.85 so the player is still when standing on a moving platform.
     {
         play("run");
         setFlip(linearVel .x < 0);
     }
-    else if (isGrounded())
+    else if (isGrounded() || m_isOnMovingPlatform)
     {
         const bool flipped = isFlipped();
         play("idle");
@@ -138,6 +139,10 @@ void Player::onSensorTriggeredStart(const string& name, PhysicsBody* pOtherBody)
 {
     if (name.compare("bottom-sensor") == 0) {
         m_numGroundContacts++;
+        if (pOtherBody->getGameObject() != nullptr && pOtherBody->getGameObject()->getType().compare("platform") == 0)
+        {
+            m_isOnMovingPlatform = true;
+        }
     }
     else if (name.compare("front-sensor") == 0) {
         m_numFrontWallContacts++;
@@ -151,6 +156,10 @@ void Player::onSensorTriggeredEnd(const string& name, PhysicsBody* pOtherBody)
 {
     if (name.compare("bottom-sensor") == 0) {
         m_numGroundContacts--;
+        if (pOtherBody->getGameObject() != nullptr && pOtherBody->getGameObject()->getType().compare("platform") == 0)
+        {
+            m_isOnMovingPlatform = false;
+        }
     }
     else if (name.compare("front-sensor") == 0) {
         m_numFrontWallContacts--;

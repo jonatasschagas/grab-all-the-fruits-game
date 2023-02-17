@@ -66,6 +66,7 @@ void MovingPlatform::update(const float delta)
 
     m_pPhysicsBody->setVelocity(direction * delta * m_movingSpeed);
 
-    const Vector2 gamePosition = m_pPhysicsBody->getGamePosition();
+    Vector2 gamePosition = m_pPhysicsBody->getGamePosition();
+    gamePosition.y -= 0.5f; // fixing the position of the platform
     setPosition(gamePosition);
 }

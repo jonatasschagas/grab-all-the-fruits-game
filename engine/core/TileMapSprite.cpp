@@ -106,7 +106,7 @@ void TileMapSprite::loadMapLayers()
             pSpriteLayer->setTileMap(true);
             addChild(pSpriteLayer);
 
-            if (strcmp(m_curretMapMetaLayerName.c_str(), layerName.c_str()) == 0)
+            if (m_curretMapMetaLayerName.compare(layerName) == 0)
             {
                 m_pCurrentMapMetaLayer = pLayer;
             }
@@ -115,7 +115,7 @@ void TileMapSprite::loadMapLayers()
             {
                 for (int y = 0; y < pLayer->getHeight(); y++)
                 {
-                    if (strcmp(m_curretMapMetaLayerName.c_str(), layerName.c_str()) == 0 && m_pTileMapMetaTileFactory != nullptr)
+                    if (m_curretMapMetaLayerName.compare(layerName) == 0 && m_pTileMapMetaTileFactory != nullptr)
                     {
                         createMetaTile(x, y, pSpriteLayer, pLayer);
                     }

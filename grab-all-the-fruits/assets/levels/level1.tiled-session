@@ -19,8 +19,8 @@
             "scale": 1.5315,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 975.1877244531504,
-                "y": 289.58537381651973
+                "x": 974.5347698334965,
+                "y": 288.9324191968658
             }
         },
         "level2.json": {
@@ -59,6 +59,10 @@
                 "y": 120.09036900677768
             }
         },
+        "meta-tileset.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2.02
+        },
         "rock-head.json": {
             "scale": 0.9336718749999999,
             "selectedLayer": 1,
@@ -72,20 +76,30 @@
             "scaleInEditor": 3
         }
     },
+    "last.externalTilesetPath": "/Users/jonataschagas/Documents/cpp/2d-spritesheet-engine/grab-all-the-fruits/assets/levels",
     "last.imagePath": "/Users/jonataschagas/Documents/cpp/2d-spritesheet-engine/grab-all-the-fruits/assets/levels",
-    "map.height": 15,
+    "map.height": 20,
     "map.lastUsedFormat": "json",
     "map.renderOrder": null,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 30,
+    "map.width": 60,
     "openFiles": [
     ],
     "project": "level1.tiled-project",
     "recentFiles": [
+        "level1.json",
+        "meta-tileset.tsj",
+        "level2.json",
+        "level3.json",
+        "level4.json",
+        "falling-blocks.json",
+        "rock-head.json",
+        "menu.json",
         "tileset.tsj",
         "main_tileset.json"
     ],
+    "tileset.lastUsedFilter": "JSON tileset files (*.tsj *.json)",
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {
         "height": 16,

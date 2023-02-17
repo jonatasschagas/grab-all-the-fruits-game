@@ -8,6 +8,57 @@
     "levels": [
         {
             "character": "assets/characters/masked/masked_animation.json",
+            "title": "Welcome! Let's start with some jumps!",
+            "configFile": "assets/levels/green-zone1.json",
+            "background": "assets/levels/backgrounds/Brown.png",
+            "backgroundMusic": "assets/music/POL-treasure-match-short.wav",
+            "backgroundTileSize": {
+                "x": 20,
+                "y": 20
+            },
+            "backgroundTextureSize": {
+                "x": 64,
+                "y": 64
+            },
+            "numFruits": 53,
+            "platforms": [
+                {
+                    "type": "moving-platform-wood",
+                    "widthInTiles": 2,
+                    "heightInTiles": 0.5,
+                    "tileX": 89,
+                    "tileY": 11,
+                    "targetTileX": 93,
+                    "targetTileY": 11,
+                    "speed": 200
+                },
+                {
+                    "type": "moving-platform-wood",
+                    "widthInTiles": 2,
+                    "heightInTiles": 0.5,
+                    "tileX": 101,
+                    "tileY": 11,
+                    "targetTileX": 96,
+                    "targetTileY": 11,
+                    "speed": 200
+                },
+                {
+                    "type": "moving-platform-wood",
+                    "widthInTiles": 2,
+                    "heightInTiles": 0.5,
+                    "tileX": 132,
+                    "tileY": 6,
+                    "targetTileX": 136,
+                    "targetTileY": 6,
+                    "speed": 200
+                }
+            ],
+            "traps": [],
+            "trampolines": [],
+            "fallingBlocks": []
+        },
+        {
+            "character": "assets/characters/masked/masked_animation.json",
             "title": "It's time to GRAB SOME FRUITS!",
             "configFile": "assets/levels/level1.json",
             "background": "assets/levels/backgrounds/Brown.png",
