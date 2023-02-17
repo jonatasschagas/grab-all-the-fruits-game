@@ -26,6 +26,8 @@ public:
     
 private:
     
+    void loadResources();
+
     PlatformManager* m_pPlatformManager;
     ViewManager* m_pViewManager;
     DataCacheManager* m_pDataCacheManager;

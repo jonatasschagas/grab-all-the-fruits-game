@@ -4,14 +4,16 @@
 #include "objects/Player.hpp"
 
 #include "imgui/imgui.h"
+#include "ui/IconDefs.h"
 
-HUD::HUD(int screenWidth, int screenHeight, EventListener* pEventListener)
+HUD::HUD(int screenWidth, int screenHeight, EventListener* pEventListener, PlatformManager* pPlatformManager)
 {
     initializeMembers();
 
     m_screenWidth = screenWidth;
     m_screenHeight = screenHeight;
     m_pEventListener = pEventListener;
+    m_pPlatformManager = pPlatformManager;
 }
 
 HUD::~HUD()
@@ -41,6 +43,7 @@ void HUD::renderIMGUI()
 {
     renderFruitCounter();
     renderLevelMessage();
+    renderPauseMenu();
 }
 
 void HUD::receiveEvent(Event* pEvent)
@@ -70,6 +73,49 @@ void HUD::receiveEvent(Event* pEvent)
         m_currentLevelMessage = "Collect all the fruits first!";
         m_isLevelMessageTimerActive = true;
         m_levelMessageTimerMax = 50;
+    }
+    else if (pEvent->getName().compare("pause-game") == 0)
+    {
+        m_pauseMenuOpen = true;
+    }
+    else if (pEvent->getName().compare("resume-game") == 0)
+    {
+        m_pauseMenuOpen = false;
+    }
+}
+
+void HUD::renderPauseMenu()
+{
+    if (m_pauseMenuOpen) 
+    {
+        ImGui::SetNextWindowPos(ImVec2(m_screenWidth * 0.5f, m_screenHeight * 0.5f), ImGuiCond_::ImGuiCond_Always, ImVec2(0.5f,0.5f));
+
+        ImGui::Begin("Pause Menu", nullptr, 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoResize | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar | 
+        ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
+
+        ImGui::SetWindowSize(ImVec2(200, 200));
+        ImGui::SetWindowFontScale(1.5f);
+
+        if (ImGui::Button("Resume", ImVec2(100, 50))) 
+        {
+            Event resumeEvent("resume-game");
+            m_pEventListener->receiveEvent(&resumeEvent);
+        }
+        else if (ImGui::Button("Restart", ImVec2(100, 50))) 
+        {
+            Event restartEvent("restart-level");
+            m_pEventListener->receiveEvent(&restartEvent);
+        }
+        else if (ImGui::Button("Quit", ImVec2(100, 50))) 
+        {
+            Event quitEvent("quit");
+            m_pEventListener->receiveEvent(&quitEvent);
+        }        
+        
+        ImGui::End();
     }
 }
 
@@ -118,6 +164,18 @@ void HUD::renderFruitCounter()
     ImGui::SetWindowFontScale(1.5f);
     ImGui::Text("Fruits: %d", m_numFruits);
     ImGui::PopStyleColor();
+    
+    ImGui::SameLine();
+
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+    if (ImGui::Button(ICON_FA_PAUSE, ImVec2(32, 32)))
+    {
+        Event pauseEvent("pause-game");
+        m_pEventListener->receiveEvent(&pauseEvent);
+    }
+
+    ImGui::PopStyleColor();
+
     ImGui::End();
 }
 
@@ -130,4 +188,15 @@ void HUD::reset()
     m_isLevelMessageTimerActive = false;
     m_levelCompleted = false;
     m_currentLevelMessage = "";
+    m_pauseMenuOpen = false;
+}
+
+void HUD::setDebugMode(bool debugMode)
+{
+    m_debugMode = debugMode;
+}
+
+void HUD::onClick(const string& buttonName)
+{
+
 }

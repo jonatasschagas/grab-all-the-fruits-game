@@ -273,6 +273,13 @@ pyvenv.cfg
 .venv
 pip-selfcheck.json
 
+# End of https://www.toptal.com/developers/gitignore/api/virtualenv
+
 fonts/*
 fonts
-# End of https://www.toptal.com/developers/gitignore/api/virtualenv
+
+music/*
+music
+
+sounds/*
+sounds

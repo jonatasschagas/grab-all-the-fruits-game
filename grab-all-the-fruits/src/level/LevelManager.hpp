@@ -61,6 +61,7 @@ struct LevelData
     string title;
     string configFile;
     string background;
+    string backgroundMusic;
     Vector2 backgroundTileSize;
     Vector2 backgroundTextureSize;
     int numFruits;

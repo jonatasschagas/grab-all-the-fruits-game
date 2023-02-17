@@ -87,6 +87,9 @@ void MainMenuView::initialize(ViewManager* pViewManager)
     pLogo->setXY(50, 16);
     pLogo->setSize(60, 45);
     pLogo->setTextureCoordinates(0, 0, 1024, 728);
+
+    pPlatformManager->loadMusic("assets/music/POL-treasure-match-short.wav");
+    pPlatformManager->playMusic("assets/music/POL-treasure-match-short.wav");
 }
 
 void MainMenuView::receiveEvent(Event* pEvent)
@@ -133,13 +136,13 @@ void MainMenuView::updateEditor()
 
 void MainMenuView::onClick(const string& rButtonName)
 {
-    if (strcmp(rButtonName.c_str(), "new_game") != 0)
+    if (strcmp(rButtonName.c_str(), "new_game") == 0)
     {
-        m_pViewManager->switchView("game");
+        m_pViewManager->switchView("new-game");
     }
-    else if (strcmp(rButtonName.c_str(), "continue") != 0)
+    else if (strcmp(rButtonName.c_str(), "continue") == 0)
     {
-        m_pViewManager->switchView("game");
+        m_pViewManager->switchView("continue-game");
     }
 }
 

@@ -302,20 +302,22 @@ void SDLManager::renderFillQuad(float worldX, float worldY, float width, float h
     SDL_RenderFillRectF( m_pRenderer, &outlineRect );
 }
 
-void SDLManager::loadTexture(const string& path)
+void* SDLManager::loadTexture(const string& path)
 {
     
     if (!m_pRenderer)
     {
         printf( "SDLManager has not been initialized yet! SDL_Renderer is null. !\n" );
-        return;
+        return nullptr;
     }
     
     map<string,int>::iterator itTexMap = m_textureMap.find(path);
     if(itTexMap != m_textureMap.end())
     {
         // texture already loaded
-        return;
+        const int index = m_textureMap.at(path);
+        LTexture* pTexture = m_textures.at(index);
+        return pTexture->getTexture();
     }
     
     LTexture* pNewTexture = new LTexture();
@@ -328,6 +330,7 @@ void SDLManager::loadTexture(const string& path)
     {
         printf( "Failed to load texture!\n" );
         success = false;
+        return nullptr;
     }
     else
     {
@@ -335,6 +338,7 @@ void SDLManager::loadTexture(const string& path)
         m_texturesNames.push_back(path);
         const int index = (int)m_textures.size() - 1;
         m_textureMap[path] = index;
+        return pNewTexture->getTexture();
     }
 }
 
@@ -391,21 +395,21 @@ const Vector2 SDLManager::getScreenSizeInGameUnits() const
     return Vector2(m_screenWidthInGameUnits, m_screenHeightInGameUnits);
 }
 
-void SDLManager::playSoundEffect(const string& path)
+void SDLManager::playSoundEffect(const string& name)
 {
 	if (!m_sounds)
 	{
 		return;
 	}
     
-    map<string,Mix_Chunk*>::iterator it = m_soundEffects.find(path);
+    map<string,Mix_Chunk*>::iterator it = m_soundEffects.find(name);
     if(it == m_soundEffects.end())
     {
         //not found
         return;
     }
     
-    Mix_Chunk* pSoundEffect = m_soundEffects.at(path);
+    Mix_Chunk* pSoundEffect = m_soundEffects.at(name);
     Mix_PlayChannel( -1, pSoundEffect, 0 );
 }
 
@@ -428,9 +432,9 @@ void SDLManager::playMusic(const string& path)
     Mix_VolumeMusic(25);
 }
 
-bool SDLManager::loadSoundEffect(const string& path)
+bool SDLManager::loadSoundEffect(const string& name, const string& path)
 {
-    map<string,Mix_Chunk*>::iterator it = m_soundEffects.find(path);
+    map<string,Mix_Chunk*>::iterator it = m_soundEffects.find(name);
     if(it != m_soundEffects.end())
     {
         //already loaded;
@@ -446,7 +450,7 @@ bool SDLManager::loadSoundEffect(const string& path)
     }
     else
     {
-        m_soundEffects[path] = pSound;
+        m_soundEffects[name] = pSound;
     }
     
     return success;
@@ -454,6 +458,13 @@ bool SDLManager::loadSoundEffect(const string& path)
 
 bool SDLManager::loadMusic(const string& path)
 {
+    map<string,Mix_Music*>::iterator it = m_songs.find(path);
+    if(it != m_songs.end())
+    {
+        //already loaded;
+        return true;
+    }
+
     bool success = true;
     Mix_Music* pMusic = Mix_LoadMUS(path.c_str());
     if( pMusic == NULL )

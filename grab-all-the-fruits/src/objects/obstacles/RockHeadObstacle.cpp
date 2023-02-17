@@ -48,6 +48,7 @@ void RockHeadObstacle::onCollideStart(PhysicsBody* pPhysicsBody)
         m_pEventListener->receiveEvent(&event);
         m_state = RockHeadObstacleState_Crushed;
         m_stateAccumulator = 0;
+        playSoundEffect("thud");
     }
     else if (pPhysicsBody->getGameObject()->getType().compare("player") == 0)
     {

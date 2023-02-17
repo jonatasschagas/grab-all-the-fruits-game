@@ -164,11 +164,6 @@ glm::mat4 Sprite::calculateTransform(Sprite* pSprite)
     return transformationMatrix;
 }
 
-void Sprite::loadSoundEffect(const string& soundName)
-{
-    m_pPlatformManager->loadSoundEffect(soundName);
-}
-
 void Sprite::playSoundEffect(const string& soundName)
 {
     m_pPlatformManager->playSoundEffect(soundName);

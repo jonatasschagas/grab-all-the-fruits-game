@@ -61,6 +61,7 @@ void FallingBlockObstacle::onCollideStart(PhysicsBody* pPhysicsBody)
     else if (pGameObject != nullptr && pGameObject->getType().compare("ground") == 0 && m_triggered)
     {
         m_hasFallen = true;
+        playSoundEffect("thud");
     }
 }
 

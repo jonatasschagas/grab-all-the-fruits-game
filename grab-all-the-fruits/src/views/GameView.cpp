@@ -39,11 +39,7 @@ void GameView::initialize(ViewManager* pViewManager)
     setXY(0, 0);
     setPivotAtCenter(true);
    
-    m_pHUD = new HUD(m_pViewManager->getPlatformManager()->getScreenWidth(), m_pViewManager->getPlatformManager()->getScreenHeight(), m_pViewManager);
-
-    initGame();
-    
-    m_initialized = true;
+    m_pHUD = new HUD(m_pViewManager->getPlatformManager()->getScreenWidth(), m_pViewManager->getPlatformManager()->getScreenHeight(), m_pViewManager, pPlatformManager);
 }
 
 
@@ -58,6 +54,7 @@ void GameView::receiveEvent(Event* pEvent)
     }
     else if (pEvent->getName().compare("fruit-collected") == 0)
     {
+        playSoundEffect("collect");
         AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
          pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
             pDisappearingAnimation->destroy();
@@ -65,6 +62,7 @@ void GameView::receiveEvent(Event* pEvent)
     }
     else if (pEvent->getName().compare("player-died") == 0 && !m_died)
     {
+        playSoundEffect("death");
         AnimatedObject* pDisappearingAnimation = createDisappearingAnimation(pEvent->getInputCoordinates(), m_pLevelManager->getTileSize());
         m_pPlayer->destroy();
         pDisappearingAnimation->setOnAnimationFinishedCallback("idle", [this, pDisappearingAnimation]() {
@@ -108,6 +106,15 @@ void GameView::receiveEvent(Event* pEvent)
         m_skipNextEditorUpdate = true;
         return;
     }   
+    else if (pEvent->getName().compare("restart-level") == 0)
+    {
+        initGame();
+        m_skipNextEditorUpdate = true;
+    }
+    else if (pEvent->getName().compare("quit") == 0)
+    {
+        m_pViewManager->switchView("main-menu");
+    }
     
     if (!m_died && m_pPlayer != nullptr)
     {
@@ -151,6 +158,8 @@ void GameView::initGame()
     m_pAnimatedObjectsFactory->setLevelManager(m_pLevelManager);
 
     m_pLevelManager->loadLevel(m_currentLevel);
+
+    m_initialized = true;
 }
 
 void GameView::render()
@@ -176,6 +185,7 @@ void GameView::update(float delta)
         m_pLevelManager->updateCameraPosition(playerPosition);
     }
 
+    m_pHUD->setDebugMode(m_debug);
     m_pHUD->update(delta);
     m_pLevelManager->update(delta);
 }
@@ -218,4 +228,9 @@ void GameView::createPlayer(const Vector2& position)
     m_pPlayer = m_pAnimatedObjectsFactory->createPlayer(m_pLevelManager->getCurrentCharacter() ,position, m_pLevelManager->getTileSize());
     m_pLevelManager->addSpriteToTileMap(static_cast<Sprite*>(m_pPlayer));
     m_died = false;   
+}
+
+void GameView::setCurrentLevel(int level)
+{
+    m_currentLevel = level;
 }

@@ -114,7 +114,6 @@ void AnimatedSprite:: play(const string& animationName, const bool flip)
     string soundEffect = m_pCurrentAnimationStateData->getSoundEffect();
     if (soundEffect.size() > 0)
     {
-        loadSoundEffect(soundEffect);
         playSoundEffect(soundEffect);
     }
     

@@ -34,13 +34,13 @@ public:
     void renderLines(const DrawCall& drawCall);
     void renderPoint(const DrawCall& drawCall);
 
-    void playSoundEffect(const string& path) override;
+    void playSoundEffect(const string& name) override;
     void playMusic(const string& path) override;
 	void stopSounds() override;
     
     bool loadMusic(const string& path) override;
-    bool loadSoundEffect(const string& path) override;
-    void loadTexture(const string& path) override;
+    bool loadSoundEffect(const string& name, const string& path) override;
+    void* loadTexture(const string& path) override;
     bool loadText(const string& labelName, string text, int red, int green, int blue, int size);
     
     const int getWorldLocationXFromScreenCoordinates(int x) const override;
@@ -109,7 +109,7 @@ private:
         m_screenHeightInGameUnits = 0;
         m_currentOffsetY = 0;
         m_debugMode = false;
-		m_sounds = false;
+		m_sounds = true;
     }
     
 };

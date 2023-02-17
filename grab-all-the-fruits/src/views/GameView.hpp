@@ -40,9 +40,12 @@ public:
     
     void setCurrentLevel(int level);
 
+protected:
+
+    void initGame();
+
 private:
     
-    void initGame();
     void createPlayer(const Vector2& position);
 
     AnimatedObject* createDisappearingAnimation(const Vector2& position, const Vector2& size);

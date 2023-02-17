@@ -2,8 +2,10 @@
 
 #include "view/ViewManager.hpp"
 #include "views/MainMenuView.hpp"
-#include "views/GameView.hpp"
+#include "views/NewGameView.hpp"
+#include "views/ContinueGameView.hpp"
 #include "imgui/imgui.h"
+#include "ui/IconDefs.h"
 
 GrabAllTheFruitsGame::GrabAllTheFruitsGame()
 {
@@ -21,9 +23,12 @@ GrabAllTheFruitsGame::~GrabAllTheFruitsGame()
 void GrabAllTheFruitsGame::initImGui()
 {
     ImGuiIO& io = ImGui::GetIO();
-    //credits to: https://www.1001freefonts.com/hand-of-gamedevdan.font
-    io.Fonts->AddFontFromFileTTF("assets/fonts/Hand_Of_GameDevDan.ttf", 18);
-    io.Fonts->AddFontFromFileTTF("assets/fonts/Hand_Of_GameDevDan.ttf", 36);
+    io.Fonts->AddFontDefault();
+    
+    static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+    ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+    io.Fonts->AddFontFromFileTTF( "assets/fonts/font.ttf", 16.0f, &icons_config, icons_ranges);
+    
     io.Fonts->Build();
 }
 
@@ -33,11 +38,16 @@ void GrabAllTheFruitsGame::initialize(PlatformManager* pManager)
     m_pDataCacheManager = new DataCacheManager();
     m_pViewManager = new ViewManager();
     
+    loadResources();
+
     m_pViewManager->initialize(pManager, m_pDataCacheManager);
 
-    GameView* pGameView = new GameView(m_pPlatformManager);
-    m_pViewManager->addView("game", pGameView);
+    NewGameView* pNewGameView = new NewGameView(m_pPlatformManager);
+    m_pViewManager->addView("new-game", pNewGameView);
     
+    ContinueGameView* pContinueGameView = new ContinueGameView(m_pPlatformManager);
+    m_pViewManager->addView("continue-game", pContinueGameView);
+
     MainMenuView* pMainMenuView = new MainMenuView(m_pPlatformManager);
     m_pViewManager->addView("main-menu", pMainMenuView);
     
@@ -62,4 +72,13 @@ void GrabAllTheFruitsGame::updateEditor(const float deltaTime)
 void GrabAllTheFruitsGame::render()
 {
     m_pViewManager->render();
+}
+
+void GrabAllTheFruitsGame::loadResources()
+{
+    m_pPlatformManager->loadSoundEffect("jump", "assets/sounds/jump.mp3");
+    m_pPlatformManager->loadSoundEffect("trampoline", "assets/sounds/trampoline.mp3");
+    m_pPlatformManager->loadSoundEffect("thud", "assets/sounds/thud.wav");
+    m_pPlatformManager->loadSoundEffect("collect", "assets/sounds/collect.mp3");
+    m_pPlatformManager->loadSoundEffect("death", "assets/sounds/death.wav");
 }

@@ -66,18 +66,19 @@ void Player::receiveEvent(Event* pEvent)
     else if (pEvent->getName().compare("left_stop") == 0) {
         m_pBody->applyInstantForce(Vector2(0, 0));
     } 
-    else if (pEvent->getName().compare("space_start") == 0) {
-        
+    else if (pEvent->getName().compare("space_start") == 0) {        
         const Vector2 linearVel = m_pBody->getVelocity();
         if (isGrounded()) 
         {
             m_pBody->applyForce(Vector2(0, PLAYER_JUMPING_FORCE), PhysicsForceType::PhysicsForceTypeImpulse);
+            playSoundEffect("jump");
         } 
         else if (!m_isDoubleJumping && linearVel.y > 0)
         {
             m_pBody->applyForce(Vector2(0, PLAYER_JUMPING_FORCE * 0.5f), PhysicsForceType::PhysicsForceTypeImpulse);
             m_isDoubleJumping = true;
             play("double-jump");
+            playSoundEffect("jump");
         }
     }
 }
@@ -92,10 +93,10 @@ void Player::update(float delta)
     }
 
     const Vector2 linearVel = m_pBody->getVelocity();
-    if (linearVel.y > PLAYER_JUMPING_FORCE)
+    if (linearVel.y > 8.0f)
     {
         // cap the jumping force
-        m_pBody->setVelocity(Vector2(linearVel.x, PLAYER_JUMPING_FORCE));
+        m_pBody->setVelocity(Vector2(linearVel.x, 8.0f));
     }
 
     if (linearVel.y > 0 && !m_isDoubleJumping)

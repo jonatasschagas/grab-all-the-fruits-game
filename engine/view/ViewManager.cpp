@@ -18,7 +18,11 @@ ViewManager::ViewManager()
 
 ViewManager::~ViewManager()
 {
-    delete m_pCurrentView;
+    // delete the views
+    for (auto it = m_views.begin(); it != m_views.end(); ++it)
+    {
+        delete it->second;
+    }
     
     initializeMembers();
 }
@@ -67,13 +71,8 @@ void ViewManager::switchView(const string& viewName)
 
     if (m_views.find(viewName) != m_views.end())
     {
-        if (m_pCurrentView != nullptr)
-        {
-            delete m_pCurrentView;
-        }
-        
         m_pCurrentView = m_views[viewName];
-        m_pCurrentView->initialize(this);
+        m_pCurrentView->onEnter(nullptr);
     }
     else
     {
@@ -84,6 +83,7 @@ void ViewManager::switchView(const string& viewName)
 void ViewManager::addView(const string& viewName, View* pView)
 {
     m_views[viewName] = pView;
+    pView->initialize(this);
 }
 
 DataCacheManager* ViewManager::getDataCacheManager()

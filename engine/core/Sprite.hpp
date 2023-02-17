@@ -21,7 +21,6 @@ public:
     
     void loadTexture(const string& textureFileName);
     
-    void loadSoundEffect(const string& soundName);
     void playSoundEffect(const string& soundName);
 
     void setX(float x);

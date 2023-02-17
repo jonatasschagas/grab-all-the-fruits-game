@@ -17,6 +17,7 @@ public:
     virtual void receiveEvent(Event* pEvent) = 0;
     virtual void readInput(int x, int y, bool pressed) = 0;
     virtual void updateEditor() = 0;
+    virtual void onEnter(void* param) {};
     
 };
 

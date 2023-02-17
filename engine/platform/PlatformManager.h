@@ -17,13 +17,13 @@ public:
     
     virtual void renderTexture(const DrawCall& drawCall) = 0;
 
-    virtual void playSoundEffect(const string& path) = 0;
+    virtual void playSoundEffect(const string& name) = 0;
     virtual void playMusic(const string& path) = 0;
     virtual void stopSounds() = 0;
     
     virtual bool loadMusic(const string& path) = 0;
-    virtual bool loadSoundEffect(const string& path) = 0;
-    virtual void loadTexture(const string& path) = 0;
+    virtual bool loadSoundEffect(const string& name, const string& path) = 0;
+    virtual void* loadTexture(const string& path) = 0;
     
     virtual const int getWorldLocationXFromScreenCoordinates(int x) const = 0;
     virtual const int getWorldLocationYFromScreenCoordinates(int y) const = 0;

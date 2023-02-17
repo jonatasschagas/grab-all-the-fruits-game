@@ -35,6 +35,7 @@ void TrampolinePlatform::onCollideStart(PhysicsBody* pPhysicsBody)
     if (pGameObject != nullptr && pGameObject->getType().compare("player") == 0)
     {
         play("bounce");
+        playSoundEffect("trampoline");
         setOnAnimationFinishedCallback("bounce", [this]() {
             play("idle");
         });

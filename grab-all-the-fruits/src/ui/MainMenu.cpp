@@ -78,6 +78,7 @@ void MainMenu::update()
         ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground);
 
         ImGui::SetWindowSize(ImVec2(200, 200));
+        ImGui::SetWindowFontScale(1.5f);
 
         if (ImGui::Button("New Game", ImVec2(100, 50))) 
         {

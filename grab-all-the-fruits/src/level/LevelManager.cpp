@@ -77,6 +77,9 @@ void LevelManager::loadLevel(const int levelindex)
     Event levelStartEvent("level-start");
     levelStartEvent.setTarget(level.title);
     m_pEventListener->receiveEvent(&levelStartEvent);
+
+    pPlatformManager->loadMusic(level.backgroundMusic);
+    pPlatformManager->playMusic(level.backgroundMusic);
 }
 
 void LevelManager::update(float deltaTime)
@@ -127,6 +130,7 @@ void LevelManager::loadLevelsData(const string& levelsFile)
         level.title = levelData["title"].GetString();
         level.configFile = levelData["configFile"].GetString();
         level.background = levelData["background"].GetString();
+        level.backgroundMusic = levelData["backgroundMusic"].GetString();
         level.backgroundTileSize.x = levelData["backgroundTileSize"]["x"].GetInt();
         level.backgroundTileSize.y = levelData["backgroundTileSize"]["y"].GetInt();
         level.backgroundTextureSize.x = levelData["backgroundTextureSize"]["x"].GetInt();
