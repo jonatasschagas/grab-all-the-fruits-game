@@ -4,7 +4,7 @@
     "states": [
         {
             "name": "blink",
-            "playOnce": false,
+            "playOnce": true,
             "sprites": [
                 "blink_0.png",
                 "blink_1.png",
