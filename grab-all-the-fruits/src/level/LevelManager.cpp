@@ -314,3 +314,8 @@ const string& LevelManager::getCurrentCharacter() const
 {
     return sm_levels[m_currentLevelIndex].character;
 }
+
+const int LevelManager::getNumberOfLevels() const
+{
+    return sm_levels.size();
+}

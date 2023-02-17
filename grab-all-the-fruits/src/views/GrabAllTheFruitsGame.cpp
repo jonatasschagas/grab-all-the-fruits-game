@@ -4,6 +4,7 @@
 #include "views/MainMenuView.hpp"
 #include "views/NewGameView.hpp"
 #include "views/ContinueGameView.hpp"
+#include "views/EndGameView.hpp"
 #include "imgui/imgui.h"
 #include "ui/IconDefs.h"
 
@@ -50,6 +51,9 @@ void GrabAllTheFruitsGame::initialize(PlatformManager* pManager)
 
     MainMenuView* pMainMenuView = new MainMenuView(m_pPlatformManager);
     m_pViewManager->addView("main-menu", pMainMenuView);
+
+    EndGameView* pEndGameView = new EndGameView(m_pPlatformManager);
+    m_pViewManager->addView("end-game", pEndGameView);
     
     m_pViewManager->switchView("main-menu");
 }

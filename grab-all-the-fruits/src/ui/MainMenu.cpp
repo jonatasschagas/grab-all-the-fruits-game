@@ -29,11 +29,12 @@ void MainMenu::update()
         ImGuiWindowFlags_::ImGuiWindowFlags_NoScrollbar);
     
         ImGui::Text("CREDITS:");
-        ImGui::Text("Game by: Jonatas Chagas @jonatasschagas");
+        ImGui::Text("Game by: Jonatas Chagas @jonataschagas3");
         //ImGui::Text("Music by: @josephgattuso");
         ImGui::Text("Art by: https://pixelfrog-assets.itch.io/");
-        ImGui::Text("Programming by: Jonatas Chagas @jonatasschagas");
+        ImGui::Text("Programming by: Jonatas Chagas @jonataschagas3");
         //ImGui::Text("Sound effects by: @josephgattuso");
+        
         ImGui::Text("Built with:");
         ImGui::Text(" - SDL2");
         ImGui::Text(" - IMGUI");
@@ -48,6 +49,7 @@ void MainMenu::update()
         ImGui::Text(" - Nacho Lasheras -> https://nacholasheras.com/ (Friend and mentor)");
         ImGui::Text(" - Antti Mattila -> (Friend and mentor)");
         ImGui::Text(" - Patrick Corander -> (The first person to teach me how games work)");
+        ImGui::Text(" - My wife -> (For being so supportive)");
         
         ImGui::SetScrollY(ImGui::GetScrollMaxY());
         ImGui::SetScrollY(m_creditsScrollY);

@@ -97,6 +97,7 @@ public:
     Vector2 getTileMapPosition() const;
 
     const bool hasCompletedLevel() const;
+    const int getNumberOfLevels() const;
 
     const Platform* findPlatform(int tileX, int tileY) const;
     const Trap* findTrap(int tileX, int tileY) const;

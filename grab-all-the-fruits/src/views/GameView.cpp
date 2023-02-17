@@ -95,6 +95,11 @@ void GameView::receiveEvent(Event* pEvent)
     else if (pEvent->getName().compare("next-level") == 0)
     {
         m_currentLevel++;
+        if ((m_currentLevel + 1) > m_pLevelManager->getNumberOfLevels())
+        {
+            m_pViewManager->switchView("end-game");
+            return;
+        }
         initGame();
         m_skipNextEditorUpdate = true;
         return;
